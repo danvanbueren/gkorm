@@ -1,6 +1,5 @@
-import {Box, Grid, Typography, useTheme} from '@mui/material';
+import {Box, Grid, Skeleton, ToggleButton, ToggleButtonGroup, Typography, useTheme} from '@mui/material';
 import WorksheetCellBase from "@/components/worksheet/WorksheetCellBase";
-import WorksheetCellButton from "@/components/worksheet/WorksheetCellButton";
 import React from 'react';
 
 export default function WorksheetRowQuestion({
@@ -11,7 +10,13 @@ export default function WorksheetRowQuestion({
                                                  children,
                                              }) {
 
-    const [selectedResponse, setSelectedResponse] = React.useState(null);
+    const [responseSelection, setResponseSelection] = React.useState(null);
+
+    const handleResponseSelection = (event, newResponse) => {
+        if (newResponse !== null) {
+            setResponseSelection(newResponse);
+        }
+    };
 
     return (<Grid
         container
@@ -34,41 +39,67 @@ export default function WorksheetRowQuestion({
                 </Typography>
             </WorksheetCellBase>
         </Grid>
-
-        {responses.length > 0 && responses.map((response, responseIndex) => {
-            return (<Grid
-                key={responseIndex}
-                size={7.5 / responses.length}
-                sx={{
-                    ':hover': {
-                        cursor: response.length > 0 ? 'pointer' : 'auto',
-                    },
-                }}
-                onClick={() => response.length > 0 && setSelectedResponse(responseIndex)}
-            >
-                <WorksheetCellButton
-                    borderRight={responseIndex < responses.length - 1}
-                    justifyContent={'center'}
-                    selected={selectedResponse === responseIndex}
+        <Grid size={7.5}>
+            <Box position="relative" height="100%" width="100%">
+                {/* Animated background layer */}
+                {responseSelection === null && (
+                    <Skeleton
+                        variant="rectangular"
+                        sx={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            zIndex: 0,
+                            opacity: 0.2,
+                        }}
+                    />
+                )}
+                <ToggleButtonGroup
+                    value={responseSelection}
+                    exclusive
+                    onChange={handleResponseSelection}
+                    aria-label="text alignment"
+                    fullWidth
+                    sx={{ height: '100%', position: 'relative', zIndex: 1 }}
                 >
-                    {response.length > 0 && <>
-                        <Box>
-                            {response.map((line, lineIndex) => {
-                                return (<Typography
-                                    key={`line-${responseIndex}-${lineIndex}`}
-                                    textAlign='center'
-                                >
-                                    {responseIndex} / {responses.length} || {line}
-                                </Typography>)
-                            })}
-                        </Box>
-                    </>}
+                    {responses.length > 0 && responses.map((response, responseIndex) => {
+                        return (<Grid size={3.5} height={'100%'} width={'100%'} key={responseIndex}>
+                            {response.length > 0 ? <ToggleButton
+                                value={responseIndex}
+                                sx={{
+                                    height: '100%',
+                                    width: '100%',
+                                    borderRadius: 0,
+                                }}
+                                color={responseIndex === 0 ? 'success' : (responseIndex === 1 ? 'warning' : 'error')}
+                            >
+                                {response.length > 0 && <>
+                                    <Box>
+                                        {response.map((line, lineIndex) => {
+                                            return (<Typography
+                                                key={`line-${responseIndex}-${lineIndex}`}
+                                                textAlign='center'
+                                            >
+                                                {line}
+                                            </Typography>)
+                                        })}
+                                    </Box>
+                                </>}
+                            </ToggleButton> : <ToggleButton
+                                value={`disabled-${responseIndex}`}
+                                disabled
+                                sx={{
+                                    height: '100%', width: '100%',
+                                    backgroundColor: theme.palette.background.default,
+                                }}
+                            />}
+                        </Grid>);
+                    })}
 
-                </WorksheetCellButton>
-
-
-            </Grid>);
-        })}
-
+                </ToggleButtonGroup>
+            </Box>
+        </Grid>
     </Grid>);
 }
