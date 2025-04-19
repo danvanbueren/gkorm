@@ -1,6 +1,5 @@
 import {Box, Grid, Typography, useTheme} from '@mui/material';
 import FingerprintIcon from '@mui/icons-material/Fingerprint';
-import { Textfit } from 'react-textfit';
 
 export default function Signature({
                                       theme = useTheme(),
