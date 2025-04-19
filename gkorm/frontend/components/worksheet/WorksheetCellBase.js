@@ -1,6 +1,6 @@
 import {Box, useTheme} from '@mui/material';
 
-export default function WorksheetTableBox({
+export default function WorksheetCellBase({
                                               theme = useTheme(),
                                               color = (theme.palette.getContrastText(theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[200])),
                                               backgroundColor = (theme.palette.mode === 'dark' ? theme.palette.grey[900] : theme.palette.grey[100]),
@@ -15,6 +15,7 @@ export default function WorksheetTableBox({
         alignItems="center"
         justifyContent={justifyContent}
         height="100%"
+        width="100%"
         sx={{
             backgroundColor: {backgroundColor}, color: {color}, borderRight: borderRight ? `2px solid ${borderColor}` : 'none',
         }}
