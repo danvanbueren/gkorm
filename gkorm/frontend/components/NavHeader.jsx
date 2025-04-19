@@ -55,6 +55,7 @@ export default function NavHeader({ user = { name: 'Undefined Session' } }) {
                             letterSpacing: '.1rem',
                             color: 'inherit',
                             textDecoration: 'none',
+                            userSelect: 'none',
                         }}
                     >
                         gkorm
