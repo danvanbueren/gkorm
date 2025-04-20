@@ -1,15 +1,20 @@
-import {useTheme} from "@mui/material";
+'use client';
+
+import {useMediaQuery, useTheme} from "@mui/material";
 import WorksheetRowInfo from "@/components/worksheet/WorksheetRowInfo";
 import WorksheetRowQuestion from "@/components/worksheet/WorksheetRowQuestion";
 import Worksheet from "@/components/worksheet/Worksheet";
 import WorksheetRowSignature from "@/components/worksheet/WorksheetRowSignature";
 
+export default function MissionPlanningRiskAssessment({
                                                                    theme = useTheme(),
                                                                    missionNumber = '',
                                                                    missionDate = '',
                                                                    acNameIdNumber = '',
-                                                                   children,
                                                                }) {
+
+    const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+
     return (
         <Worksheet title="Mission Planning Risk Assessment">
             <WorksheetRowInfo
@@ -18,11 +23,30 @@ import WorksheetRowSignature from "@/components/worksheet/WorksheetRowSignature"
                 acNameIdNumber={acNameIdNumber}
             />
 
-            <WorksheetRowInfo
-                infoMessageArray={["RISK FACTORS", "LOW", "MEDIUM", "HIGH"]}
-                fontWeight='500'
-                infoMessageBackgroundColors={[theme.palette.custom.headingBackground, theme.palette.success.main, theme.palette.warning.main, theme.palette.error.main]}
-            />
+            {isMdUp ?
+                <WorksheetRowInfo
+                    infoMessageArray={["RISK FACTORS", "LOW", "MEDIUM", "HIGH"]}
+                    fontWeight='500'
+                    infoMessageBackgroundColors={[theme.palette.custom.headingBackground, theme.palette.success.main, theme.palette.warning.main, theme.palette.error.main]}
+                />
+                :
+                <>
+                    <WorksheetRowInfo
+                        infoMessageArray={["RISK FACTORS"]}
+                        fontWeight='500'
+                        infoMessageBackgroundColors={[theme.palette.custom.headingBackground]}
+                        bottomBorderThickness={2}
+                    />
+                    <WorksheetRowInfo
+                        infoMessageArray={["LOW", "MEDIUM", "HIGH"]}
+                        fontWeight='500'
+                        infoMessageBackgroundColors={[theme.palette.success.main, theme.palette.warning.main, theme.palette.error.main]}
+                        forceEquidistant={true}
+                        forceCentered={true}
+                    />
+                </>
+            }
+
 
             <WorksheetRowInfo
                 infoMessageArray={["Timeline"]}
@@ -112,7 +136,7 @@ import WorksheetRowSignature from "@/components/worksheet/WorksheetRowSignature"
                 description="Up to 3 MEDIUM risk factors"
                 authority="Aircraft Commander"
                 color={theme.palette.success.contrastText}
-                backgroundColor ={theme.palette.success.main}
+                backgroundColor={theme.palette.success.main}
                 signatureData={['John Doe', 'John Doe DN: cn=John Doe, o=SoftwareSystem, ou=Editor, email=johndoe@email.com, c=IN', '2021.10.12 21:30:28 +05\'30\'']}
             />
 
@@ -120,14 +144,15 @@ import WorksheetRowSignature from "@/components/worksheet/WorksheetRowSignature"
                 description="4 MEDIUM risk factors and/or 1 HIGH risk factor"
                 authority="Sq DO / CC"
                 color={theme.palette.warning.contrastText}
-                backgroundColor ={theme.palette.warning.main}
+                backgroundColor={theme.palette.warning.main}
             />
 
             <WorksheetRowSignature
                 description="5+ MEDIUM risk factors and/or 2+ HIGH risk factors"
                 authority="OWC"
                 color={theme.palette.error.contrastText}
-                backgroundColor ={theme.palette.error.main}
+                backgroundColor={theme.palette.error.main}
+                bottomBorderThickness={0}
             />
         </Worksheet>
     );
