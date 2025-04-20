@@ -1,4 +1,4 @@
-import {Grid, Typography, useTheme} from "@mui/material";
+import {Grid, Typography, useMediaQuery, useTheme} from "@mui/material";
 import WorksheetCellBase from "@/components/worksheet/WorksheetCellBase";
 
 export default function WorksheetRowInfo({
@@ -12,6 +12,8 @@ export default function WorksheetRowInfo({
                                              color = theme.palette.text.primary,
                                              bottomBorderThickness = 4,
                                              fontWeight = '800',
+                                             forceEquidistant = false,
+                                             forceCentered = false,
                                              children,
                                          }) {
 
@@ -30,24 +32,29 @@ export default function WorksheetRowInfo({
         </>)
     }
 
+    const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+
     return (<Grid
         container
         sx={{
             borderBottom: bottomBorderThickness !== 0 ? `${bottomBorderThickness}px solid ${theme.palette.custom.borderColor}` : 'none',
+            minHeight: '4rem',
         }}
     >
+
+        {/* Info message heading */}
 
         {infoMessageArray.length > 0 ? <>
             {infoMessageArray.map((value, index) => {
                 return (<Grid
                     key={`info-message-${index}`}
-                    size={index === 0 && infoMessageArray.length === 1 ? 12 : (index === 0 ? 4.5 : ((index === infoMessageArray.length - 1) && (infoMessageArray.length < 4) ? (5 - infoMessageArray.length) * 2.5 : infoMessageArray.length >= 4 ? 7.5 / (infoMessageArray.length - 1) : 7.5 / (infoMessageArray.length)))}>
+                    size={forceEquidistant ? 12/infoMessageArray.length : index === 0 && infoMessageArray.length === 1 ? 12 : (index === 0 ? 4.5 : ((index === infoMessageArray.length - 1) && (infoMessageArray.length < 4) ? (5 - infoMessageArray.length) * 2.5 : infoMessageArray.length >= 4 ? 7.5 / (infoMessageArray.length - 1) : 7.5 / (infoMessageArray.length)))}>
                     <WorksheetCellBase
                         backgroundColor={infoMessageBackgroundColors.length > 0 ? infoMessageBackgroundColors[index] : backgroundColor === theme.palette.custom.infoBackground ? theme.palette.custom.salmonBackground : backgroundColor}
                         color={infoMessageBackgroundColors.length > 0 ? theme.palette.getContrastText(infoMessageBackgroundColors[index]) : color}
 
-                        justifyContent={infoMessageArray.length === 1 ? 'center' : ((index === infoMessageArray.length - 1) && (infoMessageArray.length < 4)) ? 'center' : 'start'}
-                        borderRight={index < infoMessageArray.length - 1}
+                        justifyContent={forceCentered ? 'center' : infoMessageArray.length === 1 ? 'center' : (index !== 0 ) ? 'center' : 'start'}
+                        borderRight={index < infoMessageArray.length - 1 ? `2px solid` : 'none'}
                     >
                         <Typography
                             fontSize={infoMessageArray.length > 1 && '1.2rem'}
@@ -55,6 +62,7 @@ export default function WorksheetRowInfo({
                             fontWeight={fontWeight}
                             padding={1}
                             paddingX={2}
+                            textAlign={(index !== 0 ) ? 'center' : 'start'}
                         >
                             {value}
                         </Typography>
@@ -63,11 +71,14 @@ export default function WorksheetRowInfo({
             })}
         </> : null}
 
+        {/* Mission number, date, name and ID */}
+
         {missionNumber !== '' ? <>
-            <Grid size={4.5}>
+            <Grid size={{xs: 6, md: 4.5}}>
                 <WorksheetCellBase
                     backgroundColor={backgroundColor}
-                    borderRight={true}
+                    borderRight={'2px solid'}
+                    borderBottom={!isMdUp ? '2px solid' : 'none'}
                 >
                     {topLineTextComponent("Mission #", missionNumber)}
                 </WorksheetCellBase>
@@ -75,10 +86,11 @@ export default function WorksheetRowInfo({
         </> : null}
 
         {missionDate !== '' ? <>
-            <Grid size={2.5}>
+            <Grid size={{xs: 6, md: 2.5}}>
                 <WorksheetCellBase
                     backgroundColor={backgroundColor}
-                    borderRight={true}
+                    borderRight={isMdUp ? '2px solid' : 'none'}
+                    borderBottom={!isMdUp ? '2px solid' : 'none'}
                 >
                     {topLineTextComponent("Date", missionDate)}
                 </WorksheetCellBase>
@@ -86,7 +98,7 @@ export default function WorksheetRowInfo({
         </> : null}
 
         {acNameIdNumber !== '' ? <>
-            <Grid size={5}>
+            <Grid size={{xs: 12, md: 5}}>
                 <WorksheetCellBase
                     backgroundColor={backgroundColor}
                 >
@@ -95,6 +107,7 @@ export default function WorksheetRowInfo({
             </Grid>
         </> : null}
 
+        {/* Error message - props not correctly assigned */}
         {infoMessageArray.length === 0 && (missionNumber === '' || missionDate === '' || acNameIdNumber === '') ? <>
             <Grid size={12}>
                 <WorksheetCellBase

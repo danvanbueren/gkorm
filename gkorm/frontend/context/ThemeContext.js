@@ -20,7 +20,7 @@ export default function ThemeContextProvider({children}) {
     const theme = useMemo(() => createTheme({
         palette: {
             mode, custom: {
-                borderColor: mode === 'dark' ? '#111' : '#333',
+                borderColor: mode === 'dark' ? '#1c1c1c' : '#333',
                 headingBackground: mode === 'dark' ? '#424242' : '#bdbdbd',
                 signatureBackground: mode === 'dark' ? '#2c2c2c' : '#dfdfdf',
                 salmonBackground: mode === 'dark' ? '#ca958a' : '#d8998c',

@@ -4,7 +4,6 @@ import WorksheetRowQuestion from "@/components/worksheet/WorksheetRowQuestion";
 import Worksheet from "@/components/worksheet/Worksheet";
 import WorksheetRowSignature from "@/components/worksheet/WorksheetRowSignature";
 
-export default function WorksheetMissionPlanningRiskAssessment({
                                                                    theme = useTheme(),
                                                                    missionNumber = '',
                                                                    missionDate = '',

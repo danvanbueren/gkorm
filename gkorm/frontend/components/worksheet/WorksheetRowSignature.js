@@ -17,13 +17,14 @@ export default function WorksheetRowSignature({
             container
             sx={{
                 borderBottom: bottomBorderThickness !== 0 ? `${bottomBorderThickness}px solid ${theme.palette.custom.borderColor}` : 'none',
+                minHeight: '6rem',
             }}
         >
 
             <Grid size={4.5}>
                 <WorksheetCellBase
                     backgroundColor={theme.palette.custom.headingBackground}
-                    borderRight={true}
+                    borderRight='2px solid'
                 >
                     <Typography
                         variant={'h6'}
@@ -39,7 +40,7 @@ export default function WorksheetRowSignature({
 
             <Grid size={2.5}>
                 <WorksheetCellBase
-                    borderRight={true}
+                    borderRight='2px solid'
                     justifyContent={'center'}
                     backgroundColor={backgroundColor}
                     color={color}
@@ -53,6 +54,7 @@ export default function WorksheetRowSignature({
             <Grid size={5}>
                 <WorksheetCellBase
                     justifyContent={'center'}
+                    backgroundColor={theme.palette.background.default}
                 >
                     { signatureData.length > 0 &&
                         <Signature
