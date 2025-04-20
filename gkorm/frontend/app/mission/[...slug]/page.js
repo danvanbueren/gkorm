@@ -4,6 +4,8 @@ import MissionPlanningRiskAssessment
     from "@/components/constructedWorksheets/MissionPlanningRiskAssessment";
 import MissionFlowNav from "@/components/navigation/MissionFlowNav";
 import DayOfMissionRiskAssessment from "@/components/constructedWorksheets/DayOfMissionRiskAssessment";
+import PersonalRiskAssessment from "@/components/constructedWorksheets/PersonalRiskAssessment";
+import PilotProficiencyRiskAssessment from "@/components/constructedWorksheets/PilotProficiencyRiskAssessment";
 
 export default function AppMissionSlugPage({ params }) {
 
@@ -59,26 +61,17 @@ export default function AppMissionSlugPage({ params }) {
 
                                     : currentView === 'pilot' ?
 
-                                        <MissionPlanningRiskAssessment
-                                            missionNumber={missionNumber}
-                                            missionDate={missionDate}
-                                            acNameIdNumber={acNameIdNumber}
-                                        />
+                                        <PilotProficiencyRiskAssessment/>
 
                                         : currentView === 'execution' ?
 
-                                            <DayOfMissionRiskAssessment
-                                            />
+                                            <DayOfMissionRiskAssessment/>
 
                                             : currentView === 'personal' ?
 
-                                                <MissionPlanningRiskAssessment
-                                                    missionNumber={missionNumber}
-                                                    missionDate={missionDate}
-                                                    acNameIdNumber={acNameIdNumber}
-                                                />
+                                                <PersonalRiskAssessment/>
 
-                                                : <Typography>.</Typography>
+                                                : <Typography>Summary view (planned)</Typography>
 
                                 }
                             </Box>

@@ -28,7 +28,7 @@ export default function MissionFlowNav({
             padding={2}
             fontWeight='500'
             component="a"
-            href={`/mission/${requestedMissionId}`}
+            href={nextConfig.basePath + `/mission/${requestedMissionId}`}
             sx={{
                 display: 'flex', color: 'inherit', textDecoration: 'none', userSelect: 'none',
             }}
