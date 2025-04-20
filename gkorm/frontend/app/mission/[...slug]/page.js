@@ -96,10 +96,11 @@ export default function AppMissionSlugPage({ params }) {
 
 export async function generateStaticParams() {
     return [
-        { slug: ['planning'] },
-        { slug: ['pilot'] },
-        { slug: ['execution'] },
-        { slug: ['personal'] },
+        { slug: ['example'] },
+        { slug: ['example', 'planning'] },
+        { slug: ['example', 'pilot'] },
+        { slug: ['example', 'execution'] },
+        { slug: ['example', 'personal'] },
     ];
 }
 
