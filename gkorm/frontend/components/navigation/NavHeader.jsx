@@ -5,6 +5,7 @@ import {AppBar, Toolbar, Typography, Box, Button, IconButton, Avatar, Container,
 import { Brightness4, Brightness7 } from '@mui/icons-material';
 import {useTheme} from "@mui/material";
 import {useColorMode} from "@/context/ThemeContext";
+import nextConfig from "@/next.config.mjs";
 
 export default function NavHeader({ user = { name: 'Undefined Session' } }) {
 
@@ -64,9 +65,8 @@ export default function NavHeader({ user = { name: 'Undefined Session' } }) {
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     {/* Links */}
                     <Box sx={{ display: 'flex', gap: 2 }}>
-                        <Button color="inherit" href="/link1">link1</Button>
-                        <Button color="inherit" href="/link2">link2</Button>
-                        <Button color="inherit" href="/link3">link3</Button>
+                        <Button color="inherit" href={nextConfig.basePath + "/mission/example"}>Example Mission</Button>
+                        <Button color="inherit" href="/" disabled>Missions</Button>
                     </Box>
 
                     {/* Right: Theme toggle + user info */}

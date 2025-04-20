@@ -1,0 +1,123 @@
+'use client';
+
+import {
+    Box, Button, Card, Divider, Grid, TextField, Typography, useMediaQuery, useTheme
+} from "@mui/material";
+import {AssignmentInd, Flight} from '@mui/icons-material';
+import {useState} from "react";
+import {useParams} from 'next/navigation';
+import nextConfig from "@/next.config.mjs";
+
+export default function MissionFlowNav({
+                                           theme = useTheme(), missionNumber, acNameIdNumber
+                                       }) {
+
+    const params = useParams();
+    const slug = params?.slug;
+    const requestedMissionId = slug[0];
+
+    const isLgUp = useMediaQuery(theme.breakpoints.up('lg'));
+
+    const [localMissionNumber, setLocalMissionNumber] = useState(missionNumber || '');
+    const [localAcNameIdNumber, setLocalAcNameIdNumber] = useState(acNameIdNumber || '');
+
+    return (<Box sx={{padding: 0, margin: 0}}>
+        <Typography
+            variant={'h5'}
+            textAlign={isLgUp ? 'start' : 'center'}
+            padding={2}
+            fontWeight='500'
+            component="a"
+            href={`/mission/${requestedMissionId}`}
+            sx={{
+                display: 'flex', color: 'inherit', textDecoration: 'none', userSelect: 'none',
+            }}
+        >
+            {missionNumber}
+        </Typography>
+
+        <Card sx={{
+            minWidth: '100%',
+            borderRadius: '1rem',
+            overflow: 'hidden',
+            userSelect: 'none',
+            padding: '1rem',
+            marginBottom: '1rem',
+        }}>
+
+            <Typography variant='h6' marginBottom={1}>Mission Info</Typography>
+
+            <Divider/>
+
+            <Grid container spacing={2} paddingTop={2}>
+                <Grid item size={{xs: 12, sm: 6, lg: 12}}>
+
+                    <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                        <Flight sx={{color: 'action.active', mr: 1, my: 0.5}}/>
+                        <TextField
+                            id="text-field-mission-number"
+                            placeholder='AJ1234M'
+                            label='Mission Number'
+                            value={localMissionNumber}
+                            onChange={(e) => setLocalMissionNumber(e.target.value)}
+                            variant="standard"
+                            fullWidth
+                            disabled
+                        />
+                    </Box>
+
+                </Grid>
+                <Grid item size={{xs: 12, sm: 6, lg: 12}}>
+
+                    <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                        <AssignmentInd sx={{color: 'action.active', mr: 1, my: 0.5}}/>
+                        <TextField
+                            id="text-field-aircraft-commander"
+                            placeholder='OF-3 John Doe, 012345'
+                            label='Aircraft Commander'
+                            value={localAcNameIdNumber}
+                            onChange={(e) => setLocalAcNameIdNumber(e.target.value)}
+                            variant="standard"
+                            fullWidth
+                            disabled
+                        />
+                    </Box>
+
+                </Grid>
+            </Grid>
+
+        </Card>
+
+        <Card sx={{
+            minWidth: '100%', borderRadius: '1rem', overflow: 'hidden', userSelect: 'none', padding: '1rem',
+        }}>
+
+            <Typography variant='h6' marginBottom={1}>Risk Assessment Worksheets</Typography>
+
+            <Divider/>
+
+            <Grid container>
+                <Grid item size={{xs: 12, sm: 6, lg: 12}}>
+                    <Typography variant='subtitle1' fontWeight={700} marginY={2}>Mission Planning</Typography>
+
+                    <Button variant='outlined' sx={{marginRight: 2, marginBottom: 2}}
+                            href={nextConfig.basePath + `/mission/${requestedMissionId}/planning`}>Overall</Button>
+                    <Button variant='outlined' sx={{marginRight: 2, marginBottom: 2}}
+                            href={nextConfig.basePath + `/mission/${requestedMissionId}/pilot`}>Pilot
+                        Proficiency</Button>
+                </Grid>
+                <Grid item size={{xs: 12, sm: 6, lg: 12}}>
+                    <Typography variant='subtitle1' fontWeight={700} marginY={2}>Execution</Typography>
+
+                    <Button variant='outlined' sx={{marginRight: 2, marginBottom: 2}}
+                            href={nextConfig.basePath + `/mission/${requestedMissionId}/execution`}>Overall</Button>
+                    <Button variant='outlined' sx={{marginRight: 2, marginBottom: 2}}
+                            href={nextConfig.basePath + `/mission/${requestedMissionId}/personal`}>Personal</Button>
+                </Grid>
+            </Grid>
+
+        </Card>
+
+
+    </Box>)
+}

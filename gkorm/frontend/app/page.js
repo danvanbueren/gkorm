@@ -1,12 +1,10 @@
 'use client';
 
 import {Box, Container} from "@mui/material";
-import NavHeader from "@/components/NavHeader";
-import WorksheetMissionPlanningRiskAssessment
-    from "@/components/constructedWorksheets/WorksheetMissionPlanningRiskAssessment";
+import NavHeader from "@/components/navigation/NavHeader";
 import {useEffect, useRef, useState} from "react";
 
-export default function Home() {
+export default function AppPage() {
 
     const headerRef = useRef(null);
     const [headerHeight, setHeaderHeight] = useState(0);
@@ -25,7 +23,7 @@ export default function Home() {
 
     return (<div>
         <main>
-            <Container maxWidth="xl">
+            <Container maxWidth="xl" sx={{ minWidth: '30rem' }}>
                 <Box
                     sx={{
                         height: '100dvh', overflow: 'hidden',
@@ -38,15 +36,11 @@ export default function Home() {
                     <Box
                         sx={{
                             maxHeight: `calc(90dvh - ${headerHeight}px)`,
-                            overflow: 'auto',
+                            overflow: 'hidden',
+                            display: 'flex',
                         }}
                     >
-
-                        <WorksheetMissionPlanningRiskAssessment
-                            missionNumber='a'
-                            missionDate='a'
-                            acNameIdNumber='a'
-                        />
+                        <h1>Dashboard</h1>
 
                     </Box>
                 </Box>
