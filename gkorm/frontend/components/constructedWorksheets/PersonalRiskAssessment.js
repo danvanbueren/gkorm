@@ -60,6 +60,9 @@ export default function PersonalRiskAssessment({
 
             <WorksheetRowInfo
                 infoMessageArray={["2 MEDIUM risk factors and/or 1 HIGH risk factor", "Aircraft Commander"]}
+
+                infoMessageBackgroundColors={[theme.palette.custom.headingBackground, theme.palette.custom.headingBackground]}
+                bottomBorderThickness={0}
             />
 
         </Worksheet>);

@@ -46,6 +46,7 @@ export default function PilotProficiencyRiskAssessment({
             <WorksheetRowQuestion
                 questionName="# AAR events in last 30 days"
                 responses={[["2+"], ["1"], ["0"]]}
+                bottomBorderThickness={0}
             />
 
         </Worksheet>);

@@ -3,7 +3,7 @@
 import {
     Box, Button, Card, Divider, Grid, TextField, Typography, useMediaQuery, useTheme
 } from "@mui/material";
-import {AssignmentInd, Flight} from '@mui/icons-material';
+import {AssignmentInd, Flight, Groups} from '@mui/icons-material';
 import {useState} from "react";
 import {useParams} from 'next/navigation';
 import nextConfig from "@/next.config.mjs";
@@ -53,7 +53,7 @@ export default function MissionFlowNav({
                 <Grid size={{xs: 12, sm: 6, lg: 12}}>
 
                     <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-                        <Flight sx={{color: 'action.active', mr: 1, my: 0.5}}/>
+                        <Flight sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
                         <TextField
                             id="text-field-mission-number"
                             placeholder='AJ1234M'
@@ -70,7 +70,7 @@ export default function MissionFlowNav({
                 <Grid size={{xs: 12, sm: 6, lg: 12}}>
 
                     <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
-                        <AssignmentInd sx={{color: 'action.active', mr: 1, my: 0.5}}/>
+                        <AssignmentInd sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
                         <TextField
                             id="text-field-aircraft-commander"
                             placeholder='OF-3 John Doe, 012345'
@@ -81,6 +81,15 @@ export default function MissionFlowNav({
                             fullWidth
                             disabled
                         />
+                    </Box>
+
+                </Grid>
+
+                <Grid size={{xs: 12, sm: 6, lg: 12}}>
+
+                    <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                        <Groups sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
+                        <Button variant={"outlined"} fullWidth href={nextConfig.basePath + `/mission/${requestedMissionId}/crewlist`}>Crew List</Button>
                     </Box>
 
                 </Grid>

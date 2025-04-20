@@ -48,7 +48,7 @@ export default function NavHeader({ user = { name: 'Undefined Session' } }) {
                         variant="h6"
                         noWrap
                         component="a"
-                        href="/"
+                        href={nextConfig.basePath + "/"}
                         sx={{
                             mr: 2,
                             display: 'flex',
