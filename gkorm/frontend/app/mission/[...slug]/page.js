@@ -27,7 +27,7 @@ export default function AppMissionSlugPage({ params }) {
 
                     <Grid container spacing={2} width={'100%'}>
 
-                        <Grid item size={{xs: 12, lg: 3}}>
+                        <Grid size={{xs: 12, lg: 3}}>
                             <Box
                                 sx={{
                                     maxHeight: '90dvh',
@@ -42,7 +42,7 @@ export default function AppMissionSlugPage({ params }) {
                             </Box>
                         </Grid>
 
-                        <Grid item size={{xs: 12, lg: 9}}>
+                        <Grid size={{xs: 12, lg: 9}}>
 
                             <Box
                                 sx={{

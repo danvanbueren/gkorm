@@ -50,7 +50,7 @@ export default function MissionFlowNav({
             <Divider/>
 
             <Grid container spacing={2} paddingTop={2}>
-                <Grid item size={{xs: 12, sm: 6, lg: 12}}>
+                <Grid size={{xs: 12, sm: 6, lg: 12}}>
 
                     <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <Flight sx={{color: 'action.active', mr: 1, my: 0.5}}/>
@@ -67,7 +67,7 @@ export default function MissionFlowNav({
                     </Box>
 
                 </Grid>
-                <Grid item size={{xs: 12, sm: 6, lg: 12}}>
+                <Grid size={{xs: 12, sm: 6, lg: 12}}>
 
                     <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <AssignmentInd sx={{color: 'action.active', mr: 1, my: 0.5}}/>
@@ -97,7 +97,7 @@ export default function MissionFlowNav({
             <Divider/>
 
             <Grid container>
-                <Grid item size={{xs: 12, sm: 6, lg: 12}}>
+                <Grid size={{xs: 12, sm: 6, lg: 12}}>
                     <Typography variant='subtitle1' fontWeight={700} marginY={2}>Mission Planning</Typography>
 
                     <Button variant='outlined' sx={{marginRight: 2, marginBottom: 2}}
@@ -106,7 +106,7 @@ export default function MissionFlowNav({
                             href={nextConfig.basePath + `/mission/${requestedMissionId}/pilot`}>Pilot
                         Proficiency</Button>
                 </Grid>
-                <Grid item size={{xs: 12, sm: 6, lg: 12}}>
+                <Grid size={{xs: 12, sm: 6, lg: 12}}>
                     <Typography variant='subtitle1' fontWeight={700} marginY={2}>Execution</Typography>
 
                     <Button variant='outlined' sx={{marginRight: 2, marginBottom: 2}}
