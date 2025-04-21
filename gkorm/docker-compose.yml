@@ -32,7 +32,8 @@ services:
     volumes:
       - ./api:/code/app
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     restart: on-failure
     networks:
       - backend_network
@@ -48,6 +49,11 @@ services:
       POSTGRES_DB: gkorm
     volumes:
       - ./database/db-pgdata-gitignore:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U username -d gkorm"]
+      interval: 1s
+      timeout: 1s
+      retries: 10
     restart: on-failure
     networks:
       - backend_network
