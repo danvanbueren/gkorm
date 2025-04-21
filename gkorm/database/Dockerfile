@@ -1,3 +1,3 @@
-FROM node:18-alpine
+FROM postgres:17
 
 LABEL authors="danvanbueren"
