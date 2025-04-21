@@ -25,7 +25,10 @@
         - AIRCREW TRAINING SQUADRON
     
     - global permissions
-        - 
+        - SQUADRON DIRECTOR OF OPERATIONS
+        - SQUADRON COMMANDER
+        - OPS WING COMMANDER
+        - SYSADMIN
 
 - tables
 
@@ -41,12 +44,12 @@
     - user permissions
         - id [pkey, auto increment]
         - user id [fkey]
-        - permission level [type=global permissions]
+        - global permission level [type=global permissions]
 
     - missions
         - id [pkey, auto increment]
         - mission number [unique, not null]
-        - 
+        - user id of original owner
 
     - member mission assignments
         - id [pkey, auto increment]
@@ -97,3 +100,6 @@
         - q6 response
         - q7 response
         - q8 response
+    
+    - risk authority signatures
+        - id [pkey, auto increment]
