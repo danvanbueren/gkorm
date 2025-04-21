@@ -3,6 +3,8 @@ services:
     container_name: frontend
     build:
       context: ./frontend
+      args:
+        - REACT_APP_API_URL=http://backend:8000
     ports:
       - "3000:3000"
     environment:
@@ -13,6 +15,39 @@ services:
     volumes:
       - ./frontend:/app
       - /app/node_modules
+    depends_on:
+      - api
+    restart: on-failure
+    networks:
+      - backend_network
+
+  api:
+    container_name: api
+    build: ./api
+    working_dir: /code/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5430/gkorm
+    volumes:
+      - ./api:/code/app
+    depends_on:
+      - database
+    restart: on-failure
+    networks:
+      - backend_network
+
+  database:
+    container_name: database
+    build: ./database
+    ports:
+      - "5430:5432"
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: gkorm
+    volumes:
+      - ./database/db-pgdata-gitignore:/var/lib/postgresql/data
     restart: on-failure
     networks:
       - backend_network
