@@ -59,7 +59,6 @@ class BaseModel(Base):
 
 class UsersTable(BaseModel):
     __tablename__ = "users_table"
-
     amis_id = Column(Integer, unique=True, index=True, nullable=False)
     given_name = Column(String(255), nullable=False)
     family_name = Column(String(255), nullable=False)
