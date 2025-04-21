@@ -2,7 +2,7 @@
 import enum
 
 from sqlalchemy import Column, Integer, String, DateTime, Enum, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy.sql import func
 
 Base = declarative_base()
@@ -68,36 +68,36 @@ class UsersTable(BaseModel):
 
 class UserPermissionsTable(BaseModel):
     __tablename__ = "user_permissions_table"
-    FKEY_users_TABLE_parent_id = Column(Integer, ForeignKey("users_table.id"), unique=True, nullable=False)
+    FKEY_users_TABLE_parent_id = Column(Integer, ForeignKey("users_table.PKEY_id"), unique=True, nullable=False)
     global_permission_level = Column(Enum(GlobalPermissions), default=GlobalPermissions.BASIC, nullable=False)
 
 class MissionsTable(BaseModel):
     __tablename__ = "missions_table"
     mission_number = Column(String(255), index=True, unique=True, nullable=False)
-    FKEY_users_TABLE_owner_id = Column(Integer, ForeignKey("users_table.id"), unique=True, nullable=False)
+    FKEY_users_TABLE_owner_id = Column(Integer, ForeignKey("users_table.PKEY_id"), unique=True, nullable=False)
 
 class MemberMissionAssignmentsTable(BaseModel):
     __tablename__ = "member_mission_assignments_table"
-    FKEY_missions_TABLE_parent_id = Column(Integer, ForeignKey("missions_table.id"), nullable=False)
-    FKEY_users_TABLE_member_id = Column(Integer, ForeignKey("users_table.id"), nullable=False)
+    FKEY_missions_TABLE_parent_id = Column(Integer, ForeignKey("missions_table.PKEY_id"), nullable=False)
+    FKEY_users_TABLE_member_id = Column(Integer, ForeignKey("users_table.PKEY_id"), nullable=False)
     crew_position_override = Column(Enum(CrewPositions))
 
 class WorksheetsTable(BaseModel):
     __tablename__ = "worksheets_table"
     worksheet_type = Column(Enum(WorksheetTypes), nullable=False)
-    FKEY_missions_TABLE_parent_id = Column(Integer, ForeignKey("missions_table.id"), nullable=False)
-    FKEY_member_mission_assignments_TABLE_parent_id = Column(Integer, ForeignKey("member_mission_assignments_table.id"))
+    FKEY_missions_TABLE_parent_id = Column(Integer, ForeignKey("missions_table.PKEY_id"), nullable=False)
+    FKEY_member_mission_assignments_TABLE_parent_id = Column(Integer, ForeignKey("member_mission_assignments_table.PKEY_id"))
 
 class WorksheetQuestionResponsesTable(BaseModel):
     __tablename__ = "worksheet_question_responses_table"
-    FKEY_worksheets_TABLE_parent_id = Column(Integer, ForeignKey("worksheets_table.id"), nullable=False)
+    FKEY_worksheets_TABLE_parent_id = Column(Integer, ForeignKey("worksheets_table.PKEY_id"), nullable=False)
     question_number = Column(Integer, nullable=False)
     response = Column(Enum(RiskLevels))
 
 class WorksheetRiskAcceptanceAuthoritySignaturesTable(BaseModel):
     __tablename__ = "worksheet_risk_acceptance_authority_signatures_table"
-    FKEY_worksheets_TABLE_parent_id = Column(Integer, ForeignKey("worksheets_table.id"), nullable=False)
-    FKEY_users_TABLE_approver_id = Column(Integer, ForeignKey("users_table.id"), nullable=False)
+    FKEY_worksheets_TABLE_parent_id = Column(Integer, ForeignKey("worksheets_table.PKEY_id"), nullable=False)
+    FKEY_users_TABLE_approver_id = Column(Integer, ForeignKey("users_table.PKEY_id"), nullable=False)
     authority_level = Column(Enum(RiskLevels), nullable=False)
     short_name = Column(String(255), nullable=False)
     long_name = Column(String(255), nullable=False)
