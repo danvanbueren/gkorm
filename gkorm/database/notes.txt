@@ -18,6 +18,14 @@
         - EVALUATOR
         - INSTRUCTOR
         - LINK
+    
+    - units
+        - FLYING SQUADRON 1
+        - FLYING SQUADRON 2
+        - AIRCREW TRAINING SQUADRON
+    
+    - global permissions
+        - 
 
 - tables
 
@@ -28,10 +36,17 @@
         - family name
         - crew position [type=crew positons]
         - crew position modifier [type=crew positon modifiers]
+        - unit assignment [type=units]
+    
+    - user permissions
+        - id [pkey, auto increment]
+        - user id [fkey]
+        - permission level [type=global permissions]
 
     - missions
         - id [pkey, auto increment]
         - mission number [unique, not null]
+        - 
 
     - member mission assignments
         - id [pkey, auto increment]
