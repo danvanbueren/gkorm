@@ -1,36 +1,57 @@
 import {Box, Container, Grid, Typography} from "@mui/material";
 import NavHeader from "@/components/navigation/NavHeader";
-import MissionPlanningRiskAssessment
-    from "@/components/constructedWorksheets/MissionPlanningRiskAssessment";
+import MissionPlanningRiskAssessment from "@/components/constructedWorksheets/MissionPlanningRiskAssessment";
 import MissionFlowNav from "@/components/navigation/MissionFlowNav";
 import DayOfMissionRiskAssessment from "@/components/constructedWorksheets/DayOfMissionRiskAssessment";
 import PersonalRiskAssessment from "@/components/constructedWorksheets/PersonalRiskAssessment";
 import PilotProficiencyRiskAssessment from "@/components/constructedWorksheets/PilotProficiencyRiskAssessment";
 
-export default function AppMissionSlugPage({ params }) {
+export default async function AppMissionSlugPage({params}) {
 
     const missionNumber = 'AJ1234M';
     const missionDate = '12-Nov-25';
     const acNameIdNumber = 'OF-3 John Doe, 012345'
 
-    const slug = params?.slug;
-    const currentView = slug[1];
+    const param = await params;
+    const slug = param?.slug;
+    const currentRequestedView = slug[1];
+
+    const currentView = () => {
+        switch (currentRequestedView) {
+            case 'planning':
+                return (<MissionPlanningRiskAssessment
+                    missionNumber={missionNumber}
+                    missionDate={missionDate}
+                    acNameIdNumber={acNameIdNumber}
+                />)
+            case 'pilot':
+                return (<PilotProficiencyRiskAssessment/>)
+            case 'execution':
+                return (<DayOfMissionRiskAssessment/>)
+            case 'personal':
+                return (<PersonalRiskAssessment/>)
+            case 'crewlist':
+                return (<Typography>Crew list</Typography>)
+            default:
+                return (<Typography>Summary view (planned)</Typography>)
+        }
+    }
 
     return (<div>
         <main>
             <Container maxWidth="xl" sx={{minWidth: '30rem'}}>
                 <Box
                 >
-                    <Box>
+                    <Box height={'10dvh'}>
                         <NavHeader/>
                     </Box>
 
-                    <Grid container spacing={2} width={'100%'}>
+                    <Grid container spacing={2} width={'100%'} height={'90dvh'}>
 
                         <Grid size={{xs: 12, lg: 3}}>
                             <Box
                                 sx={{
-                                    maxHeight: '90dvh',
+                                    maxHeight: '85dvh',
                                     overflow: 'auto',
                                     padding: '1rem',
                                 }}
@@ -46,34 +67,10 @@ export default function AppMissionSlugPage({ params }) {
 
                             <Box
                                 sx={{
-                                    maxHeight: '90dvh',
-                                    overflow: 'auto',
-                                    padding: '1rem',
+                                    maxHeight: '85dvh', overflow: 'auto', padding: '1rem',
                                 }}
                             >
-                                {currentView === 'planning' ?
-
-                                    <MissionPlanningRiskAssessment
-                                        missionNumber={missionNumber}
-                                        missionDate={missionDate}
-                                        acNameIdNumber={acNameIdNumber}
-                                    />
-
-                                    : currentView === 'pilot' ?
-
-                                        <PilotProficiencyRiskAssessment/>
-
-                                        : currentView === 'execution' ?
-
-                                            <DayOfMissionRiskAssessment/>
-
-                                            : currentView === 'personal' ?
-
-                                                <PersonalRiskAssessment/>
-
-                                                : <Typography>Summary view (planned)</Typography>
-
-                                }
+                                {currentView()}
                             </Box>
 
                         </Grid>
@@ -83,9 +80,12 @@ export default function AppMissionSlugPage({ params }) {
                 </Box>
             </Container>
         </main>
-    </div>)
-        ;
+    </div>);
 }
+
+/*
+
+// Only for SSG
 
 export async function generateStaticParams() {
     return [
@@ -98,3 +98,5 @@ export async function generateStaticParams() {
 }
 
 export const dynamicParams = false;
+
+ */
