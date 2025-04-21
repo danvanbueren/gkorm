@@ -15,7 +15,7 @@ from sqlalchemy.orm import Session
 
 from app.config_database import engine, get_db
 from app.database_models import Base
-from app.routes import test
+from app.routes import dev, main
 
 app = FastAPI()
 
@@ -54,7 +54,8 @@ async def api_status(db: Session = Depends(get_db)):
         }
     }
 
-app.include_router(test.router, prefix="/test")
+app.include_router(main.router)
+app.include_router(dev.router, prefix="/dev")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
