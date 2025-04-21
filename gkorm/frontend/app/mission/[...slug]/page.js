@@ -37,50 +37,52 @@ export default async function AppMissionSlugPage({params}) {
         }
     }
 
-    return (<div>
-        <main>
-            <Container maxWidth="xl" sx={{minWidth: '30rem'}}>
-                <Box
-                >
-                    <Box height={'10dvh'}>
-                        <NavHeader/>
+    return (
+        <div>
+            <main>
+                <Container maxWidth="xl" sx={{minWidth: '30rem'}}>
+                    <Box
+                    >
+                        <Box height={'10dvh'}>
+                            <NavHeader/>
+                        </Box>
+
+                        <Grid container spacing={2} width={'100%'} height={'90dvh'}>
+
+                            <Grid size={{xs: 12, lg: 3}}>
+                                <Box
+                                    sx={{
+                                        maxHeight: '85dvh',
+                                        overflow: 'auto',
+                                        padding: '1rem',
+                                    }}
+                                >
+                                    <MissionFlowNav
+                                        missionNumber={missionNumber}
+                                        acNameIdNumber={acNameIdNumber}
+                                    />
+                                </Box>
+                            </Grid>
+
+                            <Grid size={{xs: 12, lg: 9}}>
+
+                                <Box
+                                    sx={{
+                                        maxHeight: '85dvh', overflow: 'auto', padding: '1rem',
+                                    }}
+                                >
+                                    {currentView()}
+                                </Box>
+
+                            </Grid>
+
+                        </Grid>
+
                     </Box>
-
-                    <Grid container spacing={2} width={'100%'} height={'90dvh'}>
-
-                        <Grid size={{xs: 12, lg: 3}}>
-                            <Box
-                                sx={{
-                                    maxHeight: '85dvh',
-                                    overflow: 'auto',
-                                    padding: '1rem',
-                                }}
-                            >
-                                <MissionFlowNav
-                                    missionNumber={missionNumber}
-                                    acNameIdNumber={acNameIdNumber}
-                                />
-                            </Box>
-                        </Grid>
-
-                        <Grid size={{xs: 12, lg: 9}}>
-
-                            <Box
-                                sx={{
-                                    maxHeight: '85dvh', overflow: 'auto', padding: '1rem',
-                                }}
-                            >
-                                {currentView()}
-                            </Box>
-
-                        </Grid>
-
-                    </Grid>
-
-                </Box>
-            </Container>
-        </main>
-    </div>);
+                </Container>
+            </main>
+        </div>
+    );
 }
 
 /*
