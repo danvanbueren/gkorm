@@ -1,0 +1,84 @@
+- enums
+
+    - crew positons
+        - PILOT
+        - FLIGHT ENGINEER
+        - TACTICAL DIRECTOR
+        - FIGHTER ALLOCATOR
+        - WEAPONS CONTROLLER
+        - DUAL FA WC
+        - SURVEILLANCE CONTROLLER
+        - PASSIVE CONTROLLER
+        - SURVEILLANCE OPERATOR
+        - SYSTEM TECHNICIAN
+        - COMMUNICATIONS TECHNICIAN
+        - RADAR TECHNICIAN
+    
+    - crew positon modifiers
+        - EVALUATOR
+        - INSTRUCTOR
+        - LINK
+
+- tables
+
+    - users
+        - id [pkey, auto increment]
+        - amis id [unique, not null]
+        - given name
+        - family name
+        - crew position [type=crew positons]
+        - crew position modifier [type=crew positon modifiers]
+
+    - missions
+        - id [pkey, auto increment]
+        - mission number [unique, not null]
+
+    - member mission assignments
+        - id [pkey, auto increment]
+        - parent (missions) [fkey]
+        - userId [fkey]
+    
+    - pilot proficiency risk assessment worksheet
+        - id [pkey, auto increment]
+        - parent (member mission assignments) [fkey]
+        - q1 response
+        - q2 response
+        - q3 response
+
+    - personal risk assessment worksheet
+        - id [pkey, auto increment]
+        - parent (member mission assignments) [fkey]
+        - q1 response
+        - q2 response
+        - q3 response
+        - q4 response
+
+    - mission planning risk assessment worksheet
+        - id [pkey, auto increment]
+        - parent (missions) [fkey]
+        - risk authority signature [fkey]
+        - q1 response
+        - q2 response
+        - q3 response
+        - q4 response
+        - q5 response
+        - q6 response
+        - q7 response
+        - q8 response
+        - q9 response
+        - q10 response
+        - q11 response
+        - q12 response
+
+    - day of mission risk assessment worksheet
+        - id [pkey, auto increment]
+        - parent (missions) [fkey]
+        - risk authority signature [fkey]
+        - q1 response
+        - q2 response
+        - q3 response
+        - q4 response
+        - q5 response
+        - q6 response
+        - q7 response
+        - q8 response
