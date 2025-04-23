@@ -13,7 +13,7 @@ export default function DayOfMissionRiskAssessment({
     const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
 
     return (
-        <Worksheet title="Day of Mission Risk Assessment">
+        <Worksheet title="Day of Mission Risk Assessment Worksheet">
             {isMdUp ?
                 <WorksheetRowInfo
                     infoMessageArray={["RISK FACTORS", "LOW", "MEDIUM", "HIGH"]}

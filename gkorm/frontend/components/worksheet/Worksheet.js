@@ -17,7 +17,7 @@ export default function Worksheet({
                 fontWeight='500'
                 sx={{userSelect: 'none'}}
             >
-                {title} Worksheet
+                {title}
             </Typography>
 
             <Box

@@ -12,7 +12,7 @@ export default function PersonalRiskAssessment({
 
     const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
 
-    return (<Worksheet title="Personal Risk Assessment">
+    return (<Worksheet title="Personal Risk Assessment Worksheet">
             {isMdUp ? <WorksheetRowInfo
                 infoMessageArray={["PERSONAL RISK FACTORS", "LOW", "MEDIUM", "HIGH"]}
                 fontWeight='500'

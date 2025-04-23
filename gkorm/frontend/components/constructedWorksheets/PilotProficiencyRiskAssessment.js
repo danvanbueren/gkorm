@@ -12,7 +12,7 @@ export default function PilotProficiencyRiskAssessment({
 
     const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
 
-    return (<Worksheet title="Pilot Proficiency Risk Assessment (for pilots only)">
+    return (<Worksheet title="Pilot Proficiency Risk Assessment Worksheet">
             {isMdUp ? <WorksheetRowInfo
                 infoMessageArray={["PERSONAL RISK FACTORS", "LOW (0)", "MEDIUM (1)", "HIGH (2)"]}
                 fontWeight='500'

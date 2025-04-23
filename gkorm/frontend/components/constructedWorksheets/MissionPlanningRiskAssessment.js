@@ -16,7 +16,7 @@ export default function MissionPlanningRiskAssessment({
     const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
 
     return (
-        <Worksheet title="Mission Planning Risk Assessment">
+        <Worksheet title="Mission Planning Risk Assessment Worksheet">
             <WorksheetRowInfo
                 missionNumber={missionNumber}
                 missionDate={missionDate}
