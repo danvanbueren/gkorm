@@ -5,6 +5,9 @@ import MissionFlowNav from "@/components/navigation/MissionFlowNav";
 import DayOfMissionRiskAssessment from "@/components/constructedWorksheets/DayOfMissionRiskAssessment";
 import PersonalRiskAssessment from "@/components/constructedWorksheets/PersonalRiskAssessment";
 import PilotProficiencyRiskAssessment from "@/components/constructedWorksheets/PilotProficiencyRiskAssessment";
+import ProcessFlow from "@/components/constructedWorksheets/ProcessFlow";
+import ClassificationBar from "@/components/utility/ClassificationBar";
+import ClassificationContainer from "@/components/utility/ClassificationContainer";
 
 export default async function AppMissionSlugPage({params}) {
 
@@ -33,53 +36,43 @@ export default async function AppMissionSlugPage({params}) {
             case 'crewlist':
                 return (<Typography>Crew list</Typography>)
             default:
-                return (<Typography>Summary view (planned)</Typography>)
+                return (<ProcessFlow/>)
         }
     }
 
     return (
         <div>
             <main>
-                <Container maxWidth="xl" sx={{minWidth: '30rem'}}>
-                    <Box
-                    >
-                        <Box height={'10dvh'}>
-                            <NavHeader/>
-                        </Box>
-
-                        <Grid container spacing={2} width={'100%'} height={'90dvh'}>
-
-                            <Grid size={{xs: 12, lg: 3}}>
-                                <Box
-                                    sx={{
-                                        maxHeight: '85dvh',
-                                        overflow: 'auto',
-                                        padding: '1rem',
-                                    }}
-                                >
-                                    <MissionFlowNav
-                                        missionNumber={missionNumber}
-                                        acNameIdNumber={acNameIdNumber}
-                                    />
-                                </Box>
-                            </Grid>
-
-                            <Grid size={{xs: 12, lg: 9}}>
-
-                                <Box
-                                    sx={{
-                                        maxHeight: '85dvh', overflow: 'auto', padding: '1rem',
-                                    }}
-                                >
-                                    {currentView()}
-                                </Box>
-
-                            </Grid>
-
-                        </Grid>
-
+                <ClassificationContainer>
+                    <Box height={'10dvh'}>
+                        <NavHeader/>
                     </Box>
-                </Container>
+                    <Grid container spacing={2} width={'100%'} height={'85dvh'}>
+                        <Grid size={{xs: 12, lg: 3}}>
+                            <Box
+                                sx={{
+                                    maxHeight: '80dvh',
+                                    overflow: 'auto',
+                                    padding: '1rem',
+                                }}
+                            >
+                                <MissionFlowNav
+                                    missionNumber={missionNumber}
+                                    acNameIdNumber={acNameIdNumber}
+                                />
+                            </Box>
+                        </Grid>
+                        <Grid size={{xs: 12, lg: 9}}>
+                            <Box
+                                sx={{
+                                    maxHeight: '80dvh', overflow: 'auto', padding: '1rem',
+                                }}
+                            >
+                                {currentView()}
+                            </Box>
+                        </Grid>
+                    </Grid>
+                </ClassificationContainer>
             </main>
         </div>
     );

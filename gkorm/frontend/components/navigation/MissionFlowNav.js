@@ -3,7 +3,7 @@
 import {
     Box, Button, Card, Divider, Grid, TextField, Typography, useMediaQuery, useTheme
 } from "@mui/material";
-import {AssignmentInd, Flight, Groups} from '@mui/icons-material';
+import {AssignmentInd, Checklist, Flight, Groups} from '@mui/icons-material';
 import {useState} from "react";
 import {useParams} from 'next/navigation';
 import nextConfig from "@/next.config.mjs";
@@ -15,11 +15,14 @@ export default function MissionFlowNav({
     const params = useParams();
     const slug = params?.slug;
     const requestedMissionId = slug[0];
+    const currentView = slug[1];
 
     const isLgUp = useMediaQuery(theme.breakpoints.up('lg'));
 
     const [localMissionNumber, setLocalMissionNumber] = useState(missionNumber || '');
     const [localAcNameIdNumber, setLocalAcNameIdNumber] = useState(acNameIdNumber || '');
+
+    const definedViews = ['crewlist', 'planning', 'pilot', 'execution', 'personal'];
 
     return (<Box sx={{padding: 0, margin: 0}}>
         <Typography
@@ -88,8 +91,29 @@ export default function MissionFlowNav({
                 <Grid size={{xs: 12, sm: 6, lg: 12}}>
 
                     <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                        <Checklist sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
+                        <Button
+                            variant={!currentView || !definedViews.includes(currentView) ? 'contained' : 'outlined'}
+                            fullWidth
+                            href={nextConfig.basePath + `/mission/${requestedMissionId}`}
+                        >
+                            Process Flow
+                        </Button>
+                    </Box>
+
+                </Grid>
+
+                <Grid size={{xs: 12, sm: 6, lg: 12}}>
+
+                    <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <Groups sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
-                        <Button variant={"outlined"} fullWidth href={nextConfig.basePath + `/mission/${requestedMissionId}/crewlist`}>Crew List</Button>
+                        <Button
+                            variant={currentView === 'crewlist' ? 'contained' : 'outlined'}
+                            fullWidth
+                            href={nextConfig.basePath + `/mission/${requestedMissionId}/crewlist`}
+                        >
+                            Crew List
+                        </Button>
                     </Box>
 
                 </Grid>
@@ -109,18 +133,20 @@ export default function MissionFlowNav({
                 <Grid size={{xs: 12, sm: 6, lg: 12}}>
                     <Typography variant='subtitle1' fontWeight={700} marginY={2}>Mission Planning</Typography>
 
-                    <Button variant='outlined' sx={{marginRight: 2, marginBottom: 2}}
+                    <Button variant={currentView === 'planning' ? 'contained' : 'outlined'}
+                            sx={{marginRight: 2, marginBottom: 2}}
                             href={nextConfig.basePath + `/mission/${requestedMissionId}/planning`}>Overall</Button>
-                    <Button variant='outlined' sx={{marginRight: 2, marginBottom: 2}}
+                    <Button variant={currentView === 'pilot' ? 'contained' : 'outlined'}
+                            sx={{marginRight: 2, marginBottom: 2}}
                             href={nextConfig.basePath + `/mission/${requestedMissionId}/pilot`}>Pilot
                         Proficiency</Button>
                 </Grid>
                 <Grid size={{xs: 12, sm: 6, lg: 12}}>
                     <Typography variant='subtitle1' fontWeight={700} marginY={2}>Execution</Typography>
 
-                    <Button variant='outlined' sx={{marginRight: 2, marginBottom: 2}}
+                    <Button variant={ currentView === 'execution' ? 'contained' : 'outlined'} sx={{marginRight: 2, marginBottom: 2}}
                             href={nextConfig.basePath + `/mission/${requestedMissionId}/execution`}>Overall</Button>
-                    <Button variant='outlined' sx={{marginRight: 2, marginBottom: 2}}
+                    <Button variant={ currentView === 'personal' ? 'contained' : 'outlined'} sx={{marginRight: 2, marginBottom: 2}}
                             href={nextConfig.basePath + `/mission/${requestedMissionId}/personal`}>Personal</Button>
                 </Grid>
             </Grid>
