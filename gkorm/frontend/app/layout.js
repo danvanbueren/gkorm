@@ -17,9 +17,11 @@ export default function RootLayout({children}) {
         <title>gkorm</title>
     </head>
     <body style={{fontFamily: 'Roboto, sans-serif'}}>
-    <ThemeContextProvider>
-        {children}
-    </ThemeContextProvider>
+    <div suppressHydrationWarning>
+        <ThemeContextProvider>
+            {children}
+        </ThemeContextProvider>
+    </div>
     </body>
     </html>);
 }
