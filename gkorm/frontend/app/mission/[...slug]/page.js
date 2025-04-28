@@ -1,4 +1,6 @@
-import {Box, Container, Grid, Typography} from "@mui/material";
+'use client';
+
+import {Box, Grid} from "@mui/material";
 import NavHeader from "@/components/navigation/NavHeader";
 import MissionPlanningRiskAssessment from "@/components/constructedWorksheets/MissionPlanningRiskAssessment";
 import MissionFlowNav from "@/components/navigation/MissionFlowNav";
@@ -6,8 +8,8 @@ import DayOfMissionRiskAssessment from "@/components/constructedWorksheets/DayOf
 import PersonalRiskAssessment from "@/components/constructedWorksheets/PersonalRiskAssessment";
 import PilotProficiencyRiskAssessment from "@/components/constructedWorksheets/PilotProficiencyRiskAssessment";
 import ProcessFlow from "@/components/constructedWorksheets/ProcessFlow";
-import ClassificationBar from "@/components/utility/ClassificationBar";
 import ClassificationContainer from "@/components/utility/ClassificationContainer";
+import CrewList from "@/components/constructedWorksheets/CrewList";
 
 export default async function AppMissionSlugPage({params}) {
 
@@ -28,15 +30,15 @@ export default async function AppMissionSlugPage({params}) {
                     acNameIdNumber={acNameIdNumber}
                 />)
             case 'pilot':
-                return (<PilotProficiencyRiskAssessment/>)
+                return (<PilotProficiencyRiskAssessment />)
             case 'execution':
-                return (<DayOfMissionRiskAssessment/>)
+                return (<DayOfMissionRiskAssessment />)
             case 'personal':
-                return (<PersonalRiskAssessment/>)
+                return (<PersonalRiskAssessment />)
             case 'crewlist':
-                return (<Typography>Crew list</Typography>)
+                return (<CrewList />)
             default:
-                return (<ProcessFlow/>)
+                return (<ProcessFlow />)
         }
     }
 
