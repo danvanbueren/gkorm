@@ -1,36 +1,26 @@
 'use client';
 
-import {Box, Button, Grid, Typography} from "@mui/material";
-import NavHeader from "@/components/navigation/NavHeader";
-import ClassificationContainer from "@/components/utility/ClassificationContainer";
+import LandingPage from "@/components/pages/LandingPage";
+import {useSpaRouter} from "@/context/SpaRouter";
+import MissionPage from "@/components/pages/MissionPage";
 
 export default function AppPage() {
 
+    const {currentPath} = useSpaRouter();
+
+    const routeContent = {
+        '/': <LandingPage/>,
+        '/mission/x': <MissionPage/>,
+        '/mission/x/planning': <MissionPage requestedView={'planning'}/>,
+        '/mission/x/pilot': <MissionPage requestedView={'pilot'}/>,
+        '/mission/x/execution': <MissionPage requestedView={'execution'}/>,
+        '/mission/x/personal': <MissionPage requestedView={'personal'}/>,
+        '/mission/x/crewlist': <MissionPage requestedView={'crewlist'}/>,
+    }
+
     return (
-        <div>
-            <main>
-                <ClassificationContainer>
-                    <Box height={'10dvh'}>
-                        <NavHeader/>
-                    </Box>
-                    <Grid container spacing={2} width={'100%'} height={'85dvh'}>
-                        <Grid size={{xs: 12, lg: 9}}>
-                            <Box
-                                sx={{
-                                    maxHeight: '80dvh', overflow: 'auto', padding: '1rem',
-                                    display: 'block',
-                                }}
-                            >
-                                <Typography variant='h1'>Dashboard</Typography>
-                                <Button variant='h3'>Awaiting your approval</Button>
-                                <Button variant='h3'>Managed by you</Button>
-                                <Button variant='h3'>Relevant to you</Button>
-                                <Button variant='h3'>Older</Button>
-                            </Box>
-                        </Grid>
-                    </Grid>
-                </ClassificationContainer>
-            </main>
-        </div>
+        <>
+            {routeContent[currentPath]}
+        </>
     );
 }

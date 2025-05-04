@@ -6,8 +6,11 @@ import {Brightness4, Brightness7} from '@mui/icons-material';
 import {useTheme} from "@mui/material";
 import {useColorMode} from "@/context/ThemeContext";
 import nextConfig from "@/next.config.mjs";
+import {useSpaRouter} from "@/context/SpaRouter";
 
 export default function NavHeader({user = {name: 'Undefined Session'}}) {
+
+    const {navigate} = useSpaRouter();
 
     const theme = useTheme();
     const colorMode = useColorMode();
@@ -43,11 +46,11 @@ export default function NavHeader({user = {name: 'Undefined Session'}}) {
                         }}
                     >
                         {/* Logo or Title */}
-                        <Typography
-                            variant="h6"
+                        <Button
+                            size="large"
                             noWrap
                             component="a"
-                            href={nextConfig.basePath + "/"}
+                            onClick={() => navigate('/')}
                             sx={{
                                 mr: 2,
                                 display: 'flex',
@@ -59,14 +62,14 @@ export default function NavHeader({user = {name: 'Undefined Session'}}) {
                             }}
                         >
                             gkorm
-                        </Typography>
+                        </Button>
 
                         <Box sx={{display: 'flex', alignItems: 'center', gap: 1}}>
                             {/* Links */}
                             <Box sx={{display: 'flex', gap: 2}}>
-                                <Button color="inherit" href={nextConfig.basePath + "/mission/example"}>Example
+                                <Button color="inherit" onClick={() => navigate('/mission/x')}>Example
                                     Mission</Button>
-                                <Button color="inherit" href="/" disabled>Missions</Button>
+                                <Button color="inherit" onClick={() => navigate('/')} disabled>Missions</Button>
                             </Box>
 
                             {/* Right: Theme toggle + user info */}
