@@ -56,7 +56,7 @@ export default function ThemeContextProvider({children}) {
                 borderColor: mode === 'dark' ? '#1c1c1c' : '#333',
                 headingBackground: mode === 'dark' ? '#424242' : '#bdbdbd',
                 signatureBackground: mode === 'dark' ? '#2c2c2c' : '#dfdfdf',
-                salmonBackground: mode === 'dark' ? '#ca958a' : '#d8998c',
+                salmonBackground: mode === 'dark' ? '#97665d' : '#d8998c',
                 defaultTextColor: mode === 'dark' ? '#fff' : '#000',
                 infoBackground: mode === 'dark' ? '#252525' : '#dfdfdf',
                 clickableBackground: mode === 'dark' ? '#c9d8ff' : '#c9d8ff',
