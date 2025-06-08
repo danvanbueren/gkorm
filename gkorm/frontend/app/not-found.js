@@ -26,7 +26,7 @@ export default function NotFound() {
             </Typography>
 
             <Button component={Link} href="/" variant="contained">
-                Go Home
+                Go Back
             </Button>
         </Box>
     );
