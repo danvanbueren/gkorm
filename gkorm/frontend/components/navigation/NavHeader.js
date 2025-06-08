@@ -48,7 +48,7 @@ export default function NavHeader({user = {name: 'Undefined Session'}}) {
                         {/* Logo or Title */}
                         <Button
                             size="large"
-                            noWrap
+                            nowrap="true"
                             component="a"
                             onClick={() => navigate('/')}
                             sx={{
