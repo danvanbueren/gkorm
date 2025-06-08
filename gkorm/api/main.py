@@ -1,11 +1,10 @@
-"""API entrypoint and initialization."""
+"""API entrypoint and route initialization."""
 
 # TODO: When deploying production build, remove localhost from origins array
 
 import uvicorn
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy.orm import Session
 
 from app.config_database import engine, get_db
 from app.database_models import Base
