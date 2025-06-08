@@ -1,5 +1,5 @@
 """Mission routes"""
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from app.config_database import get_db
 from app.database_models import MissionsTable
@@ -16,8 +16,18 @@ router = APIRouter()
     response_description="Returns all missions as an array."
     )
 def get_all(db: Session = Depends(get_db)):
-    response = db.query(MissionsTable).all()
-    return [mission for mission in response]
+    try:
+        response = db.query(MissionsTable).all()
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'Missions successfully retrieved',
+            "content": [mission for mission in response]
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e)
+        }
 
 @router.post(
     "/add",
@@ -41,13 +51,24 @@ def get_all(db: Session = Depends(get_db)):
 def add(
         owner_id: int,
         mission_number: str = Depends(validate_mission_number),
-        db: Session = Depends(get_db)):
-    formatted_mission_number = validate_mission_number(mission_number)
-    new_mission = MissionsTable(
-        mission_number=formatted_mission_number,
-        FKEY_users_TABLE_owner_id=owner_id
-    )
-    db.add(new_mission)
-    db.commit()
-    db.refresh(new_mission)
-    return {"new_mission": new_mission}
+        db: Session = Depends(get_db)
+):
+    try:
+        formatted_mission_number = validate_mission_number(mission_number)
+        new_mission = MissionsTable(
+            mission_number=formatted_mission_number,
+            FKEY_users_TABLE_owner_id=owner_id
+        )
+        db.add(new_mission)
+        db.commit()
+        db.refresh(new_mission)
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'Mission successfully added',
+            "content": new_mission
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e)
+        }
