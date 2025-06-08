@@ -10,6 +10,7 @@ router = APIRouter()
 @router.get(
     "/get",
     summary="Get all missions",
+    tags=["Missions"],
     description="""
     Returns all missions as an array.
     """,
@@ -17,11 +18,44 @@ router = APIRouter()
     )
 def get_all(db: Session = Depends(get_db)):
     try:
-        response = db.query(MissionsTable).all()
+        response = db.query(MissionsTable)
+        if not response.first():
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'No missions found'
+            }
         return {
             "status": status.HTTP_200_OK,
             "message": 'Missions successfully retrieved',
-            "content": [mission for mission in response]
+            "content": [mission for mission in response.all()]
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e)
+        }
+
+@router.get(
+    "/get/{pkey_id}",
+    summary="Get mission by id",
+    tags=["Missions"],
+    description="""
+    Returns the mission with the specified id.
+    """,
+    response_description="Returns the mission with the specified id."
+    )
+def get_by_id(pkey_id: int, db: Session = Depends(get_db)):
+    try:
+        response = db.query(MissionsTable).filter(MissionsTable.PKEY_id == pkey_id).first()
+        if not response:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'Mission not found'
+            }
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'Mission successfully retrieved',
+            "content": response
         }
     except Exception as e:
         return {
@@ -32,6 +66,7 @@ def get_all(db: Session = Depends(get_db)):
 @router.post(
     "/add",
     summary="Add new mission",
+    tags=["Missions"],
     description="""
     Add a new mission to the `MissionsTable` in the database.
 
@@ -66,6 +101,35 @@ def add(
             "status": status.HTTP_200_OK,
             "message": 'Mission successfully added',
             "content": new_mission
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e)
+        }
+
+@router.delete(
+    "/delete/{pkey_id}",
+    summary="Delete mission by id",
+    tags=["Missions"],
+    description="""
+        Deletes a mission from the database based on its id.
+        """,
+    response_description="Returns status of delete request."
+)
+def delete_by_id(pkey_id: int, db: Session = Depends(get_db)):
+    try:
+        response = db.query(MissionsTable).filter(MissionsTable.PKEY_id == pkey_id).first()
+        if not response:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'Mission with pkey_id: ' + str(pkey_id) + ' not found'
+            }
+        db.delete(response)
+        db.commit()
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'Mission with pkey_id: ' + str(pkey_id) + ' successfully deleted'
         }
     except Exception as e:
         return {
