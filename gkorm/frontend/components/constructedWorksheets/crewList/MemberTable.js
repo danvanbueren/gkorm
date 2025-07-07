@@ -53,10 +53,10 @@ function Row(props) {
                 <TableCell component="th" scope="row">
                     {row.name}
                 </TableCell>
-                <TableCell align="right">{row.displayName}</TableCell>
-                <TableCell align="right">{row.displayName}</TableCell>
-                <TableCell align="right">{row.displayName}</TableCell>
-                <TableCell align="right">{row.displayName}</TableCell>
+                <TableCell>{row.displayName}</TableCell>
+                <TableCell align="right">1</TableCell>
+                <TableCell align="right">2</TableCell>
+                <TableCell align="right">3</TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -68,25 +68,14 @@ function Row(props) {
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Date</TableCell>
-                                        <TableCell>Customer</TableCell>
-                                        <TableCell align="right">Amount</TableCell>
-                                        <TableCell align="right">Total price ($)</TableCell>
+                                        <TableCell>x</TableCell>
+                                        <TableCell>x</TableCell>
+                                        <TableCell align="right">x</TableCell>
+                                        <TableCell align="right">x</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {row.personalRiskAssessment.map((riskRow) => (
-                                        <TableRow key={riskRow.id}>
-                                            <TableCell component="th" scope="row">
-                                                {historyRow.date}
-                                            </TableCell>
-                                            <TableCell>{historyRow.customerId}</TableCell>
-                                            <TableCell align="right">{historyRow.amount}</TableCell>
-                                            <TableCell align="right">
-                                                {Math.round(historyRow.amount * row.price * 100) / 100}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
+                                    x
                                 </TableBody>
                             </Table>
                         </Box>
@@ -134,8 +123,8 @@ export default function MemberTable() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <Row key={row.name} row={row} />
+                    {rows.map((row, index) => (
+                        <Row key={index} row={row} />
                     ))}
                 </TableBody>
             </Table>
