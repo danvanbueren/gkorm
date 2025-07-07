@@ -13,6 +13,15 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied';
+import NoteAltIcon from '@mui/icons-material/NoteAlt';
+import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SchoolIcon from '@mui/icons-material/School';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
+import {Tooltip} from "@mui/material";
 
 function createRowData(rank, givenName, familyName, crewPosition, crewPositionModifiers, status, personalRiskAssessment = null) {
     let displayName = rank + ' ' + givenName + ' ' + familyName;
@@ -50,34 +59,69 @@ function Row(props) {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell>
-                <TableCell component="th" scope="row">
-                    {row.name}
-                </TableCell>
                 <TableCell>{row.displayName}</TableCell>
-                <TableCell align="right">1</TableCell>
-                <TableCell align="right">2</TableCell>
-                <TableCell align="right">3</TableCell>
+                <TableCell>{row.displayCrewPosition}</TableCell>
+                <TableCell>{row.status}</TableCell>
+                <TableCell align="right">
+                    {
+                        <>
+                            { row.displayCrewPosition === 'pilot' &&
+                                <Tooltip title="Mission Planning - Overall">
+                                    <IconButton>
+                                        <NoteAltIcon sx={{ color: 'error.main' }}/>
+                                    </IconButton>
+                                </Tooltip>
+                            }
+
+                            { row.displayCrewPosition === 'pilot' &&
+                                <Tooltip title="Mission Planning - Pilot Proficiency">
+                                    <IconButton>
+                                        <SchoolIcon sx={{ color: 'error.main' }}/>
+                                    </IconButton>
+                                </Tooltip>
+                            }
+
+                            { row.displayCrewPosition === 'pilot' &&
+                                <IconButton disabled={true}>
+                                    <HorizontalRuleIcon sx={{ color: 'text.secondary' }}/>
+                                </IconButton>
+                            }
+
+                            { row.displayCrewPosition === 'pilot' &&
+                                <Tooltip title="Execution - Overall">
+                                    <IconButton>
+                                        <FlightTakeoffIcon sx={{ color: 'error.main' }}/>
+                                    </IconButton>
+                                </Tooltip>
+                            }
+
+                            <Tooltip title="Execution - Personal">
+                                <IconButton>
+                                    <SensorOccupiedIcon sx={{ color: 'error.main' }}/>
+                                </IconButton>
+                            </Tooltip>
+
+
+                            <IconButton disabled={true}>
+                                <HorizontalRuleIcon sx={{ color: 'text.secondary' }}/>
+                            </IconButton>
+
+                            <Tooltip title="Remove crew member">
+                                <IconButton>
+                                    <DeleteIcon/>
+                                </IconButton>
+                            </Tooltip>
+                        </>
+                    }
+                </TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
                             <Typography variant="h6" gutterBottom component="div">
-                                History
+                                Additional info
                             </Typography>
-                            <Table size="small" aria-label="purchases">
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>x</TableCell>
-                                        <TableCell>x</TableCell>
-                                        <TableCell align="right">x</TableCell>
-                                        <TableCell align="right">x</TableCell>
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    x
-                                </TableBody>
-                            </Table>
                         </Box>
                     </Collapse>
                 </TableCell>
@@ -124,7 +168,7 @@ export default function MemberTable() {
                 </TableHead>
                 <TableBody>
                     {rows.map((row, index) => (
-                        <Row key={index} row={row} />
+                        <Row key={index} row={row}/>
                     ))}
                 </TableBody>
             </Table>
