@@ -28,7 +28,7 @@ export default function ProcessFlow({
         }
     }
 
-    const getColor = (status) => {
+    const getPrimaryColor = (status) => {
         switch (status) {
             case 'NOT_STARTED':
                 return 'secondary';
@@ -50,16 +50,16 @@ export default function ProcessFlow({
             <Typography variant='h6' sx={{marginBottom: '1rem'}}>Mission Planning</Typography>
 
             <Box display={'inline-flex'} width={'16rem'} marginBottom={2}>
-                <Button fullWidth startIcon={getIcon(statusMPRA)} color={getColor(statusMPRA)}
-                        variant='outlined' size='large' sx={{height: '4rem'}}>
+                <Button fullWidth startIcon={getIcon(statusMPRA)} color={getPrimaryColor(statusMPRA)}
+                        variant='outlined' size='large' sx={{height: '4rem', background: `${theme.palette.primary.contrastText}`}}>
                     <Typography sx={{width: '100%'}}>Mission Planning</Typography>
                 </Button>
             </Box>
 
             <Box display={'inline-flex'} width={'16rem'} marginBottom={2}>
                 <SubdirectoryArrowRight sx={{alignSelf: 'center', marginBottom: '0.4rem', color: `${theme.palette.grey.A400}`}}/>
-                <Button fullWidth startIcon={getIcon(statusPPRA)} color={getColor(statusPPRA)}
-                        variant='outlined' size='large' sx={{marginLeft: '1rem'}}>
+                <Button fullWidth startIcon={getIcon(statusPPRA)} color={getPrimaryColor(statusPPRA)}
+                        variant='outlined' size='large' sx={{marginLeft: '1rem', background: `${theme.palette.primary.contrastText}`}}>
                     <Typography sx={{width: '100%'}}>Pilot Proficiency</Typography>
                 </Button>
             </Box>
@@ -69,16 +69,16 @@ export default function ProcessFlow({
             <Typography variant='h6' sx={{marginY: '1rem'}}>Execution</Typography>
 
             <Box display={'inline-flex'} width={'16rem'} marginBottom={2}>
-                <Button fullWidth startIcon={getIcon(statusDOMRA)} color={getColor(statusDOMRA)}
-                        variant='outlined' size='large' sx={{height: '4rem'}}>
+                <Button fullWidth startIcon={getIcon(statusDOMRA)} color={getPrimaryColor(statusDOMRA)}
+                        variant='outlined' size='large' sx={{height: '4rem', background: `${theme.palette.primary.contrastText}`}}>
                     <Typography sx={{width: '100%'}}>Day of Mission</Typography>
                 </Button>
             </Box>
 
             <Box display={'inline-flex'} width={'16rem'} marginBottom={2}>
                 <SubdirectoryArrowRight sx={{alignSelf: 'center', marginBottom: '0.4rem', color: `${theme.palette.grey.A400}`}}/>
-                <Button fullWidth startIcon={getIcon(statusPRA)} color={getColor(statusPRA)}
-                        variant='outlined' size='large' sx={{marginLeft: '1rem'}}>
+                <Button fullWidth startIcon={getIcon(statusPRA)} color={getPrimaryColor(statusPRA)}
+                        variant='outlined' size='large' sx={{marginLeft: '1rem', background: `${theme.palette.primary.contrastText}`}}>
                     <Typography sx={{width: '100%'}}>Personal</Typography>
                 </Button>
             </Box>

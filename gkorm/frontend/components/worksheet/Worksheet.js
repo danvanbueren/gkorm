@@ -26,6 +26,7 @@ export default function Worksheet({
                     overflow: 'hidden',
                     border: `4px solid ${theme.palette.custom.borderColor}`,
                     userSelect: 'none',
+                    background: `${theme.palette.custom.worksheetBackgroundColor}`,
                 }}>
 
                 {children}

@@ -61,6 +61,7 @@ export default function ThemeContextProvider({children}) {
                 infoBackground: mode === 'dark' ? '#252525' : '#dfdfdf',
                 clickableBackground: mode === 'dark' ? '#c9d8ff' : '#c9d8ff',
                 clickableBackgroundActive: mode === 'dark' ? '#789fff' : '#789fff',
+                worksheetBackgroundColor: mode === 'dark' ? '#202020' : '#ededed',
 
                 grey: {
                     50: mode === 'dark' ? '#1a1a1a' : '#fafafa',
