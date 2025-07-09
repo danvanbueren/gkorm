@@ -24,9 +24,9 @@ export default function Authenticate() {
 
     return (
         <>
-            {err && <Typography color="error">{err}</Typography>}
+            <Typography variant='h4' sx={{my: '2rem'}}>Welcome to GKORM</Typography>
 
-            <Typography color='error' sx={{ mt: '2rem' }}>No session found!</Typography>
+            <Typography>No session found!</Typography>
             <Typography color='secondary'>Skip UUID token during fetch (DEV)</Typography>
             <Typography>Request manual entry from user</Typography>
 
@@ -46,6 +46,8 @@ export default function Authenticate() {
             </Button>
 
             <Typography>Waiting for user input...</Typography>
+
+            {err && <Typography color="error" sx={{ mt: '2rem' }}>{err}</Typography>}
 
         </>
     );
