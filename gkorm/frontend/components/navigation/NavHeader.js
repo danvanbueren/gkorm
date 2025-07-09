@@ -5,13 +5,13 @@ import {AppBar, Toolbar, Typography, Box, Button, IconButton, Avatar, Container,
 import {Brightness4, Brightness7} from '@mui/icons-material';
 import {useTheme} from "@mui/material";
 import {useColorMode} from "@/context/ThemeContext";
-import nextConfig from "@/next.config.mjs";
 import {useSpaRouter} from "@/context/SpaRouter";
+import {useAuth} from "@/context/AuthContext";
 
-export default function NavHeader({user = {name: 'Undefined Session'}}) {
+export default function NavHeader() {
 
     const {navigate} = useSpaRouter();
-
+    const {session, signOut} = useAuth();
     const theme = useTheme();
     const colorMode = useColorMode();
 
@@ -23,6 +23,14 @@ export default function NavHeader({user = {name: 'Undefined Session'}}) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const destroySession = () => {
+        signOut();
+        handleClose();
+
+    }
+
+
 
     return (
         <Box sx={{padding: '1rem'}}>
@@ -99,7 +107,7 @@ export default function NavHeader({user = {name: 'Undefined Session'}}) {
                                         width: 32, height: 32
                                     }}
                                 >
-                                    {user.name[0]}
+                                    {session.user.id[0]}
                                 </Avatar>
 
                                 <Typography
@@ -109,7 +117,7 @@ export default function NavHeader({user = {name: 'Undefined Session'}}) {
                                         color: 'inherit',
                                     }}
                                 >
-                                    {user.name}
+                                    {session.user.id}
                                 </Typography>
 
                             </IconButton>
@@ -125,9 +133,7 @@ export default function NavHeader({user = {name: 'Undefined Session'}}) {
                                     },
                                 }}
                             >
-                                <MenuItem onClick={handleClose}>Options1</MenuItem>
-                                <MenuItem onClick={handleClose}>Options2</MenuItem>
-                                <MenuItem onClick={handleClose}>Options3</MenuItem>
+                                <MenuItem onClick={destroySession}>Destroy Session</MenuItem>
                             </Menu>
                         </Box>
                     </Toolbar>

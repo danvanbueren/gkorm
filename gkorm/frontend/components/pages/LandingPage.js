@@ -2,11 +2,12 @@
 
 import {Box, Button, Grid, Typography} from "@mui/material";
 import NavHeader from "@/components/navigation/NavHeader";
+import {RequireAuth} from "@/components/utility/RequireAuth";
 
 export default function LandingPage() {
 
     return (
-        <>
+        <RequireAuth>
             <Box height={'10dvh'}>
                 <NavHeader/>
             </Box>
@@ -25,6 +26,6 @@ export default function LandingPage() {
                     </Box>
                 </Grid>
             </Grid>
-        </>
+        </RequireAuth>
     );
 }

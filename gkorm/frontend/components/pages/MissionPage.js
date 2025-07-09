@@ -9,6 +9,7 @@ import PersonalRiskAssessment from "@/components/constructedWorksheets/PersonalR
 import PilotProficiencyRiskAssessment from "@/components/constructedWorksheets/PilotProficiencyRiskAssessment";
 import ProcessFlow from "@/components/constructedWorksheets/ProcessFlow";
 import CrewList from "@/components/constructedWorksheets/CrewList";
+import {RequireAuth} from "@/components/utility/RequireAuth";
 
 export default function MissionPage({requestedView}) {
 
@@ -38,7 +39,7 @@ export default function MissionPage({requestedView}) {
     }
 
     return (
-        <>
+        <RequireAuth>
             <Box height={'10dvh'}>
                 <NavHeader/>
             </Box>
@@ -68,6 +69,6 @@ export default function MissionPage({requestedView}) {
                     </Box>
                 </Grid>
             </Grid>
-        </>
+        </RequireAuth>
     );
 }

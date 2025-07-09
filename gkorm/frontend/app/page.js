@@ -3,6 +3,8 @@
 import LandingPage from "@/components/pages/LandingPage";
 import {useSpaRouter} from "@/context/SpaRouter";
 import MissionPage from "@/components/pages/MissionPage";
+import {AuthProvider} from "@/context/AuthContext";
+import Authenticate from "@/components/pages/Authenticate";
 
 export default function AppPage() {
 
@@ -16,11 +18,12 @@ export default function AppPage() {
         '/mission/x/execution': <MissionPage requestedView={'execution'}/>,
         '/mission/x/personal': <MissionPage requestedView={'personal'}/>,
         '/mission/x/crewlist': <MissionPage requestedView={'crewlist'}/>,
+        '/authenticate': <Authenticate/>
     }
 
     return (
-        <>
+        <AuthProvider>
             {routeContent[currentPath]}
-        </>
+        </AuthProvider>
     );
 }
