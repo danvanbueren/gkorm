@@ -24,7 +24,7 @@ export default function RootLayout({children}) {
             <ThemeContextProvider>
                 <main>
                     <div suppressHydrationWarning>
-                        <ClassificationContainer>
+                        <ClassificationContainer classificationText='INDEV'>
                             {children}
                         </ClassificationContainer>
                     </div>
