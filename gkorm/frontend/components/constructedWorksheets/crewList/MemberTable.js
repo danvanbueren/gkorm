@@ -48,7 +48,7 @@ function Row(props) {
     const [open, setOpen] = React.useState(false);
 
     return (
-        <React.Fragment>
+        <>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
                 <TableCell>
                     <IconButton
@@ -65,7 +65,7 @@ function Row(props) {
                 <TableCell align="right">
                     {
                         <>
-                            { row.displayCrewPosition === 'pilot' &&
+                            { row.displayCrewPosition.trim() === 'pilot' &&
                                 <Tooltip title="Mission Planning - Overall">
                                     <IconButton>
                                         <NoteAltIcon sx={{ color: 'error.main' }}/>
@@ -73,7 +73,7 @@ function Row(props) {
                                 </Tooltip>
                             }
 
-                            { row.displayCrewPosition === 'pilot' &&
+                            { row.displayCrewPosition.trim() === 'pilot' &&
                                 <Tooltip title="Mission Planning - Pilot Proficiency">
                                     <IconButton>
                                         <SchoolIcon sx={{ color: 'error.main' }}/>
@@ -81,13 +81,13 @@ function Row(props) {
                                 </Tooltip>
                             }
 
-                            { row.displayCrewPosition === 'pilot' &&
+                            { row.displayCrewPosition.trim() === 'pilot' &&
                                 <IconButton disabled={true}>
                                     <HorizontalRuleIcon sx={{ color: 'text.secondary' }}/>
                                 </IconButton>
                             }
 
-                            { row.displayCrewPosition === 'pilot' &&
+                            { row.displayCrewPosition.trim() === 'pilot' &&
                                 <Tooltip title="Execution - Overall">
                                     <IconButton>
                                         <FlightTakeoffIcon sx={{ color: 'error.main' }}/>
@@ -126,7 +126,7 @@ function Row(props) {
                     </Collapse>
                 </TableCell>
             </TableRow>
-        </React.Fragment>
+        </>
     );
 }
 
