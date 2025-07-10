@@ -6,21 +6,18 @@ import WorksheetRowQuestion from "@/components/worksheet/WorksheetRowQuestion";
 import Worksheet from "@/components/worksheet/Worksheet";
 import WorksheetRowSignature from "@/components/worksheet/WorksheetRowSignature";
 
-export default function MissionPlanningRiskAssessment({
-                                                                   theme = useTheme(),
-                                                                   missionNumber = '',
-                                                                   missionDate = '',
-                                                                   acNameIdNumber = '',
-                                                               }) {
+export default function MissionPlanningRiskAssessment({theme = useTheme(), ...props}) {
 
     const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+
+
 
     return (
         <Worksheet title="Mission Planning Risk Assessment Worksheet">
             <WorksheetRowInfo
-                missionNumber={missionNumber}
-                missionDate={missionDate}
-                acNameIdNumber={acNameIdNumber}
+                missionNumber={props.missionData.number}
+                missionDate={props.missionData.date}
+                acNameIdNumber={props.missionData.acNameIdNumber}
             />
 
             {isMdUp ?

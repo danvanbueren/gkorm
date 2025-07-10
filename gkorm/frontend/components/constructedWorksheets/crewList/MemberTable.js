@@ -16,18 +16,22 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SchoolIcon from '@mui/icons-material/School';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 import {Tooltip} from "@mui/material";
+import {useSpaRouter} from "@/context/SpaRouter";
 
 function createRowData(rank, givenName, familyName, crewPosition, crewPositionModifiers, status, personalRiskAssessment = null) {
     let displayName = rank + ' ' + givenName + ' ' + familyName;
     let displayCrewPosition = crewPosition + ' ' + crewPositionModifiers;
 
     return {
+        rank,
+        givenName,
+        familyName,
+        crewPosition,
+        crewPositionModifiers,
         displayName,
         displayCrewPosition,
         status,
@@ -44,8 +48,11 @@ function createRowData(rank, givenName, familyName, crewPosition, crewPositionMo
 }
 
 function Row(props) {
-    const { row } = props;
+    const {row} = props;
+    const {navigate} = useSpaRouter();
     const [open, setOpen] = React.useState(false);
+
+    let missionNumber = props.missionNumber;
 
     return (
         <>
@@ -65,38 +72,38 @@ function Row(props) {
                 <TableCell align="right">
                     {
                         <>
-                            { row.displayCrewPosition.trim() === 'pilot' &&
+                            { row.crewPosition === 'pilot' &&
                                 <Tooltip title="Mission Planning - Overall">
-                                    <IconButton>
-                                        <NoteAltIcon sx={{ color: 'error.main' }}/>
+                                    <IconButton onClick={() => navigate('/mission/' + missionNumber + '/planning')}>
+                                        <NoteAltIcon sx={{ color: 'success.main' }}/>
                                     </IconButton>
                                 </Tooltip>
                             }
 
-                            { row.displayCrewPosition.trim() === 'pilot' &&
+                            { row.crewPosition === 'pilot' &&
                                 <Tooltip title="Mission Planning - Pilot Proficiency">
-                                    <IconButton>
-                                        <SchoolIcon sx={{ color: 'error.main' }}/>
+                                    <IconButton onClick={() => navigate('/mission/' + missionNumber + '/pilot')}>
+                                        <SchoolIcon sx={{ color: 'success.main' }}/>
                                     </IconButton>
                                 </Tooltip>
                             }
 
-                            { row.displayCrewPosition.trim() === 'pilot' &&
+                            { row.crewPosition === 'pilot' &&
                                 <IconButton disabled={true}>
                                     <HorizontalRuleIcon sx={{ color: 'text.secondary' }}/>
                                 </IconButton>
                             }
 
-                            { row.displayCrewPosition.trim() === 'pilot' &&
+                            { row.crewPosition === 'pilot' &&
                                 <Tooltip title="Execution - Overall">
-                                    <IconButton>
-                                        <FlightTakeoffIcon sx={{ color: 'error.main' }}/>
+                                    <IconButton onClick={() => navigate('/mission/' + missionNumber + '/execution')}>
+                                        <FlightTakeoffIcon sx={{ color: 'warning.main' }}/>
                                     </IconButton>
                                 </Tooltip>
                             }
 
                             <Tooltip title="Execution - Personal">
-                                <IconButton>
+                                <IconButton onClick={() => navigate('/mission/' + missionNumber + '/personal')}>
                                     <SensorOccupiedIcon sx={{ color: 'error.main' }}/>
                                 </IconButton>
                             </Tooltip>
@@ -130,30 +137,13 @@ function Row(props) {
     );
 }
 
-Row.propTypes = {
-    row: PropTypes.shape({
-        calories: PropTypes.number.isRequired,
-        carbs: PropTypes.number.isRequired,
-        fat: PropTypes.number.isRequired,
-        history: PropTypes.arrayOf(
-            PropTypes.shape({
-                amount: PropTypes.number.isRequired,
-                customerId: PropTypes.string.isRequired,
-                date: PropTypes.string.isRequired,
-            }),
-        ).isRequired,
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        protein: PropTypes.number.isRequired,
-    }).isRequired,
-};
+export default function MemberTable(props) {
 
-const rows = [
-    createRowData('OF-1', 'John', 'Doe', 'pilot', '', 'complete', {id: 1, q1: 1, q2: 2, q3: 3, q4: 4}),
-    createRowData('OF-3', 'Jane', 'Smith', 'system_technician', '', 'incomplete', {id: 2, q1: 1, q2: 2, q3: 3, q4: 4}),
-];
+    const rows = [
+        createRowData('OF-1', 'John', 'Doe', 'pilot', '', 'complete', {id: 1, q1: 1, q2: 2, q3: 3, q4: 4}),
+        createRowData('OF-3', 'Jane', 'Smith', 'system_technician', '', 'incomplete', {id: 2, q1: 1, q2: 2, q3: 3, q4: 4}),
+    ];
 
-export default function MemberTable() {
     return (
         <TableContainer component={Paper} sx={{borderRadius: '1rem'}}>
             <Table>
@@ -168,7 +158,7 @@ export default function MemberTable() {
                 </TableHead>
                 <TableBody>
                     {rows.map((row, index) => (
-                        <Row key={index} row={row}/>
+                        <Row key={index} row={row} missionNumber={props.missionNumber}/>
                     ))}
                 </TableBody>
             </Table>

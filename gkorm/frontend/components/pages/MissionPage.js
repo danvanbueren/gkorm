@@ -13,26 +13,24 @@ import {RequireAuth} from "@/components/utility/RequireAuth";
 
 export default function MissionPage({requestedView}) {
 
-    const missionNumber = 'AJ1234M';
-    const missionDate = '12-Nov-25';
-    const acNameIdNumber = 'OF-3 John Doe, 012345'
+    const missionData = {
+        number: 'AJ1234M',
+        date: '12-Nov-25',
+        acNameIdNumber: 'OF-3 John Doe, 012345'
+    }
 
     const currentView = () => {
         switch (requestedView) {
             case 'planning':
-                return (<MissionPlanningRiskAssessment
-                    missionNumber={missionNumber}
-                    missionDate={missionDate}
-                    acNameIdNumber={acNameIdNumber}
-                />)
+                return (<MissionPlanningRiskAssessment missionData={missionData}/>)
             case 'pilot':
-                return (<PilotProficiencyRiskAssessment/>)
+                return (<PilotProficiencyRiskAssessment missionData={missionData}/>)
             case 'execution':
-                return (<DayOfMissionRiskAssessment/>)
+                return (<DayOfMissionRiskAssessment missionData={missionData}/>)
             case 'personal':
-                return (<PersonalRiskAssessment/>)
+                return (<PersonalRiskAssessment missionData={missionData}/>)
             case 'crewlist':
-                return (<CrewList/>)
+                return (<CrewList missionData={missionData} />)
             default:
                 return (<ProcessFlow/>)
         }
@@ -53,8 +51,8 @@ export default function MissionPage({requestedView}) {
                         }}
                     >
                         <MissionFlowNav
-                            missionNumber={missionNumber}
-                            acNameIdNumber={acNameIdNumber}
+                            missionNumber={missionData.number}
+                            acNameIdNumber={missionData.acNameIdNumber}
                             currentView={requestedView}
                         />
                     </Box>
