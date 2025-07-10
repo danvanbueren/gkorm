@@ -1,16 +1,21 @@
 import * as React from "react";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 
 export default function SearchMember() {
 
-    const [rankFilter, setRankFilter] = React.useState('');
+    const [rankFilter, setRankFilter] = useState('');
+    const [givenName, setGivenName] = useState('');
+    const [familyName, setFamilyName] = useState('');
+    const [amisId, setAmisId] = useState('');
 
+    const amisIdValid = amisId && /^[0-9]+$/.test(amisId);
+    const allFieldsFilled = rankFilter && givenName && familyName && amisIdValid;
+
+    // Reset rank filter on ignore
     useEffect(() => {
-        console.log('useEffect ran with rankFilter: ' + rankFilter)
         if (rankFilter === 'IGNORE') {
-            console.log('useEffect met condition 0')
             setRankFilter('')
 
             const activeElement = document.activeElement
@@ -78,6 +83,8 @@ export default function SearchMember() {
                         label="Given Name"
                         variant="standard"
                         fullWidth
+                        value={givenName}
+                        onChange={e => setGivenName(e.target.value)}
                     />
                 </Grid>
 
@@ -86,6 +93,8 @@ export default function SearchMember() {
                         label="Family Name"
                         variant="standard"
                         fullWidth
+                        value={familyName}
+                        onChange={e => setFamilyName(e.target.value)}
                     />
                 </Grid>
 
@@ -94,6 +103,8 @@ export default function SearchMember() {
                         label="AMIS ID"
                         variant="standard"
                         fullWidth
+                        value={amisId}
+                        onChange={e => setAmisId(e.target.value)}
                     />
                 </Grid>
 
@@ -105,6 +116,7 @@ export default function SearchMember() {
                             height: '2rem',
                             marginTop: '1rem',
                         }}
+                        disabled={!allFieldsFilled}
                     >
                         Add Member
                     </Button>
