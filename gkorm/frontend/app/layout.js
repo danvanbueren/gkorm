@@ -12,6 +12,14 @@ export const metadata = {
     title: "gkorm", description: "gkorm",
 };
 
+function SafeHydrate({ children }) {
+    return (
+        <div suppressHydrationWarning>
+            {children}
+        </div>
+    )
+}
+
 export default function RootLayout({children}) {
     return (
         <html lang="en">
@@ -20,17 +28,19 @@ export default function RootLayout({children}) {
             <title>gkorm</title>
         </head>
         <body style={{fontFamily: 'Roboto, sans-serif'}}>
-        <SpaRouterProvider>
-            <ThemeContextProvider>
-                <main>
-                    <div suppressHydrationWarning>
-                        <ClassificationContainer classificationText='INDEV'>
-                            {children}
-                        </ClassificationContainer>
-                    </div>
-                </main>
-            </ThemeContextProvider>
-        </SpaRouterProvider>
+        <SafeHydrate>
+            <SpaRouterProvider>
+                <ThemeContextProvider>
+                    <main>
+                        <div suppressHydrationWarning>
+                            <ClassificationContainer classificationText='INDEV'>
+                                {children}
+                            </ClassificationContainer>
+                        </div>
+                    </main>
+                </ThemeContextProvider>
+            </SpaRouterProvider>
+        </SafeHydrate>
         </body>
         </html>
     );
