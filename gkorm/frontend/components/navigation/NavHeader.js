@@ -133,6 +133,7 @@ export default function NavHeader() {
                                     },
                                 }}
                             >
+                                <MenuItem onClick={() => {navigate('/profile')}}>Profile</MenuItem>
                                 <MenuItem onClick={destroySession}>Destroy Session</MenuItem>
                             </Menu>
                         </Box>
