@@ -3,6 +3,7 @@
 import {Box, Button, Grid, Typography} from "@mui/material";
 import NavHeader from "@/components/navigation/NavHeader";
 import {RequireAuth} from "@/components/utility/RequireAuth";
+import BaselineStatus from "@/api/status_baseline";
 
 export default function LandingPage() {
 
@@ -23,6 +24,8 @@ export default function LandingPage() {
                         <Button variant='h3'>Managed by you</Button>
                         <Button variant='h3'>Relevant to you</Button>
                         <Button variant='h3'>Older</Button>
+
+                        <BaselineStatus/>
                     </Box>
                 </Grid>
             </Grid>
