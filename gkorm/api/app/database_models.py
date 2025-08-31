@@ -27,11 +27,13 @@ class CrewPositionModifiers(enum.Enum):
     EVALUATOR = "evaluator"
     INSTRUCTOR = "instructor"
     LINK = "link"
+    BASIC = "basic"
 
 class Units(enum.Enum):
     FLYING_SQUADRON_1 = "flying_squadron_1"
     FLYING_SQUADRON_2 = "flying_squadron_2"
     AIRCREW_TRAINING_SQUADRON = "aircrew_training_squadron"
+    UNASSIGNED = "unassigned"
 
 class GlobalPermissions(enum.Enum):
     BASIC = "basic"
@@ -60,11 +62,11 @@ class BaseModel(Base):
 class UsersTable(BaseModel):
     __tablename__ = "users_table"
     amis_id = Column(Integer, unique=True, index=True, nullable=False)
-    given_name = Column(String(255), nullable=False)
-    family_name = Column(String(255), nullable=False)
+    given_name = Column(String(255), nullable=True)
+    family_name = Column(String(255), nullable=True)
     crew_position = Column(Enum(CrewPositions), default=CrewPositions.UNQUALIFIED, nullable=False)
-    crew_position_modifier = Column(Enum(CrewPositionModifiers))
-    assigned_unit = Column(Enum(Units))
+    crew_position_modifier = Column(Enum(CrewPositionModifiers), default=CrewPositionModifiers.BASIC, nullable=False)
+    assigned_unit = Column(Enum(Units), default=Units.UNASSIGNED, nullable=False)
 
 class UserPermissionsTable(BaseModel):
     __tablename__ = "user_permissions_table"
