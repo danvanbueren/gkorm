@@ -17,20 +17,20 @@ export default function NavHeader() {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
 
     const destroySession = () => {
-        signOut();
         handleClose();
-
+        signOut();
+        navigate('/authenticate');
     }
-
-
 
     return (
         <Box sx={{padding: '1rem'}}>
@@ -88,9 +88,6 @@ export default function NavHeader() {
 
                             <IconButton
                                 id="basic-button"
-                                aria-controls={open ? 'basic-menu' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open ? 'true' : undefined}
                                 onClick={handleClick}
                                 sx={{
                                     borderRadius: 4,
@@ -107,7 +104,7 @@ export default function NavHeader() {
                                         width: 32, height: 32
                                     }}
                                 >
-                                    {session.user.id[0]}
+                                    {(session?.user?.id?.[0] || '?').toUpperCase()}
                                 </Avatar>
 
                                 <Typography
@@ -117,7 +114,7 @@ export default function NavHeader() {
                                         color: 'inherit',
                                     }}
                                 >
-                                    {session.user.id}
+                                    {(session?.user?.id ?? 'Guest')}
                                 </Typography>
 
                             </IconButton>
@@ -129,7 +126,7 @@ export default function NavHeader() {
                                 onClose={handleClose}
                                 PaperProps={{
                                     sx: {
-                                        minWidth: anchorEl ? anchorEl.clientWidth : undefined, // match button width
+                                        minWidth: anchorEl ? anchorEl.clientWidth : undefined,
                                     },
                                 }}
                             >

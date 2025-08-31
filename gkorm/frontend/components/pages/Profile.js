@@ -10,13 +10,20 @@ export default function Profile() {
 
     const {session} = useAuth();
 
-    const [givenName, setGivenName] = useState();
-    const [familyName, setFamilyName] = useState();
+    const [givenName, setGivenName] = useState('');
+    const [familyName, setFamilyName] = useState('');
     const [crewPosition, setCrewPosition] = useState('unqualified');
     const [crewPositionModifier, setCrewPositionModifier] = useState('none');
     const [assignedUnit, setAssignedUnit] = useState('none');
 
+    const [firstLoad, setFirstLoad] = useState(true);
+
     useEffect(() => {
+        if(firstLoad) {
+            setFirstLoad(false);
+            return;
+        }
+
         const controller = new AbortController(); // optional: cancel in-flight requests if needed
 
         const timeout = setTimeout(() => {
@@ -70,7 +77,7 @@ export default function Profile() {
                             id="amis-id-input"
                             label="AMIS ID"
                             variant="outlined"
-                            value={session.user.id}
+                            value={session?.user?.id}
                             disabled
                             sx={{my: '0.5rem'}}
                         />
