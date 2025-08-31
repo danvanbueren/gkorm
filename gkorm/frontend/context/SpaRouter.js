@@ -13,9 +13,17 @@ export const useSpaRouter = () => {
 };
 
 export const SpaRouterProvider = ({ children }) => {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const [currentPath, setCurrentPath] = useState('');
 
     useEffect(() => {
+        if (!mounted) return;
+
         const path = window.location.hash.slice(1) || '/';
         setCurrentPath(path);
         const handleHashChange = () => {
@@ -26,10 +34,12 @@ export const SpaRouterProvider = ({ children }) => {
         return () => {
             window.removeEventListener('hashchange', handleHashChange);
         };
-    }, []);
+    }, [mounted]);
 
     // Navigate to a path
     const navigate = (to) => {
+        if (!mounted) return;
+
         window.location.hash = to;
     };
 
