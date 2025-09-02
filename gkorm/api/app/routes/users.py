@@ -38,6 +38,186 @@ def users(db: Session = Depends(get_db)):
             "message": str(e)
         }
 
+
+@router.patch(
+    "/update/given_name/{pkey_id}",
+    summary="Update user's given name",
+    tags=["Users"],
+    description="""
+    Updates a user's given name.
+    """,
+    response_description="Returns the updated user.",
+)
+def update_given_name(
+    pkey_id: int,
+    given_name: Union[str, None] = None,
+    db: Session = Depends(get_db),
+):
+    try:
+        user = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
+        if not user:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'User not found'
+            }
+        user.given_name = given_name
+        db.commit()
+        db.refresh(user)
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'User given name successfully updated',
+            "content": user
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e)
+        }
+
+
+@router.patch(
+    "/update/family_name/{pkey_id}",
+    summary="Update user's family name",
+    tags=["Users"],
+    description="""
+    Updates a user's family name.
+    """,
+    response_description="Returns the updated user.",
+)
+def update_family_name(
+    pkey_id: int,
+    family_name: Union[str, None] = None,
+    db: Session = Depends(get_db),
+):
+    try:
+        user = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
+        if not user:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'User not found'
+            }
+        user.family_name = family_name
+        db.commit()
+        db.refresh(user)
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'User family name successfully updated',
+            "content": user
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e)
+        }
+
+
+@router.patch(
+    "/update/crew_position/{pkey_id}",
+    summary="Update user's crew position",
+    tags=["Users"],
+    description="""
+    Updates a user's crew position.
+    """,
+    response_description="Returns the updated user.",
+)
+def update_crew_position(
+    pkey_id: int,
+    crew_position: Union[CrewPositions, None] = None,
+    db: Session = Depends(get_db),
+):
+    try:
+        user = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
+        if not user:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'User not found'
+            }
+        user.crew_position = crew_position
+        db.commit()
+        db.refresh(user)
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'User crew position successfully updated',
+            "content": user
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e)
+        }
+
+
+@router.patch(
+    "/update/crew_position_modifier/{pkey_id}",
+    summary="Update user's crew position modifier",
+    tags=["Users"],
+    description="""
+    Updates a user's crew position modifier.
+    """,
+    response_description="Returns the updated user.",
+)
+def update_crew_position_modifier(
+    pkey_id: int,
+    crew_position_modifier: Union[CrewPositionModifiers, None] = None,
+    db: Session = Depends(get_db),
+):
+    try:
+        user = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
+        if not user:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'User not found'
+            }
+        user.crew_position_modifier = crew_position_modifier
+        db.commit()
+        db.refresh(user)
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'User crew position modifier successfully updated',
+            "content": user
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e)
+        }
+
+
+@router.patch(
+    "/update/assigned_unit/{pkey_id}",
+    summary="Update user's assigned unit",
+    tags=["Users"],
+    description="""
+    Updates a user's assigned unit.
+    """,
+    response_description="Returns the updated user.",
+)
+def update_assigned_unit(
+    pkey_id: int,
+    assigned_unit: Union[Units, None] = None,
+    db: Session = Depends(get_db),
+):
+    try:
+        user = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
+        if not user:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'User not found'
+            }
+        user.assigned_unit = assigned_unit
+        db.commit()
+        db.refresh(user)
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'User assigned unit successfully updated',
+            "content": user
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e)
+        }
+
 @router.get(
     "/get/{pkey_id}",
     summary="Get user by id",
