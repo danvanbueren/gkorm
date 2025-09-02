@@ -1,66 +1,72 @@
 'use client';
 
-import {Button, TextField, Typography} from "@mui/material";
+import {Alert, Button, TextField, Typography} from "@mui/material";
 import {useAuth} from "@/context/AuthContext";
 import {useState} from "react";
 import {useSpaRouter} from "@/context/SpaRouter";
 import SendIcon from '@mui/icons-material/Send';
+import {RequireAuth} from "@/components/utility/RequireAuth";
 
 export default function Authenticate() {
 
     const {signIn} = useAuth();
     const {navigate} = useSpaRouter();
     const [amisId, setAmisId] = useState('');
-    const [err, setErr] = useState('');
+    const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
-        setErr('')
+        e?.preventDefault();
+        setError('')
         setLoading(true)
-        e.preventDefault();
+
         try {
             await signIn(amisId);
             navigate('/');
         } catch (e) {
-            setErr(e.message);
+            setError(e.message);
         }
         setLoading(false)
     };
 
     return (
-        <>
+        <RequireAuth>
             <Typography variant='h4' sx={{my: '2rem'}}>Welcome to GKORM</Typography>
 
             <Typography>No session found!</Typography>
             <Typography color='secondary'>Skip UUID token during fetch (DEV)</Typography>
             <Typography>Request manual entry from user</Typography>
 
-            <Typography variant='h4' sx={{mt: '2rem'}}>Please enter your AMIS ID to create a session.</Typography>
+            <Typography variant='h4' sx={{mt: '2rem'}}>Login</Typography>
 
-            <TextField
-                id="amis-id-login-token"
-                label="AMIS ID"
-                variant="outlined"
-                sx={{ my: '2rem' }}
-                value={amisId}
-                onChange={(e) => setAmisId(e.target.value)}
-            />
+            <form onSubmit={handleSubmit}>
+                <TextField
+                    id="amis-id-login-token"
+                    label="AMIS ID"
+                    variant="outlined"
+                    sx={{ my: '2rem' }}
+                    value={amisId}
+                    onChange={(e) => setAmisId(e.target.value)}
+                />
 
-            <Button
-                variant="outlined"
-                sx={{ m: '2rem', height: '3.5rem' }}
-                onClick={handleSubmit}
-                endIcon={<SendIcon />}
-                loading={loading}
-                loadingPosition="end"
-            >
-                Create session
-            </Button>
+                <Button
+                    variant="outlined"
+                    sx={{ m: '2rem', height: '3.5rem' }}
+                    type="submit"
+                    endIcon={<SendIcon />}
+                    loading={loading}
+                    loadingPosition="end"
+                    disabled={!amisId}
+                >
+                    Create session
+                </Button>
+            </form>
 
-            <Typography>Waiting for user input...</Typography>
+            {!amisId && <Alert variant="filled" severity="info">Please enter an AMIS ID.</Alert>}
+            {loading && <Alert variant="filled" severity="warning">Loading...</Alert>}
+            {error && <Alert variant="filled" severity="error" onClose={() => {setError('')}}>{error}</Alert>}
+            {(amisId && !error && !loading) && <Alert variant="filled" severity="success">Ready to submit request!</Alert>}
 
-            {err && <Typography color="error" sx={{ mt: '2rem' }}>{err}</Typography>}
-
-        </>
+        </RequireAuth>
     );
 }
