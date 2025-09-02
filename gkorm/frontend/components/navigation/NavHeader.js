@@ -104,7 +104,11 @@ export default function NavHeader() {
                                         width: 32, height: 32
                                     }}
                                 >
-                                    {(session?.user?.id?.[0] || '?').toUpperCase()}
+                                    {
+                                        session?.user?.given_name && session?.user?.family_name
+                                            ? (session?.user?.given_name[0] + session?.user?.family_name[0]).toUpperCase()
+                                            : '?'
+                                    }
                                 </Avatar>
 
                                 <Typography
@@ -114,7 +118,11 @@ export default function NavHeader() {
                                         color: 'inherit',
                                     }}
                                 >
-                                    {(session?.user?.id ?? 'Guest')}
+                                    {
+                                        session?.user?.given_name && session?.user?.family_name
+                                            ? (session?.user?.given_name + ' ' + session?.user?.family_name).toUpperCase()
+                                            : 'New User'
+                                    }
                                 </Typography>
 
                             </IconButton>
