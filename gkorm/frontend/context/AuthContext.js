@@ -5,59 +5,67 @@ const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
     const [session, setSession] = useState(null)
 
+    // Load session from localStorage on mount
     useEffect(() => {
         const raw = localStorage.getItem('session')
         if (raw) setSession(JSON.parse(raw))
     }, []);
 
+    // Save session to localStorage on change
     useEffect(() => {
         if (session) {
             localStorage.setItem('session', JSON.stringify(session))
         } else {
             localStorage.removeItem('session')
         }
+
+        console.log("Session changed:", session)
     }, [session])
 
-    const callAuthApi = (amisId) => {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                if (!amisId) {
-                    reject(new Error('Invalid credentials'))
-                }
+    // API calls
+    const callAuthApi = async (amisId) => {
 
-                fetch('http://localhost:8000/auth/no_crypto/' + amisId, {
-                    method: 'GET',
-                    headers: {
-                        'accept': 'application/json',
-                    },
-                })
-                    .then((response) => {
-                        if (!response.ok) reject(new Error(`HTTP error! Status: ${response.status}`))
-                    })
-                    .then((data) => {
-                        resolve({
-                            user: data.content,
-                            token: 'NO_TOKEN',
-                        })
-                    })
-                    .catch((err) => reject(new Error("Generic fetching error: " + err)))
-            }, 1000)
+        if (!amisId)
+            throw new Error('Invalid credentials')
+
+        const response = await fetch('http://localhost:8000/auth/no_crypto/' + amisId, {
+            method: 'GET',
+            headers: {
+                'accept': 'application/json',
+            },
         })
+
+        if (!response.ok)
+            throw new Error(`HTTP error! Status: ${response.status}`)
+
+        const data = await response.json()
+        console.log("Data:", data.content)
+
+        return {
+            user: data.content,
+            token: 'NO_TOKEN',
+        }
     }
 
+    // Sign in and sign out functions
     const signIn = async (amisId) => {
         const newSession = await callAuthApi(amisId)
         setSession(newSession)
-
-        console.log("New session:", session)
     }
 
     const signOut = () => {
         setSession(null)
     }
 
+    const updateUserData = (newUserData) => {
+        setSession({
+            user: newUserData,
+            token: 'NO_TOKEN',
+        })
+    }
+
     return (
-        <AuthContext.Provider value={{ session, signIn, signOut }}>
+        <AuthContext.Provider value={{ session, signIn, signOut, updateUserData }}>
             {children}
         </AuthContext.Provider>
     )
