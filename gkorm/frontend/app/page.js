@@ -3,7 +3,6 @@
 import LandingPage from "@/components/pages/LandingPage";
 import {useSpaRouter} from "@/context/SpaRouter";
 import MissionPage from "@/components/pages/MissionPage";
-import {AuthProvider} from "@/context/AuthContext";
 import Authenticate from "@/components/pages/Authenticate";
 import Profile from "@/components/pages/Profile";
 import {Box} from "@mui/material";
@@ -97,10 +96,9 @@ export default function AppPage() {
     }
 
     return (
-        <AuthProvider>
-
+        <>
             <Box position='relative'>
-                <Box position='absolute' left='0' top='53rem'>
+                <Box position='absolute' right='0' top='10rem'>
                     <table style={{border: '1px solid yellow', borderCollapse: 'collapse', background: 'black', opacity: 0.5, color: 'yellow'}}>
                         <tbody>
                             <tr style={{border: '1px solid yellow', borderCollapse: 'collapse'}}>
@@ -117,8 +115,7 @@ export default function AppPage() {
                     </table>
                 </Box>
             </Box>
-
             {<ResolvePath/>}
-        </AuthProvider>
+        </>
     );
 }

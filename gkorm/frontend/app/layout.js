@@ -1,3 +1,5 @@
+'use client'
+
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -7,10 +9,7 @@ import '@fontsource/roboto-mono/700.css';
 import ThemeContextProvider from "@/context/ThemeContext";
 import ClassificationContainer from "@/components/utility/ClassificationContainer";
 import {SpaRouterProvider} from "@/context/SpaRouter";
-
-export const metadata = {
-    title: "gkorm", description: "gkorm",
-};
+import {AuthProvider} from "@/context/AuthContext";
 
 function SafeHydrate({ children }) {
     return (
@@ -21,6 +20,7 @@ function SafeHydrate({ children }) {
 }
 
 export default function RootLayout({children}) {
+
     return (
         <html lang="en">
         <head>
@@ -32,11 +32,11 @@ export default function RootLayout({children}) {
             <SpaRouterProvider>
                 <ThemeContextProvider>
                     <main>
-                        <div suppressHydrationWarning>
-                            <ClassificationContainer classificationText='INDEV'>
+                        <ClassificationContainer classificationText='UNCLASSIFIED' textColor="#fff" backgroundColor='#007a33'>
+                            <AuthProvider>
                                 {children}
-                            </ClassificationContainer>
-                        </div>
+                            </AuthProvider>
+                        </ClassificationContainer>
                     </main>
                 </ThemeContextProvider>
             </SpaRouterProvider>
