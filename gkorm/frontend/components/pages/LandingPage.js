@@ -3,7 +3,7 @@
 import {Box, Button, Grid, Typography} from "@mui/material";
 import NavHeader from "@/components/navigation/NavHeader";
 import {RequireAuth} from "@/components/utility/RequireAuth";
-import BaselineStatus from "@/api/status_baseline";
+import BaselineStatus from "@/api/BaselineStatus";
 
 export default function LandingPage() {
 

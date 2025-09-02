@@ -4,15 +4,19 @@ import {Button, TextField, Typography} from "@mui/material";
 import {useAuth} from "@/context/AuthContext";
 import {useState} from "react";
 import {useSpaRouter} from "@/context/SpaRouter";
+import SendIcon from '@mui/icons-material/Send';
 
 export default function Authenticate() {
 
-    const { signIn } = useAuth();
+    const {signIn} = useAuth();
     const {navigate} = useSpaRouter();
     const [amisId, setAmisId] = useState('');
     const [err, setErr] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e) => {
+        setErr('')
+        setLoading(true)
         e.preventDefault();
         try {
             await signIn(amisId);
@@ -20,6 +24,7 @@ export default function Authenticate() {
         } catch (e) {
             setErr(e.message);
         }
+        setLoading(false)
     };
 
     return (
@@ -41,7 +46,14 @@ export default function Authenticate() {
                 onChange={(e) => setAmisId(e.target.value)}
             />
 
-            <Button variant="outlined" sx={{ m: '2rem' }} onClick={handleSubmit}>
+            <Button
+                variant="outlined"
+                sx={{ m: '2rem', height: '3.5rem' }}
+                onClick={handleSubmit}
+                endIcon={<SendIcon />}
+                loading={loading}
+                loadingPosition="end"
+            >
                 Create session
             </Button>
 

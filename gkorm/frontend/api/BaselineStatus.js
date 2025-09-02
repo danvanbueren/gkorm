@@ -24,8 +24,6 @@ export default function BaselineStatus() {
     if (error) return <div>Error: {error}</div>;
     if (!status) return <div>Loading...</div>;
 
-    console.log('Status: ', status);
-
     return (
         <div>
             <pre>Baseline Status</pre>
