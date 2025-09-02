@@ -1,19 +1,26 @@
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import {useAuth} from "@/context/AuthContext";
 import {useSpaRouter} from "@/context/SpaRouter";
 
 export const RequireAuth = ({ children }) => {
-    const { session } = useAuth();
-    const router = useRouter();
-
-    const {navigate} = useSpaRouter();
+    const {session} = useAuth();
+    const {navigate, currentPath} = useSpaRouter();
 
     useEffect(() => {
-        if (!session) {
-            navigate('/authenticate');
+        if (!session && currentPath !== '/authenticate') {
+            navigate('/authenticate')
         }
+
+        if (session && currentPath === '/authenticate')
+            navigate('/');
+
     }, [session]);
 
-    return session ? <>{children}</> : null;
+    if (currentPath === '/authenticate')
+        return children
+
+    if (session)
+        return children
+
+    return null
 };
