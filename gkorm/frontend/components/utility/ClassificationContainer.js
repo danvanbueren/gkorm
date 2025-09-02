@@ -8,6 +8,11 @@ export default function ClassificationContainer({
                                                     backgroundColor = 'grey',
                                                 }) {
 
+    /*
+     * Classification & Control Markings - Astro UXDS
+     * https://www.astrouxds.com/components/classification-markings/
+     */
+
     return (
         <>
             <ClassificationBar
