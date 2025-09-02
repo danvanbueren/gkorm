@@ -77,10 +77,10 @@ def get_user_by_id(pkey_id: int, db: Session = Depends(get_db)):
     )
 def add_user(
         amis_id: int,
-        given_name: str,
-        family_name: str,
-        assigned_unit: Units,
-        crew_position: CrewPositions,
+        given_name: Union[str, None] = None,
+        family_name: Union[str, None] = None,
+        assigned_unit: Union[Units, None] = None,
+        crew_position: Union[CrewPositions, None] = None,
         crew_position_modifier: Union[CrewPositionModifiers, None] = None,
         db: Session = Depends(get_db)
 ):

@@ -4,10 +4,14 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from app.config_database import get_db
-from app.database_models import UsersTable
+from app.database_models import (
+    UsersTable,
+    Units,
+    CrewPositions,
+    CrewPositionModifiers
+)
 
 router = APIRouter()
-
 
 @router.get(
     "/no_crypto/{amis_id}",
@@ -19,7 +23,6 @@ router = APIRouter()
     response_description="Returns the user with the specified amis id, or creates one if it doesn't exist.",
 )
 def get_or_create_user_by_amis_id(amis_id: int, db: Session = Depends(get_db)):
-    """Fetch an existing user or create a new one with default values."""
     try:
         user = db.query(UsersTable).filter(UsersTable.amis_id == amis_id).first()
         if user:
@@ -29,7 +32,9 @@ def get_or_create_user_by_amis_id(amis_id: int, db: Session = Depends(get_db)):
                 "content": user,
             }
 
-        new_user = UsersTable(amis_id=amis_id)
+        new_user = UsersTable(
+            amis_id=amis_id
+        )
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
@@ -38,8 +43,8 @@ def get_or_create_user_by_amis_id(amis_id: int, db: Session = Depends(get_db)):
             "message": "User successfully added",
             "content": new_user,
         }
-    except Exception as exc:  # noqa: BLE001
+    except Exception as e:
         return {
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
-            "message": str(exc),
+            "message": str(e),
         }

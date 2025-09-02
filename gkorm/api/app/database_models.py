@@ -64,9 +64,9 @@ class UsersTable(BaseModel):
     amis_id = Column(Integer, unique=True, index=True, nullable=False)
     given_name = Column(String(255), nullable=True)
     family_name = Column(String(255), nullable=True)
-    crew_position = Column(Enum(CrewPositions), default=CrewPositions.UNQUALIFIED, nullable=False)
-    crew_position_modifier = Column(Enum(CrewPositionModifiers), default=CrewPositionModifiers.BASIC, nullable=False)
-    assigned_unit = Column(Enum(Units), default=Units.UNASSIGNED, nullable=False)
+    crew_position = Column(Enum(CrewPositions), nullable=True)
+    crew_position_modifier = Column(Enum(CrewPositionModifiers), nullable=True)
+    assigned_unit = Column(Enum(Units), nullable=True)
 
 class UserPermissionsTable(BaseModel):
     __tablename__ = "user_permissions_table"
