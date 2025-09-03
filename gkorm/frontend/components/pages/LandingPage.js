@@ -16,14 +16,18 @@ export default function LandingPage() {
                 <Grid size={{xs: 12, lg: 9}}>
                     <Box
                         sx={{
-                            maxHeight: '80dvh', overflow: 'auto', padding: '1rem', display: 'block',
+                            maxHeight: '80dvh',
+                            overflow: 'auto',
+                            padding: '1rem',
+                            display: 'block',
                         }}
                     >
-                        <Typography variant='h1'>Dashboard</Typography>
-                        <Button variant='h3'>Awaiting your approval</Button>
-                        <Button variant='h3'>Managed by you</Button>
-                        <Button variant='h3'>Relevant to you</Button>
-                        <Button variant='h3'>Older</Button>
+                        <Typography variant='h2'>Dashboard</Typography>
+
+                        <Button variant='h3' disabled>Awaiting your approval</Button>
+                        <Button variant='h3' disabled>Managed by you</Button>
+                        <Button variant='h3' disabled>Relevant to you</Button>
+                        <Button variant='h3' disabled>Older</Button>
 
                         <BaselineStatus/>
                     </Box>
