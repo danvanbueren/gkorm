@@ -3,14 +3,13 @@
 import LandingPage from "@/components/pages/LandingPage";
 import {useSpaRouter} from "@/context/SpaRouter";
 import MissionPage from "@/components/pages/MissionPage";
-import Authenticate from "@/components/pages/Authenticate";
-import Profile from "@/components/pages/Profile";
+import AuthenticatePage from "@/components/pages/AuthenticatePage";
+import ProfilePage from "@/components/pages/ProfilePage";
 import NavPathDebugViewer from "@/components/devtools/NavPathDebugViewer";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useAlert} from "@/context/AlertProvider";
 import {useAuth} from "@/context/AuthContext";
-import {Button} from "@mui/material";
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import MissionListPage from "@/components/pages/MissionListPage";
 
 export default function AppPage() {
 
@@ -71,7 +70,7 @@ export default function AppPage() {
                     return false
                 }
 
-                return <Authenticate />
+                return <AuthenticatePage />
 
             case 'profile':
 
@@ -80,7 +79,16 @@ export default function AppPage() {
                     return false
                 }
 
-                return <Profile />
+                return <ProfilePage />
+
+            case 'missionlist':
+
+                if (pathAsArray.length > 2) {
+                    navigate('/missionlist')
+                    return false
+                }
+
+                return <MissionListPage />
 
             case 'mission':
 
