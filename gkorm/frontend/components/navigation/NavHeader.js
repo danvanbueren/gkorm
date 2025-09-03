@@ -77,7 +77,7 @@ export default function NavHeader() {
                             <Box sx={{display: 'flex', gap: 2}}>
                                 <Button color="inherit" onClick={() => navigate('/mission/x')}>Example
                                     Mission</Button>
-                                <Button color="inherit" onClick={() => navigate('/')} disabled>Missions</Button>
+                                <Button color="inherit" onClick={() => navigate('/missionlist')}>Missions</Button>
                             </Box>
 
                             {/* Right: Theme toggle + user info */}
