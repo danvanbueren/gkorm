@@ -18,8 +18,6 @@ export const AuthProvider = ({ children }) => {
         } else {
             localStorage.removeItem('session')
         }
-
-        console.log("Session changed:", session)
     }, [session])
 
     // API calls
@@ -39,7 +37,6 @@ export const AuthProvider = ({ children }) => {
             throw new Error(`HTTP error! Status: ${response.status}`)
 
         const data = await response.json()
-        console.log("Data:", data.content)
 
         return {
             user: data.content,
