@@ -262,10 +262,12 @@ export default function Profile() {
                             error={assignedUnitStatus === 'error'}
                             variant="outlined"
                         >
-                            <MenuItem value={''} disabled>None</MenuItem>
+                            <MenuItem value={''} disabled>Select an Assigned Unit</MenuItem>
                             <MenuItem value={'flying_squadron_1'}>Flying Squadron 1</MenuItem>
                             <MenuItem value={'flying_squadron_2'}>Flying Squadron 2</MenuItem>
                             <MenuItem value={'aircrew_training_squadron'}>Aircrew Training Squadron</MenuItem>
+                            <MenuItem value={'unassigned'}>Unassigned</MenuItem>
+
                         </Select>
                         <FormHelperText sx={{color: 'primary.main'}}>
                             {
@@ -288,7 +290,7 @@ export default function Profile() {
                             error={crewPositionStatus === 'error'}
                             variant="outlined"
                         >
-                            <MenuItem value={''} disabled>None</MenuItem>
+                            <MenuItem value={''} disabled>Select a Crew Position</MenuItem>
                             <MenuItem value={'pilot'}>Pilot</MenuItem>
                             <MenuItem value={'flight_engineer'}>Flight Engineer</MenuItem>
                             <MenuItem value={'tactical_director'}>Tactical Director</MenuItem>
@@ -325,7 +327,8 @@ export default function Profile() {
                             error={crewPositionModifierStatus === 'error'}
                             variant="outlined"
                         >
-                            <MenuItem value={''} disabled>None</MenuItem>
+                            <MenuItem value={''} disabled>Select a Crew Position Modifier</MenuItem>
+                            <MenuItem value={'basic'}>Basic</MenuItem>
                             <MenuItem value={'link'}>Link</MenuItem>
                             <MenuItem value={'instructor'}>Instructor</MenuItem>
                             <MenuItem value={'evaluator'}>Evaluator</MenuItem>
