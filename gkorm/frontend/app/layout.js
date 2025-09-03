@@ -10,6 +10,7 @@ import ThemeContextProvider from "@/context/ThemeContext";
 import ClassificationContainer from "@/components/utility/ClassificationContainer";
 import {SpaRouterProvider} from "@/context/SpaRouter";
 import {AuthProvider} from "@/context/AuthContext";
+import AlertProvider from "@/context/AlertProvider";
 
 function SafeHydrate({ children }) {
     return (
@@ -34,7 +35,9 @@ export default function RootLayout({children}) {
                     <main>
                         <ClassificationContainer classificationText='UNCLASSIFIED' textColor="#fff" backgroundColor='#007a33'>
                             <AuthProvider>
-                                {children}
+                                <AlertProvider>
+                                    {children}
+                                </AlertProvider>
                             </AuthProvider>
                         </ClassificationContainer>
                     </main>
