@@ -7,7 +7,7 @@ import {useSpaRouter} from "@/context/SpaRouter";
 import SendIcon from '@mui/icons-material/Send';
 import {RequireAuth} from "@/components/utility/RequireAuth";
 
-export default function Authenticate() {
+export default function AuthenticatePage() {
 
     const {signIn} = useAuth();
     const {navigate} = useSpaRouter();

@@ -17,7 +17,7 @@ import NavHeader from "@/components/navigation/NavHeader";
 import {useEffect, useState} from "react";
 import {useAuth} from "@/context/AuthContext";
 
-export default function Profile() {
+export default function ProfilePage() {
 
     const {session, updateUserData} = useAuth();
 
