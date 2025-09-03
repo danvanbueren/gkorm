@@ -5,31 +5,61 @@ import {useSpaRouter} from "@/context/SpaRouter";
 import MissionPage from "@/components/pages/MissionPage";
 import Authenticate from "@/components/pages/Authenticate";
 import Profile from "@/components/pages/Profile";
-import {Box} from "@mui/material";
+import NavPathDebugViewer from "@/components/devtools/NavPathDebugViewer";
+import {useEffect, useState} from "react";
+import {useAlert} from "@/context/AlertProvider";
+import {useAuth} from "@/context/AuthContext";
+import {Button} from "@mui/material";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 export default function AppPage() {
 
-    const {currentPath} = useSpaRouter();
+    const {navigate, currentPath} = useSpaRouter();
     const pathAsArray = currentPath.split("/");
 
-    const {navigate} = useSpaRouter();
+    const {AlertData} = useAlert()
+    const {session} = useAuth()
 
+    useEffect(() => {
+        if (!session)
+            return
+
+        if (
+            session?.user?.given_name &&
+            session?.user?.family_name &&
+            session?.user?.assigned_unit &&
+            session?.user?.crew_position &&
+            session?.user?.crew_position_modifier
+        )
+            return
+
+        if (currentPath === '/profile')
+            return
+
+        new AlertData()
+            .title('Setup your profile')
+            .content('Welcome to GKORM! Please open your Profile page with the top-right button. Then, add any missing information before continuing.')
+            .variant('filled')
+            .severity('info')
+            .add()
+
+    }, [session]);
+
+    // TODO: Replace with API call
     function checkIfMissionExists(missionNumber) {
-        // replace with API call
         return missionNumber === 'x';
     }
 
     function ResolvePath() {
-
-        // If array size is zero, reject
+        // If the array size is zero, reject
         if (pathAsArray.length < 1)
             throw new Error('Path resolution failed due to path being empty.')
 
-        // Check first entry is hash
+        // Check if the first entry is hash
         if (pathAsArray[0] !== "")
             throw new Error('Tried to resolve path but no hash exists as a prefix.')
 
-        // check which base view is requested
+        // Check which base view is requested
         switch (pathAsArray[1]) {
             case '':
                 return <LandingPage />
@@ -54,16 +84,16 @@ export default function AppPage() {
 
             case 'mission':
 
-                // check if mission id exists
+                // check if the mission id exists
                 if (pathAsArray[2]) {
 
-                    // check if mission id is valid
+                    // check if the mission id is valid
                     if (!checkIfMissionExists(pathAsArray[2])) {
                         navigate('/')
                         return false
                     }
 
-                    // check if requesting specific view
+                    // check if requesting a specific view
                     if (pathAsArray[3]) {
 
                         switch (pathAsArray[3]) {
@@ -97,25 +127,8 @@ export default function AppPage() {
 
     return (
         <>
-            <Box position='relative'>
-                <Box position='absolute' right='0' top='10rem'>
-                    <table style={{border: '1px solid yellow', borderCollapse: 'collapse', background: 'black', opacity: 0.5, color: 'yellow'}}>
-                        <tbody>
-                            <tr style={{border: '1px solid yellow', borderCollapse: 'collapse'}}>
-                                {pathAsArray.map((item, i) => {
-                                    return (<td key={i+'1'} style={{width: '5rem', border: '1px solid yellow', borderCollapse: 'collapse', padding: '1rem'}}>{i}</td>)
-                                })}
-                            </tr>
-                            <tr>
-                                {pathAsArray.map((item, i) => {
-                                    return (<td key={i+'2'} style={{border: '1px solid yellow', borderCollapse: 'collapse', padding: '1rem'}}>'{item}'</td>)
-                                })}
-                            </tr>
-                        </tbody>
-                    </table>
-                </Box>
-            </Box>
-            {<ResolvePath/>}
+            <NavPathDebugViewer/>
+            <ResolvePath/>
         </>
     );
 }
