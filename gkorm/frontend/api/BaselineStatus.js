@@ -21,8 +21,8 @@ export default function BaselineStatus() {
             .catch((err) => setError(err.message));
     }, []);
 
-    if (error) return <div>Error: {error}</div>;
-    if (!status) return <div>Loading...</div>;
+    if (error) return <pre>Error: {error}</pre>;
+    if (!status) return <pre>Loading...</pre>;
 
     return (
         <div>
