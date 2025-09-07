@@ -17,6 +17,7 @@
     "@fontsource/roboto-mono": "^5.2.5",
     "@mui/icons-material": "^7.0.2",
     "@mui/material": "^7.0.2",
+    "@mui/x-data-grid": "^8.11.1",
     "@react-hook/resize-observer": "^2.0.2",
     "next": "15.3.0",
     "prop-types": "^15.8.1",
