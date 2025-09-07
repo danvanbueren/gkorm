@@ -76,7 +76,7 @@ class UserPermissionsTable(BaseModel):
 class MissionsTable(BaseModel):
     __tablename__ = "missions_table"
     mission_number = Column(String(255), index=True, unique=True, nullable=False)
-    FKEY_users_TABLE_owner_id = Column(Integer, ForeignKey("users_table.PKEY_id"), unique=True, nullable=False)
+    FKEY_users_TABLE_owner_id = Column(Integer, ForeignKey("users_table.PKEY_id"), nullable=False)
 
 class MemberMissionAssignmentsTable(BaseModel):
     __tablename__ = "member_mission_assignments_table"
