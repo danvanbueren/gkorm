@@ -24,6 +24,7 @@ export default function AppPage() {
             return
 
         if (
+            session?.user?.rank &&
             session?.user?.given_name &&
             session?.user?.family_name &&
             session?.user?.assigned_unit &&
@@ -45,11 +46,11 @@ export default function AppPage() {
     }, [session]);
 
     // TODO: Replace with API call
-    function checkIfMissionExists(missionNumber) {
-        return missionNumber === 'x';
+    const checkIfMissionExists = (missionNumber) => {
+        return missionNumber !== 'x1';
     }
 
-    function ResolvePath() {
+    const ResolvePath = () => {
         // If the array size is zero, reject
         if (pathAsArray.length < 1)
             throw new Error('Path resolution failed due to path being empty.')
@@ -135,7 +136,11 @@ export default function AppPage() {
 
     return (
         <>
+            {/*
+            Debug helper to view the current path
             <NavPathDebugViewer/>
+            */}
+
             <ResolvePath/>
         </>
     );
