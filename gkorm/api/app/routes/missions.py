@@ -32,8 +32,8 @@ def get_all(db: Session = Depends(get_db)):
             MissionOut(
                 PKEY_id=m.PKEY_id,
                 mission_number=m.mission_number,
-                status="unknown",
-                execution_date="unknown",
+                status="(api todo)",
+                execution_date=m.execution_date,
                 FKEY_users_TABLE_owner_id=m.FKEY_users_TABLE_owner_id,
                 owner=m.owner,
             ) for m in response

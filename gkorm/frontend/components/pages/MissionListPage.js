@@ -126,18 +126,39 @@ export default function MissionListPage() {
 
     // TABLE - setup
     const columns = [
-        { field: 'PKEY_id', headerName: 'PKEY_id', width: 70 },
-        { field: 'mission_number', headerName: 'Mission Number', width: 150 },
-        { field: 'execution_date', headerName: 'Mission Execution Date', width: 200 },
+        {
+            field: 'PKEY_id',
+            headerName: 'PKEY_id',
+            width: 70
+        },
+        {
+            field: 'mission_number',
+            headerName: 'Mission Number',
+            width: 150
+        },
+        {
+            field: 'execution_date',
+            headerName: 'Mission Execution Date',
+            width: 200,
+            renderCell: (params) => (
+                params.row.owner?.execution_date ?? 'None'
+            )
+        },
         {
             field: 'owner',
             headerName: 'Mission Custodian',
             width: 300,
             renderCell: (params) => (
-                (params.row.owner?.given_name ?? '') + ' ' + (params.row.owner?.family_name ?? '')
+                (params.row.owner?.rank ?? '') + ' ' +
+                (params.row.owner?.given_name ?? '') + ' ' +
+                (params.row.owner?.family_name ?? '')
             )
         },
-        { field: 'status', headerName: 'Status', width: 150 },
+        {
+            field: 'status',
+            headerName: 'Status',
+            width: 150
+        },
         {
             field: 'actions',
             headerName: 'Actions',

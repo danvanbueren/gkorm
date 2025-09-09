@@ -34,6 +34,7 @@ class MissionsTable(BaseModel):
     __tablename__ = "missions_table"
     mission_number = Column(String(255), index=True, unique=True, nullable=False)
     FKEY_users_TABLE_owner_id = Column(Integer, ForeignKey("users_table.PKEY_id"), nullable=False)
+    execution_date = Column(DateTime, nullable=True)
     owner = relationship("UsersTable", back_populates="missions")
 
 class MemberMissionAssignmentsTable(BaseModel):
