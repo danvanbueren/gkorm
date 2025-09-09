@@ -21,12 +21,14 @@ export default function ProfilePage() {
 
     const {session, updateUserData} = useAuth();
 
+    const [rank, setRank] = useState(session?.user?.rank || '');
     const [givenName, setGivenName] = useState(session?.user?.given_name || '');
     const [familyName, setFamilyName] = useState(session?.user?.family_name || '');
     const [crewPosition, setCrewPosition] = useState(session?.user?.crew_position || '');
     const [crewPositionModifier, setCrewPositionModifier] = useState(session?.user?.crew_position_modifier || '');
     const [assignedUnit, setAssignedUnit] = useState(session?.user?.assigned_unit || '');
 
+    const [rankStatus, setRankStatus] = useState('');
     const [givenNameStatus, setGivenNameStatus] = useState('');
     const [familyNameStatus, setFamilyNameStatus] = useState('');
     const [crewPositionStatus, setCrewPositionStatus] = useState('');
@@ -62,12 +64,22 @@ export default function ProfilePage() {
             return [false, 'Generic fetch error']
         }
 
+        if (rank !== session?.user?.rank && rank !== '') {
+            setRankStatus('loading')
+            send('rank', rank).then(result => {
+                if (!result[0]) {
+                    setRankStatus('error')
+                } else {
+                    setRankStatus('success')
+                }
+            })
+        }
+
         if (crewPosition !== session?.user?.crew_position && crewPosition !== '') {
             setCrewPositionStatus('loading')
             send('crew_position', crewPosition).then(result => {
                 if (!result[0]) {
                     setCrewPositionStatus('error')
-                    console.log(result[1])
                 } else {
                     setCrewPositionStatus('success')
                 }
@@ -79,7 +91,6 @@ export default function ProfilePage() {
             send('crew_position_modifier', crewPositionModifier).then(result => {
                 if (!result[0]) {
                     setCrewPositionModifierStatus('error')
-                    console.log(result[1])
                 } else {
                     setCrewPositionModifierStatus('success')
                 }
@@ -91,7 +102,6 @@ export default function ProfilePage() {
             send('assigned_unit', assignedUnit).then(result => {
                 if (!result[0]) {
                     setAssignedUnitStatus('error')
-                    console.log(result[1])
                 } else {
                     setAssignedUnitStatus('success')
                 }
@@ -104,9 +114,8 @@ export default function ProfilePage() {
             if (givenName !== session?.user?.given_name) {
                 setGivenNameStatus('loading')
                 send('given_name', givenName).then(result => {
-                    if (!result) {
+                    if (!result[0]) {
                         setGivenNameStatus('error')
-                        console.log(result[1])
                     } else {
                         setGivenNameStatus('success')
                     }
@@ -116,9 +125,8 @@ export default function ProfilePage() {
             if (familyName !== session?.user?.family_name) {
                 setFamilyNameStatus('loading')
                 send('family_name', familyName).then(result => {
-                    if (!result) {
+                    if (!result[0]) {
                         setFamilyNameStatus('error')
-                        console.log(result[1])
                     } else {
                         setFamilyNameStatus('success')
                     }
@@ -131,50 +139,74 @@ export default function ProfilePage() {
             clearTimeout(timeout);
             controller.abort(); // Cancel the previous API request if still in-flight
         };
-    }, [givenName, familyName, crewPosition, crewPositionModifier, assignedUnit]);
+    }, [rank, givenName, familyName, crewPosition, crewPositionModifier, assignedUnit]);
 
     // Reset success status after 5 seconds
     useEffect(() => {
+        let timeout
+        if (rankStatus === 'success') {
+            timeout = setTimeout(() => {
+                setRankStatus('')
+            }, 5000);
+        }
+        return () => clearTimeout(timeout)
+    }, [rankStatus])
+
+    useEffect(() => {
+        let timeout
         if (givenNameStatus === 'success') {
-            setTimeout(() => {
+            timeout = setTimeout(() => {
                 setGivenNameStatus('')
             }, 5000);
         }
+        return () => clearTimeout(timeout)
     }, [givenNameStatus])
 
     useEffect(() => {
+        let timeout
         if (familyNameStatus === 'success') {
-            setTimeout(() => {
+            timeout = setTimeout(() => {
                 setFamilyNameStatus('')
             }, 5000);
         }
+        return () => clearTimeout(timeout)
     }, [familyNameStatus])
 
     useEffect(() => {
+        let timeout
         if (crewPositionStatus === 'success') {
-            setTimeout(() => {
+            timeout = setTimeout(() => {
                 setCrewPositionStatus('')
             }, 5000);
         }
+        return () => clearTimeout(timeout)
     }, [crewPositionStatus])
 
     useEffect(() => {
+        let timeout
         if (crewPositionModifierStatus === 'success') {
-            setTimeout(() => {
+            timeout = setTimeout(() => {
                 setCrewPositionModifierStatus('')
             }, 5000);
         }
+        return () => clearTimeout(timeout)
     }, [crewPositionModifierStatus])
 
     useEffect(() => {
+        let timeout
         if (assignedUnitStatus === 'success') {
-            setTimeout(() => {
+            timeout = setTimeout(() => {
                 setAssignedUnitStatus('')
             }, 5000);
         }
+        return () => clearTimeout(timeout)
     }, [assignedUnitStatus])
 
     // Clear status upon input change
+    useEffect(() => {
+        setRankStatus('')
+    }, [rank])
+
     useEffect(() => {
         setGivenNameStatus('')
     }, [givenName])
@@ -201,8 +233,50 @@ export default function ProfilePage() {
                 <NavHeader/>
             </Box>
             <Typography variant='h2' sx={{p: 2}}>Profile</Typography>
-            <Grid container width={'80%'}>
-                <Grid size={{xs: 12, md: 12, lg: 6}} sx={{p: 2, height: '8rem'}}>
+            <Grid container>
+                <Grid size={{xs: 12, md: 2, lg: 2}} sx={{p: 2, height: '8rem'}}>
+                    <FormControl fullWidth>
+                        <InputLabel id="rank-select-label">Rank</InputLabel>
+                        <Select
+                            labelId="rank-select-label"
+                            id="rank-select"
+                            value={rank}
+                            label="Rank"
+                            onChange={e => setRank(e.target.value)}
+                            error={rankStatus === 'error'}
+                            variant="outlined"
+                        >
+                            <MenuItem value={'-1'} disabled>Select a Rank</MenuItem>
+                            <MenuItem value={'OR-1'}>OR-1</MenuItem>
+                            <MenuItem value={'OR-2'}>OR-2</MenuItem>
+                            <MenuItem value={'OR-3'}>OR-3</MenuItem>
+                            <MenuItem value={'OR-4'}>OR-4</MenuItem>
+                            <MenuItem value={'OR-5'}>OR-5</MenuItem>
+                            <MenuItem value={'OR-6'}>OR-6</MenuItem>
+                            <MenuItem value={'OR-7'}>OR-7</MenuItem>
+                            <MenuItem value={'OR-8'}>OR-8</MenuItem>
+                            <MenuItem value={'OR-9'}>OR-9</MenuItem>
+                            <MenuItem value={'-2'} disabled>-</MenuItem>
+                            <MenuItem value={'OF-1'}>OF-1</MenuItem>
+                            <MenuItem value={'OF-2'}>OF-2</MenuItem>
+                            <MenuItem value={'OF-3'}>OF-3</MenuItem>
+                            <MenuItem value={'OF-4'}>OF-4</MenuItem>
+                            <MenuItem value={'OF-5'}>OF-5</MenuItem>
+                            <MenuItem value={'OF-6'}>OF-6</MenuItem>
+                            <MenuItem value={'OF-7'}>OF-7</MenuItem>
+                            <MenuItem value={'OF-8'}>OF-8</MenuItem>
+                            <MenuItem value={'OF-9'}>OF-9</MenuItem>
+                        </Select>
+                        <FormHelperText sx={{color: 'primary.main'}}>
+                            {
+                                rankStatus === 'error' ? 'Failed to save!' :
+                                    rankStatus === 'loading' ? 'Saving...' :
+                                        rankStatus === 'success' ? 'Saved!' : ''
+                            }
+                        </FormHelperText>
+                    </FormControl>
+                </Grid>
+                <Grid size={{xs: 12, md: 5, lg: 5}} sx={{p: 2, height: '8rem'}}>
                     <TextField
                         id="given-name-input"
                         label="Given Name"
@@ -221,7 +295,7 @@ export default function ProfilePage() {
                         fullWidth
                     />
                 </Grid>
-                <Grid size={{xs: 12, md: 12, lg: 6}} sx={{p: 2, height: '8rem'}}>
+                <Grid size={{xs: 12, md: 5, lg: 5}} sx={{p: 2, height: '8rem'}}>
                     <TextField
                         id="family-name-input"
                         label="Family Name"
@@ -240,7 +314,7 @@ export default function ProfilePage() {
                         fullWidth
                     />
                 </Grid>
-                <Grid size={{xs: 12, md: 12, lg: 6}} sx={{p: 2, height: '8rem'}}>
+                <Grid size={{xs: 12, md: 6, lg: 2}} sx={{p: 2, height: '8rem'}}>
                     <TextField
                         id="amis-id-input"
                         label="AMIS ID"
@@ -250,7 +324,7 @@ export default function ProfilePage() {
                         disabled
                     />
                 </Grid>
-                <Grid size={{xs: 12, md: 12, lg: 6}} sx={{p: 2, height: '8rem'}}>
+                <Grid size={{xs: 12, md: 6, lg: 3}} sx={{p: 2, height: '8rem'}}>
                     <FormControl fullWidth>
                         <InputLabel id="assigned-unit-select-label">Assigned Unit</InputLabel>
                         <Select
@@ -278,7 +352,7 @@ export default function ProfilePage() {
                         </FormHelperText>
                     </FormControl>
                 </Grid>
-                <Grid size={{xs: 12, md: 12, lg: 6}} sx={{p: 2, height: '8rem'}}>
+                <Grid size={{xs: 12, md: 6, lg: 4}} sx={{p: 2, height: '8rem'}}>
                     <FormControl fullWidth>
                         <InputLabel id="crew-position-select-label">Crew Position</InputLabel>
                         <Select
@@ -315,7 +389,7 @@ export default function ProfilePage() {
                         </FormHelperText>
                     </FormControl>
                 </Grid>
-                <Grid size={{xs: 12, md: 12, lg: 6}} sx={{p: 2, height: '8rem'}}>
+                <Grid size={{xs: 12, md: 6, lg: 3}} sx={{p: 2, height: '8rem'}}>
                     <FormControl fullWidth>
                         <InputLabel id="crew-position-modifier-select-label">Crew Position Modifier</InputLabel>
                         <Select
