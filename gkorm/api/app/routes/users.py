@@ -4,11 +4,10 @@ from typing import Union
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from app.config_database import get_db
-from app.database_models import UsersTable, CrewPositions, CrewPositionModifiers, Units
+from app.database_enums import Ranks, CrewPositions, CrewPositionModifiers, Units
+from app.database_models import UsersTable
 
 router = APIRouter()
-
-# GET ALL
 
 @router.get(
     "/get",
@@ -38,6 +37,50 @@ def users(db: Session = Depends(get_db)):
             "message": str(e)
         }
 
+@router.patch(
+    "/update/rank/{pkey_id}",
+    summary="Update user's rank",
+    tags=["Users"],
+    description="""
+    Updates a user's rank.
+    """,
+    response_description="Returns the updated user.",
+)
+def update_given_name(
+    pkey_id: int,
+    rank: Union[Ranks, None] = None,
+    db: Session = Depends(get_db),
+):
+    try:
+        user = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
+        if not user:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'User not found',
+                "content": []
+            }
+
+        if not rank:
+            return {
+                "status": status.HTTP_422_UNPROCESSABLE_ENTITY,
+                "message": 'Payload is empty',
+                "content": []
+            }
+
+        user.rank = rank
+        db.commit()
+        db.refresh(user)
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'User rank successfully updated',
+            "content": user
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e),
+            "content": []
+        }
 
 @router.patch(
     "/update/given_name/{pkey_id}",
@@ -58,8 +101,17 @@ def update_given_name(
         if not user:
             return {
                 "status": status.HTTP_404_NOT_FOUND,
-                "message": 'User not found'
+                "message": 'User not found',
+                "content": []
             }
+
+        if not given_name:
+            return {
+                "status": status.HTTP_422_UNPROCESSABLE_ENTITY,
+                "message": 'Payload is empty',
+                "content": []
+            }
+
         user.given_name = given_name
         db.commit()
         db.refresh(user)
@@ -71,7 +123,8 @@ def update_given_name(
     except Exception as e:
         return {
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
-            "message": str(e)
+            "message": str(e),
+            "content": []
         }
 
 
@@ -257,6 +310,7 @@ def get_user_by_id(pkey_id: int, db: Session = Depends(get_db)):
     )
 def add_user(
         amis_id: int,
+        rank: Union[Ranks, None] = None,
         given_name: Union[str, None] = None,
         family_name: Union[str, None] = None,
         assigned_unit: Union[Units, None] = None,
@@ -267,6 +321,7 @@ def add_user(
     try:
         new_user = UsersTable(
             amis_id=amis_id,
+            rank=rank,
             given_name=given_name,
             family_name=family_name,
             crew_position=crew_position,
