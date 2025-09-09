@@ -1,14 +1,16 @@
 """Mission routes"""
 from fastapi import APIRouter, Depends, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from app.config_database import get_db
 from app.database_models import MissionsTable
+from app.response_schemas import ListResponse, MissionOut
 from app.util.regex import validate_mission_number
 
 router = APIRouter()
 
 @router.get(
     "/get",
+    response_model=ListResponse,
     summary="Get all missions",
     tags=["Missions"],
     description="""
@@ -18,21 +20,34 @@ router = APIRouter()
     )
 def get_all(db: Session = Depends(get_db)):
     try:
-        response = db.query(MissionsTable)
-        if not response.first():
+        response = db.query(MissionsTable).options(joinedload(MissionsTable.owner)).all()
+        if not response:
             return {
                 "status": status.HTTP_404_NOT_FOUND,
-                "message": 'No missions found'
+                "message": 'No missions found',
+                "content": []
             }
+        # TODO: Get actual status and date. Temporarily attach "unknown" for now
+        content = [
+            MissionOut(
+                PKEY_id=m.PKEY_id,
+                mission_number=m.mission_number,
+                status="unknown",
+                execution_date="unknown",
+                FKEY_users_TABLE_owner_id=m.FKEY_users_TABLE_owner_id,
+                owner=m.owner,
+            ) for m in response
+        ]
         return {
             "status": status.HTTP_200_OK,
             "message": 'Missions successfully retrieved',
-            "content": [mission for mission in response.all()]
+            "content": content,
         }
     except Exception as e:
         return {
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
-            "message": str(e)
+            "message": str(e),
+            "content": []
         }
 
 @router.get(
@@ -50,7 +65,8 @@ def get_by_id(pkey_id: int, db: Session = Depends(get_db)):
         if not response:
             return {
                 "status": status.HTTP_404_NOT_FOUND,
-                "message": 'Mission not found'
+                "message": 'Mission not found',
+                "content": []
             }
         return {
             "status": status.HTTP_200_OK,
@@ -60,7 +76,8 @@ def get_by_id(pkey_id: int, db: Session = Depends(get_db)):
     except Exception as e:
         return {
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
-            "message": str(e)
+            "message": str(e),
+            "content": []
         }
 
 @router.post(
@@ -105,7 +122,8 @@ def add(
     except Exception as e:
         return {
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
-            "message": str(e)
+            "message": str(e),
+            "content": []
         }
 
 @router.delete(
@@ -123,16 +141,19 @@ def delete_by_id(pkey_id: int, db: Session = Depends(get_db)):
         if not response:
             return {
                 "status": status.HTTP_404_NOT_FOUND,
-                "message": 'Mission with pkey_id: ' + str(pkey_id) + ' not found'
+                "message": 'Mission with pkey_id: ' + str(pkey_id) + ' not found',
+                "content": []
             }
         db.delete(response)
         db.commit()
         return {
             "status": status.HTTP_200_OK,
-            "message": 'Mission with pkey_id: ' + str(pkey_id) + ' successfully deleted'
+            "message": 'Mission with pkey_id: ' + str(pkey_id) + ' successfully deleted',
+            "content": []
         }
     except Exception as e:
         return {
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
-            "message": str(e)
+            "message": str(e),
+            "content": []
         }
