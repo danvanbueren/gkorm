@@ -9,7 +9,7 @@ import NavPathDebugViewer from "@/components/devtools/NavPathDebugViewer";
 import {useEffect} from "react";
 import {useAlert} from "@/context/AlertProvider";
 import {useAuth} from "@/context/AuthContext";
-import MissionListPage from "@/components/pages/MissionListPage";
+import MissionsPage from "@/components/pages/MissionsPage";
 
 export default function AppPage() {
 
@@ -82,14 +82,14 @@ export default function AppPage() {
 
                 return <ProfilePage />
 
-            case 'missionlist':
+            case 'missions':
 
                 if (pathAsArray.length > 2) {
-                    navigate('/missionlist')
+                    navigate('/missions')
                     return false
                 }
 
-                return <MissionListPage />
+                return <MissionsPage />
 
             case 'mission':
 
