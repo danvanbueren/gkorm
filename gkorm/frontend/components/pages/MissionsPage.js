@@ -28,7 +28,7 @@ import {useAlert} from "@/context/AlertProvider"
 import {useAuth} from "@/context/AuthContext"
 import {useSpaRouter} from "@/context/SpaRouter"
 
-export default function MissionListPage() {
+export default function MissionsPage() {
 
     const {navigate} = useSpaRouter()
     const {AlertData} = useAlert()
@@ -343,7 +343,7 @@ export default function MissionListPage() {
                     }}
                 >
                     <Grid size={{xs: 12, xl: 12}}>
-                        <Typography variant='h2' sx={{p: '1rem'}}>Mission List</Typography>
+                        <Typography variant='h2' sx={{p: '1rem'}}>Missions</Typography>
                     </Grid>
                     <Grid size={{xs: 12, xl: 9}}>
                         <Paper variant="outlined" sx={{ maxHeight: '65dvh', width: '100%', p: '1rem' }}>
