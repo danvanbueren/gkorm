@@ -10,6 +10,7 @@ class UserOut(BaseModel):
     rank: Optional[Ranks]
     given_name: Optional[str]
     family_name: Optional[str]
+    amis_id: int
     model_config = ConfigDict(from_attributes=True)
 
 class MissionOut(BaseModel):
