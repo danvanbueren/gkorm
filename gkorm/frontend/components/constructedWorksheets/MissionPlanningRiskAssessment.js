@@ -10,14 +10,15 @@ export default function MissionPlanningRiskAssessment({theme = useTheme(), ...pr
 
     const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
 
-
+    const owner = props?.missionData?.owner
+    const ownerDisplayName = `${owner?.rank} ${owner?.given_name} ${owner?.family_name}, ${owner?.amis_id}`
 
     return (
         <Worksheet title="Mission Planning Risk Assessment Worksheet">
             <WorksheetRowInfo
-                missionNumber={props.missionData.number}
-                missionDate={props.missionData.date}
-                acNameIdNumber={props.missionData.acNameIdNumber}
+                missionNumber={props?.missionData?.mission_number}
+                missionDate={props?.missionData?.execution_date}
+                acNameIdNumber={ownerDisplayName}
             />
 
             {isMdUp ?

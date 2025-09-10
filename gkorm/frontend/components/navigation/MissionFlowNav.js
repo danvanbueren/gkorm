@@ -10,15 +10,16 @@ import nextConfig from "@/next.config.mjs";
 import {useSpaRouter} from "@/context/SpaRouter";
 
 export default function MissionFlowNav({
-                                           theme = useTheme(), missionNumber, acNameIdNumber, currentView,
+                                           theme = useTheme(), missionData, currentView,
                                        }) {
 
     const {navigate} = useSpaRouter();
 
     const isLgUp = useMediaQuery(theme.breakpoints.up('lg'));
 
-    const [localMissionNumber, setLocalMissionNumber] = useState(missionNumber || '');
-    const [localAcNameIdNumber, setLocalAcNameIdNumber] = useState(acNameIdNumber || '');
+    const owner = missionData?.owner
+    const ownerDisplayName = `${owner?.rank} ${owner?.given_name} ${owner?.family_name}, ${owner?.amis_id}`
+    const missionNumber = `${missionData?.mission_number}`
 
     const definedViews = ['crewlist', 'planning', 'pilot', 'execution', 'personal'];
 
@@ -29,12 +30,12 @@ export default function MissionFlowNav({
             padding={2}
             fontWeight='500'
             component="a"
-            onClick={() => navigate('/mission/' + missionNumber)}
+            onClick={() => navigate('/mission/' + missionData?.PKEY_id)}
             sx={{
                 display: 'flex', color: 'inherit', textDecoration: 'none', userSelect: 'none', cursor: 'pointer',
             }}
         >
-            {missionNumber}
+            {missionData?.mission_number}
         </Typography>
 
         <Card sx={{
@@ -57,10 +58,8 @@ export default function MissionFlowNav({
                         <Flight sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
                         <TextField
                             id="text-field-mission-number"
-                            placeholder='AJ1234M'
                             label='Mission Number'
-                            value={localMissionNumber}
-                            onChange={(e) => setLocalMissionNumber(e.target.value)}
+                            value={missionNumber}
                             variant="standard"
                             fullWidth
                             disabled
@@ -73,11 +72,9 @@ export default function MissionFlowNav({
                     <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <AssignmentInd sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
                         <TextField
-                            id="text-field-aircraft-commander"
-                            placeholder='OF-3 John Doe, 012345'
-                            label='Aircraft Commander'
-                            value={localAcNameIdNumber}
-                            onChange={(e) => setLocalAcNameIdNumber(e.target.value)}
+                            id="text-field-mission-custodian"
+                            label='Mission Custodian'
+                            value={ownerDisplayName}
                             variant="standard"
                             fullWidth
                             disabled
@@ -93,7 +90,7 @@ export default function MissionFlowNav({
                         <Button
                             variant={!currentView || !definedViews.includes(currentView) ? 'contained' : 'outlined'}
                             fullWidth
-                            onClick={() => navigate('/mission/x')}
+                            onClick={() => navigate(`/mission/${missionData?.PKEY_id}`)}
                         >
                             Process Flow
                         </Button>
@@ -108,7 +105,7 @@ export default function MissionFlowNav({
                         <Button
                             variant={currentView === 'crewlist' ? 'contained' : 'outlined'}
                             fullWidth
-                            onClick={() => navigate('/mission/x/crewlist')}
+                            onClick={() => navigate(`/mission/${missionData?.PKEY_id}/crewlist`)}
                         >
                             Crew List
                         </Button>
@@ -135,14 +132,14 @@ export default function MissionFlowNav({
 
                     <Button variant={currentView === 'planning' ? 'contained' : 'outlined'}
                             sx={{marginRight: 2, marginBottom: 2}}
-                            onClick={() => navigate('/mission/x/planning')}
+                            onClick={() => navigate(`/mission/${missionData?.PKEY_id}/planning`)}
                     >
                         Overall
                     </Button>
 
                     <Button variant={currentView === 'pilot' ? 'contained' : 'outlined'}
                             sx={{marginRight: 2, marginBottom: 2}}
-                            onClick={() => navigate('/mission/x/pilot')}
+                            onClick={() => navigate(`/mission/${missionData?.PKEY_id}/pilot`)}
                     >
                         Pilot Proficiency
                     </Button>
@@ -152,11 +149,11 @@ export default function MissionFlowNav({
 
                     <Button variant={currentView === 'execution' ? 'contained' : 'outlined'}
                             sx={{marginRight: 2, marginBottom: 2}}
-                            onClick={() => navigate('/mission/x/execution')}
+                            onClick={() => navigate(`/mission/${missionData?.PKEY_id}/execution`)}
                     >Overall</Button>
                     <Button variant={currentView === 'personal' ? 'contained' : 'outlined'}
                             sx={{marginRight: 2, marginBottom: 2}}
-                            onClick={() => navigate('/mission/x/personal')}
+                            onClick={() => navigate(`/mission/${missionData?.PKEY_id}/personal`)}
                     >Personal</Button>
                 </Grid>
             </Grid>

@@ -52,7 +52,7 @@ function Row(props) {
     const {navigate} = useSpaRouter();
     const [open, setOpen] = React.useState(false);
 
-    let missionNumber = props.missionNumber;
+    let missionPkeyId = props.missionPkeyId;
 
     return (
         <>
@@ -74,7 +74,7 @@ function Row(props) {
                         <>
                             { row.crewPosition === 'pilot' &&
                                 <Tooltip title="Mission Planning - Overall">
-                                    <IconButton onClick={() => navigate('/mission/' + missionNumber + '/planning')}>
+                                    <IconButton onClick={() => navigate('/mission/' + missionPkeyId + '/planning')}>
                                         <NoteAltIcon sx={{ color: 'success.main' }}/>
                                     </IconButton>
                                 </Tooltip>
@@ -82,7 +82,7 @@ function Row(props) {
 
                             { row.crewPosition === 'pilot' &&
                                 <Tooltip title="Mission Planning - Pilot Proficiency">
-                                    <IconButton onClick={() => navigate('/mission/' + missionNumber + '/pilot')}>
+                                    <IconButton onClick={() => navigate('/mission/' + missionPkeyId + '/pilot')}>
                                         <SchoolIcon sx={{ color: 'success.main' }}/>
                                     </IconButton>
                                 </Tooltip>
@@ -96,14 +96,14 @@ function Row(props) {
 
                             { row.crewPosition === 'pilot' &&
                                 <Tooltip title="Execution - Overall">
-                                    <IconButton onClick={() => navigate('/mission/' + missionNumber + '/execution')}>
+                                    <IconButton onClick={() => navigate('/mission/' + missionPkeyId + '/execution')}>
                                         <FlightTakeoffIcon sx={{ color: 'warning.main' }}/>
                                     </IconButton>
                                 </Tooltip>
                             }
 
                             <Tooltip title="Execution - Personal">
-                                <IconButton onClick={() => navigate('/mission/' + missionNumber + '/personal')}>
+                                <IconButton onClick={() => navigate('/mission/' + missionPkeyId + '/personal')}>
                                     <SensorOccupiedIcon sx={{ color: 'error.main' }}/>
                                 </IconButton>
                             </Tooltip>
@@ -158,7 +158,7 @@ export default function MemberTable(props) {
                 </TableHead>
                 <TableBody>
                     {rows.map((row, index) => (
-                        <Row key={index} row={row} missionNumber={props.missionNumber}/>
+                        <Row key={index} row={row} missionPkeyId={props.missionPkeyId}/>
                     ))}
                 </TableBody>
             </Table>

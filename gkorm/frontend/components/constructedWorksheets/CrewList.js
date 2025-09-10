@@ -9,7 +9,7 @@ export default function CrewList(props) {
 
     return (
         <Worksheet title="Crew List">
-            <MemberTable missionNumber={props.missionData.number}/>
+            <MemberTable missionPkeyId={props?.missionData?.PKEY_id}/>
             <SearchMember/>
         </Worksheet>
     )
