@@ -62,17 +62,30 @@ def get_all(db: Session = Depends(get_db)):
 def get_by_id(pkey_id: int, db: Session = Depends(get_db)):
     try:
         response = db.query(MissionsTable).filter(MissionsTable.PKEY_id == pkey_id).first()
+
         if not response:
             return {
                 "status": status.HTTP_404_NOT_FOUND,
                 "message": 'Mission not found',
                 "content": []
             }
+
+        content = MissionOut(
+            PKEY_id=response.PKEY_id,
+            mission_number=response.mission_number,
+            status="(api todo)",
+            execution_date=response.execution_date,
+            FKEY_users_TABLE_owner_id=response.FKEY_users_TABLE_owner_id,
+            owner=response.owner,
+        )
+
+
         return {
             "status": status.HTTP_200_OK,
             "message": 'Mission successfully retrieved',
-            "content": response
+            "content": content
         }
+
     except Exception as e:
         return {
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
