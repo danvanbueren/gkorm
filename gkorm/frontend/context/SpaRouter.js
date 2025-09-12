@@ -13,33 +13,25 @@ export const useSpaRouter = () => {
 };
 
 export const SpaRouterProvider = ({ children }) => {
-    const [mounted, setMounted] = useState(false);
+    const getInitialPath = () =>
+        typeof window !== 'undefined' ? window.location.hash.slice(1) || '/' : '';
+
+    const [currentPath, setCurrentPath] = useState(getInitialPath);
 
     useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    const [currentPath, setCurrentPath] = useState('');
-
-    useEffect(() => {
-        if (!mounted) return;
-
-        const path = window.location.hash.slice(1) || '/';
-        setCurrentPath(path);
         const handleHashChange = () => {
             const newPath = window.location.hash.slice(1) || '/';
             setCurrentPath(newPath);
         };
+
         window.addEventListener('hashchange', handleHashChange);
         return () => {
             window.removeEventListener('hashchange', handleHashChange);
         };
-    }, [mounted]);
+    }, []);
 
     // Navigate to a path
     const navigate = (to) => {
-        if (!mounted) return;
-
         window.location.hash = to;
     };
 
