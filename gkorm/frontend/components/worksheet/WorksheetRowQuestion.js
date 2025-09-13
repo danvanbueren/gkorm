@@ -1,6 +1,6 @@
-import {Box, Grid, Skeleton, ToggleButton, ToggleButtonGroup, Typography, useMediaQuery, useTheme} from '@mui/material';
-import WorksheetCellBase from "@/components/worksheet/WorksheetCellBase";
-import React from 'react';
+import {Box, Grid, Skeleton, ToggleButton, ToggleButtonGroup, Typography, useMediaQuery, useTheme} from '@mui/material'
+import WorksheetCellBase from "@/components/worksheet/WorksheetCellBase"
+import React, {useState} from 'react'
 
 export default function WorksheetRowQuestion({
                                                  theme = useTheme(),
@@ -10,15 +10,17 @@ export default function WorksheetRowQuestion({
                                                  children,
                                              }) {
 
-    const [responseSelection, setResponseSelection] = React.useState(null);
+    const [editable, setEditable] = useState(false)
+
+    const [responseSelection, setResponseSelection] = useState(null)
 
     const handleResponseSelection = (event, newResponse) => {
         if (newResponse !== null) {
-            setResponseSelection(newResponse);
+            setResponseSelection(newResponse)
         }
-    };
+    }
 
-    const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+    const isMdUp = useMediaQuery(theme.breakpoints.up('md'))
 
     return (<Grid
         container
@@ -46,7 +48,7 @@ export default function WorksheetRowQuestion({
         <Grid size={{xs: 12, md: 7.5}}>
             <Box position="relative" height="100%" width="100%">
                 {/* Animated background layer */}
-                {responseSelection === null && (
+                {responseSelection === null && editable && (
                     <Skeleton
                         variant="rectangular"
                         sx={{
@@ -69,12 +71,13 @@ export default function WorksheetRowQuestion({
                     sx={{height: '100%', position: 'relative', zIndex: 1}}
                 >
                     {responses.length > 0 && responses.map((response, responseIndex) => {
-                        const selected = responseSelection === responseIndex;
+                        const selected = responseSelection === responseIndex
 
                         return (
                             <Grid size={3.5} height={'100%'} width={'100%'} key={responseIndex}>
                                 {response.length > 0 ?
                                     <ToggleButton
+                                        disabled={!editable}
                                         value={responseIndex}
                                         sx={{
                                             height: '100%',
@@ -124,11 +127,11 @@ export default function WorksheetRowQuestion({
                                             backgroundColor: theme.palette.background.default,
                                         }}
                                     />}
-                            </Grid>);
+                            </Grid>)
                     })}
 
                 </ToggleButtonGroup>
             </Box>
         </Grid>
-    </Grid>);
+    </Grid>)
 }
