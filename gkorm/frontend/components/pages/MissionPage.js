@@ -17,7 +17,7 @@ export default function MissionPage({requestedView}) {
 
     const {navigate, currentPath} = useSpaRouter();
     const pathAsArray = currentPath.split("/");
-    const missionNumberFromUrl = pathAsArray[2]
+    const missionIdFromUrl = pathAsArray[2]
 
     const [missionData, setMissionData] = useState()
     const [dataLoadError, setDataLoadError] = useState()
@@ -29,7 +29,7 @@ export default function MissionPage({requestedView}) {
 
         try {
             setDataLoadError('')
-            const response = await fetch(`http://localhost:8000/missions/get/${missionNumberFromUrl}`, {
+            const response = await fetch(`http://localhost:8000/missions/get/${missionIdFromUrl}`, {
                 signal: controller.signal,
             })
 
