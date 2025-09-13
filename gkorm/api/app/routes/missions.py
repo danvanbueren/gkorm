@@ -3,14 +3,14 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session, joinedload
 from app.config_database import get_db
 from app.database_models import MissionsTable
-from app.response_schemas import ListResponse, MissionOut
+from app.response_schemas import MissionListResponseSchema, MissionSchema
 from app.util.regex import validate_mission_number
 
 router = APIRouter()
 
 @router.get(
     "/get",
-    response_model=ListResponse,
+    response_model=MissionListResponseSchema,
     summary="Get all missions",
     tags=["Missions"],
     description="""
@@ -29,7 +29,7 @@ def get_all(db: Session = Depends(get_db)):
             }
         # TODO: Get actual status and date. Temporarily attach "unknown" for now
         content = [
-            MissionOut(
+            MissionSchema(
                 PKEY_id=m.PKEY_id,
                 mission_number=m.mission_number,
                 status="(api todo)",
@@ -70,7 +70,7 @@ def get_by_id(pkey_id: int, db: Session = Depends(get_db)):
                 "content": []
             }
 
-        content = MissionOut(
+        content = MissionSchema(
             PKEY_id=response.PKEY_id,
             mission_number=response.mission_number,
             status="(api todo)",
@@ -79,6 +79,47 @@ def get_by_id(pkey_id: int, db: Session = Depends(get_db)):
             owner=response.owner,
         )
 
+
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'Mission successfully retrieved',
+            "content": content
+        }
+
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e),
+            "content": []
+        }
+
+@router.get(
+    '/get/{pkey_id}/status',
+    summary="Get mission status by id",
+    tags=["Missions"],
+    description="""
+    Returns each category of mission status by the specified id.
+    """,
+    response_description="Returns each category of mission status by the specified id."
+)
+def get_status_by_id(pkey_id: int, db: Session = Depends(get_db)):
+    try:
+        response = db.query(MissionsTable).filter(MissionsTable.PKEY_id == pkey_id).first()
+
+        if not response:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'Mission not found',
+                "content": []
+            }
+
+        content = {
+            'OVERALL_MISSION_STATUS': '?',
+            'MISSION_PLANNING_WORKSHEET_STATUS': 'NOT_STARTED',
+            'PILOT_PROFICIENCY_WORKSHEET_STATUS': 'IN_PROGRESS',
+            'DAY_OF_MISSION_WORKSHEET_STATUS': 'COMPLETE',
+            'PERSONAL_WORKSHEET_STATUS': 'NOT_STARTED',
+        }
 
         return {
             "status": status.HTTP_200_OK,
