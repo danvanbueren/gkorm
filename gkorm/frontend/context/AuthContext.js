@@ -3,13 +3,18 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
-    const [session, setSession] = useState(null)
+    const [session, setSession] = useState(undefined)
+    const [ready, setReady] = useState(false)
 
     // Load session from localStorage on mount
     useEffect(() => {
-        const raw = localStorage.getItem('session')
-        if (raw) setSession(JSON.parse(raw))
-    }, []);
+        try {
+            const raw = localStorage.getItem('session')
+            setSession(raw ? JSON.parse(raw) : null)
+        } finally {
+            setReady(true)
+        }
+    }, [])
 
     // Save session to localStorage on change
     useEffect(() => {
@@ -48,6 +53,7 @@ export const AuthProvider = ({ children }) => {
     const signIn = async (amisId) => {
         const newSession = await callAuthApi(amisId)
         setSession(newSession)
+        setReady(true)
     }
 
     const signOut = () => {
@@ -62,7 +68,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ session, signIn, signOut, updateUserData }}>
+        <AuthContext.Provider value={{ session, ready, signIn, signOut, updateUserData }}>
             {children}
         </AuthContext.Provider>
     )
