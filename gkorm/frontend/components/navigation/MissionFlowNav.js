@@ -23,7 +23,7 @@ export default function MissionFlowNav({
 
     const definedViews = ['crewlist', 'planning', 'pilot', 'execution', 'personal'];
 
-    return (<Box sx={{padding: 0, margin: 0}}>
+    return (<Box sx={{padding: 0, margin: 0, position: 'relative'}}>
         <Typography
             variant={'h5'}
             textAlign={isLgUp ? 'start' : 'center'}
