@@ -1,6 +1,6 @@
-# GKORM Repository
+# gkorm
 
-This repository hosts the GKORM full-stack application.
+gkorm - Non-secure demo to administer Operational Risk Management for aircrew at Geilenkirchen NATO Air Base. This project is personal, and is not owned, operated, or endorsed by any government entities. This repository is unclassified.
 
 ## Contents
 
