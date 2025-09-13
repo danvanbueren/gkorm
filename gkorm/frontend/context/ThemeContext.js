@@ -1,13 +1,12 @@
-'use client';
+'use client'
 
-import {createContext, useContext, useEffect, useMemo, useState} from 'react';
-import {ThemeProvider, createTheme} from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import {Box, CircularProgress} from "@mui/material";
+import {createContext, useContext, useMemo, useState} from 'react'
+import {ThemeProvider, createTheme} from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
 
-const ThemeContext = createContext();
+const ThemeContext = createContext()
 
-export const useColorMode = () => useContext(ThemeContext);
+export const useColorMode = () => useContext(ThemeContext)
 
 export default function ThemeContextProvider({children}) {
 
@@ -16,33 +15,33 @@ export default function ThemeContextProvider({children}) {
         if (typeof window !== 'undefined') {
 
             // Check localStorage for saved mode
-            const savedMode = localStorage.getItem('themeMode');
+            const savedMode = localStorage.getItem('themeMode')
             if (savedMode === 'light' || savedMode === 'dark') {
-                return savedMode;
+                return savedMode
             }
 
             // Follow system preference if localStorage not set
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            return prefersDark ? 'dark' : 'light';
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+            return prefersDark ? 'dark' : 'light'
         }
 
         // Fallback during server-side render
-        return 'dark';
-    };
+        return 'dark'
+    }
 
     // Mode state with initial mode
-    const [mode, setMode] = useState(getInitialMode);
+    const [mode, setMode] = useState(getInitialMode)
 
     // Toggle color mode / transition speed in seconds
     const colorMode = useMemo(() => ({
         toggleColorMode: () => {
             setMode((prev) => {
-                const newMode = prev === 'light' ? 'dark' : 'light';
-                localStorage.setItem('themeMode', newMode);
-                return newMode;
-            });
+                const newMode = prev === 'light' ? 'dark' : 'light'
+                localStorage.setItem('themeMode', newMode)
+                return newMode
+            })
         },
-    }), []);
+    }), [])
 
     // Create theme
     const theme = useMemo(() => createTheme({
@@ -79,7 +78,7 @@ export default function ThemeContextProvider({children}) {
         }, typography: {
             fontFamily: 'Roboto, sans-serif',
         },
-    }), [mode]);
+    }), [mode])
 
     // Return context / provider / css baseline
     return (
@@ -89,5 +88,5 @@ export default function ThemeContextProvider({children}) {
                 {children}
             </ThemeProvider>
         </ThemeContext.Provider>
-    );
+    )
 }

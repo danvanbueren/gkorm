@@ -1,7 +1,6 @@
-'use client';
+'use client'
 
 import {
-    Alert,
     Box,
     FormControl,
     FormHelperText,
@@ -11,46 +10,46 @@ import {
     Select,
     TextField,
     Typography
-} from "@mui/material";
-import {RequireAuth} from "@/components/utility/RequireAuth";
-import NavHeader from "@/components/navigation/NavHeader";
-import {useEffect, useState} from "react";
-import {useAuth} from "@/context/AuthContext";
+} from "@mui/material"
+import {RequireAuth} from "@/components/utility/RequireAuth"
+import NavHeader from "@/components/navigation/NavHeader"
+import {useEffect, useState} from "react"
+import {useAuth} from "@/context/AuthContext"
 
 export default function ProfilePage() {
 
-    const {session, updateUserData} = useAuth();
+    const {session, updateUserData} = useAuth()
 
-    const [rank, setRank] = useState(session?.user?.rank || '');
-    const [givenName, setGivenName] = useState(session?.user?.given_name || '');
-    const [familyName, setFamilyName] = useState(session?.user?.family_name || '');
-    const [crewPosition, setCrewPosition] = useState(session?.user?.crew_position || '');
-    const [crewPositionModifier, setCrewPositionModifier] = useState(session?.user?.crew_position_modifier || '');
-    const [assignedUnit, setAssignedUnit] = useState(session?.user?.assigned_unit || '');
+    const [rank, setRank] = useState(session?.user?.rank || '')
+    const [givenName, setGivenName] = useState(session?.user?.given_name || '')
+    const [familyName, setFamilyName] = useState(session?.user?.family_name || '')
+    const [crewPosition, setCrewPosition] = useState(session?.user?.crew_position || '')
+    const [crewPositionModifier, setCrewPositionModifier] = useState(session?.user?.crew_position_modifier || '')
+    const [assignedUnit, setAssignedUnit] = useState(session?.user?.assigned_unit || '')
 
-    const [rankStatus, setRankStatus] = useState('');
-    const [givenNameStatus, setGivenNameStatus] = useState('');
-    const [familyNameStatus, setFamilyNameStatus] = useState('');
-    const [crewPositionStatus, setCrewPositionStatus] = useState('');
-    const [crewPositionModifierStatus, setCrewPositionModifierStatus] = useState('');
-    const [assignedUnitStatus, setAssignedUnitStatus] = useState('');
+    const [rankStatus, setRankStatus] = useState('')
+    const [givenNameStatus, setGivenNameStatus] = useState('')
+    const [familyNameStatus, setFamilyNameStatus] = useState('')
+    const [crewPositionStatus, setCrewPositionStatus] = useState('')
+    const [crewPositionModifierStatus, setCrewPositionModifierStatus] = useState('')
+    const [assignedUnitStatus, setAssignedUnitStatus] = useState('')
 
-    const [firstLoad, setFirstLoad] = useState(true);
+    const [firstLoad, setFirstLoad] = useState(true)
 
     // Send API requests to update user data on input change
     useEffect(() => {
         if(firstLoad) {
-            setFirstLoad(false);
-            return;
+            setFirstLoad(false)
+            return
         }
 
-        const controller = new AbortController();
+        const controller = new AbortController()
 
         const send = async (propertyName, propertyContent) => {
             const path = `http://localhost:8000/users/update/${propertyName}/${session.user.PKEY_id}?${propertyName}=${propertyContent}`
             try {
                 const response = await fetch(path, {method: 'PATCH', headers: {'accept': 'application/json'}})
-                const data = await response.json();
+                const data = await response.json()
                 if (!response.ok) {
                     return [false, 'Malformed response: ' + data?.content?.message || 'Unknown error']
                 }
@@ -132,14 +131,14 @@ export default function ProfilePage() {
                     }
                 })
             }
-        }, 1000);
+        }, 1000)
 
         // Cleanup if any value changes or component unmounts
         return () => {
-            clearTimeout(timeout);
-            controller.abort(); // Cancel the previous API request if still in-flight
-        };
-    }, [rank, givenName, familyName, crewPosition, crewPositionModifier, assignedUnit]);
+            clearTimeout(timeout)
+            controller.abort() // Cancel the previous API request if still in-flight
+        }
+    }, [rank, givenName, familyName, crewPosition, crewPositionModifier, assignedUnit])
 
     // Reset success status after 5 seconds
     useEffect(() => {
@@ -147,7 +146,7 @@ export default function ProfilePage() {
         if (rankStatus === 'success') {
             timeout = setTimeout(() => {
                 setRankStatus('')
-            }, 5000);
+            }, 5000)
         }
         return () => clearTimeout(timeout)
     }, [rankStatus])
@@ -157,7 +156,7 @@ export default function ProfilePage() {
         if (givenNameStatus === 'success') {
             timeout = setTimeout(() => {
                 setGivenNameStatus('')
-            }, 5000);
+            }, 5000)
         }
         return () => clearTimeout(timeout)
     }, [givenNameStatus])
@@ -167,7 +166,7 @@ export default function ProfilePage() {
         if (familyNameStatus === 'success') {
             timeout = setTimeout(() => {
                 setFamilyNameStatus('')
-            }, 5000);
+            }, 5000)
         }
         return () => clearTimeout(timeout)
     }, [familyNameStatus])
@@ -177,7 +176,7 @@ export default function ProfilePage() {
         if (crewPositionStatus === 'success') {
             timeout = setTimeout(() => {
                 setCrewPositionStatus('')
-            }, 5000);
+            }, 5000)
         }
         return () => clearTimeout(timeout)
     }, [crewPositionStatus])
@@ -187,7 +186,7 @@ export default function ProfilePage() {
         if (crewPositionModifierStatus === 'success') {
             timeout = setTimeout(() => {
                 setCrewPositionModifierStatus('')
-            }, 5000);
+            }, 5000)
         }
         return () => clearTimeout(timeout)
     }, [crewPositionModifierStatus])
@@ -197,7 +196,7 @@ export default function ProfilePage() {
         if (assignedUnitStatus === 'success') {
             timeout = setTimeout(() => {
                 setAssignedUnitStatus('')
-            }, 5000);
+            }, 5000)
         }
         return () => clearTimeout(timeout)
     }, [assignedUnitStatus])
@@ -418,5 +417,5 @@ export default function ProfilePage() {
                 </Grid>
             </Grid>
         </RequireAuth>
-    );
+    )
 }

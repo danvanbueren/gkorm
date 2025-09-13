@@ -1,10 +1,10 @@
-import {Box} from "@mui/material";
-import {useSpaRouter} from "@/context/SpaRouter";
+import {Box} from "@mui/material"
+import {useSpaRouter} from "@/context/SpaRouter"
 
 export default function NavPathDebugViewer() {
 
-    const {currentPath} = useSpaRouter();
-    const pathAsArray = currentPath.split("/");
+    const {currentPath} = useSpaRouter()
+    const pathAsArray = currentPath.split("/")
 
     return (
         <Box position='relative'>

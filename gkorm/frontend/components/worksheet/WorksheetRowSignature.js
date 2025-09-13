@@ -1,6 +1,6 @@
-import {Box, Grid, Typography, useTheme} from '@mui/material';
-import WorksheetCellBase from "@/components/worksheet/WorksheetCellBase";
-import Signature from "@/components/utility/Signature";
+import {Box, Grid, Typography, useTheme} from '@mui/material'
+import WorksheetCellBase from "@/components/worksheet/WorksheetCellBase"
+import Signature from "@/components/utility/Signature"
 
 export default function WorksheetRowSignature({
                                                   theme = useTheme(),
@@ -68,5 +68,5 @@ export default function WorksheetRowSignature({
             </Grid>
 
         </Grid>
-    );
+    )
 }

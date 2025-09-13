@@ -1,27 +1,24 @@
-'use client';
+'use client'
 
 import {
     Box, Button, Card, Divider, Grid, TextField, Typography, useMediaQuery, useTheme
-} from "@mui/material";
-import {AssignmentInd, Checklist, Flight, Groups} from '@mui/icons-material';
-import {useState} from "react";
-import {useParams} from 'next/navigation';
-import nextConfig from "@/next.config.mjs";
-import {useSpaRouter} from "@/context/SpaRouter";
+} from "@mui/material"
+import {AssignmentInd, Checklist, Flight, Groups} from '@mui/icons-material'
+import {useSpaRouter} from "@/context/SpaRouter"
 
 export default function MissionFlowNav({
                                            theme = useTheme(), missionData, currentView,
                                        }) {
 
-    const {navigate} = useSpaRouter();
+    const {navigate} = useSpaRouter()
 
-    const isLgUp = useMediaQuery(theme.breakpoints.up('lg'));
+    const isLgUp = useMediaQuery(theme.breakpoints.up('lg'))
 
     const owner = missionData?.owner
     const ownerDisplayName = `${owner?.rank} ${owner?.given_name} ${owner?.family_name}, ${owner?.amis_id}`
     const missionNumber = `${missionData?.mission_number}`
 
-    const definedViews = ['crewlist', 'planning', 'pilot', 'execution', 'personal'];
+    const definedViews = ['crewlist', 'planning', 'pilot', 'execution', 'personal']
 
     return (<Box sx={{padding: 0, margin: 0, position: 'relative'}}>
         <Typography

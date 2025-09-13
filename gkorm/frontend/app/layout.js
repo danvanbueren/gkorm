@@ -1,16 +1,16 @@
 'use client'
 
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
-import '@fontsource/roboto-mono/400.css';
-import '@fontsource/roboto-mono/700.css';
-import ThemeContextProvider from "@/context/ThemeContext";
-import ClassificationContainer from "@/components/utility/ClassificationContainer";
-import {SpaRouterProvider} from "@/context/SpaRouter";
-import {AuthProvider} from "@/context/AuthContext";
-import AlertProvider from "@/context/AlertProvider";
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
+import '@fontsource/roboto-mono/400.css'
+import '@fontsource/roboto-mono/700.css'
+import ThemeContextProvider from "@/context/ThemeContext"
+import ClassificationContainer from "@/components/utility/ClassificationContainer"
+import {SpaRouterProvider} from "@/context/SpaRouter"
+import {AuthProvider} from "@/context/AuthContext"
+import AlertProvider from "@/context/AlertProvider"
 
 function SafeHydrate({ children }) {
     return (
@@ -46,5 +46,5 @@ export default function RootLayout({children}) {
         </SafeHydrate>
         </body>
         </html>
-    );
+    )
 }

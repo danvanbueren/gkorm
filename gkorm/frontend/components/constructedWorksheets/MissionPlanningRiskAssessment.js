@@ -1,14 +1,14 @@
-'use client';
+'use client'
 
-import {useMediaQuery, useTheme} from "@mui/material";
-import WorksheetRowInfo from "@/components/worksheet/WorksheetRowInfo";
-import WorksheetRowQuestion from "@/components/worksheet/WorksheetRowQuestion";
-import Worksheet from "@/components/worksheet/Worksheet";
-import WorksheetRowSignature from "@/components/worksheet/WorksheetRowSignature";
+import {useMediaQuery, useTheme} from "@mui/material"
+import WorksheetRowInfo from "@/components/worksheet/WorksheetRowInfo"
+import WorksheetRowQuestion from "@/components/worksheet/WorksheetRowQuestion"
+import Worksheet from "@/components/worksheet/Worksheet"
+import WorksheetRowSignature from "@/components/worksheet/WorksheetRowSignature"
 
 export default function MissionPlanningRiskAssessment({theme = useTheme(), ...props}) {
 
-    const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+    const isMdUp = useMediaQuery(theme.breakpoints.up('md'))
 
     const owner = props?.missionData?.owner
     const ownerDisplayName = `${owner?.rank} ${owner?.given_name} ${owner?.family_name}, ${owner?.amis_id}`
@@ -153,5 +153,5 @@ export default function MissionPlanningRiskAssessment({theme = useTheme(), ...pr
                 bottomBorderThickness={0}
             />
         </Worksheet>
-    );
+    )
 }

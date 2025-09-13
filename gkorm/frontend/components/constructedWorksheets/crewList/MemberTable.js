@@ -1,30 +1,29 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import IconButton from '@mui/material/IconButton';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied';
-import NoteAltIcon from '@mui/icons-material/NoteAlt';
-import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff';
-import DeleteIcon from '@mui/icons-material/Delete';
-import SchoolIcon from '@mui/icons-material/School';
-import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
-import {Tooltip} from "@mui/material";
-import {useSpaRouter} from "@/context/SpaRouter";
+import * as React from 'react'
+import Box from '@mui/material/Box'
+import Collapse from '@mui/material/Collapse'
+import IconButton from '@mui/material/IconButton'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Typography from '@mui/material/Typography'
+import Paper from '@mui/material/Paper'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied'
+import NoteAltIcon from '@mui/icons-material/NoteAlt'
+import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
+import DeleteIcon from '@mui/icons-material/Delete'
+import SchoolIcon from '@mui/icons-material/School'
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule'
+import {Tooltip} from "@mui/material"
+import {useSpaRouter} from "@/context/SpaRouter"
 
 function createRowData(rank, givenName, familyName, crewPosition, crewPositionModifiers, status, personalRiskAssessment = null) {
-    let displayName = rank + ' ' + givenName + ' ' + familyName;
-    let displayCrewPosition = crewPosition + ' ' + crewPositionModifiers;
+    let displayName = rank + ' ' + givenName + ' ' + familyName
+    let displayCrewPosition = crewPosition + ' ' + crewPositionModifiers
 
     return {
         rank,
@@ -44,15 +43,15 @@ function createRowData(rank, givenName, familyName, crewPosition, crewPositionMo
                 q4: personalRiskAssessment && personalRiskAssessment.q4,
             },
         ],
-    };
+    }
 }
 
 function Row(props) {
-    const {row} = props;
-    const {navigate} = useSpaRouter();
-    const [open, setOpen] = React.useState(false);
+    const {row} = props
+    const {navigate} = useSpaRouter()
+    const [open, setOpen] = React.useState(false)
 
-    let missionPkeyId = props.missionPkeyId;
+    let missionPkeyId = props.missionPkeyId
 
     return (
         <>
@@ -134,7 +133,7 @@ function Row(props) {
                 </TableCell>
             </TableRow>
         </>
-    );
+    )
 }
 
 export default function MemberTable(props) {
@@ -142,7 +141,7 @@ export default function MemberTable(props) {
     const rows = [
         createRowData('OF-1', 'John', 'Doe', 'pilot', '', 'complete', {id: 1, q1: 1, q2: 2, q3: 3, q4: 4}),
         createRowData('OF-3', 'Jane', 'Smith', 'system_technician', '', 'incomplete', {id: 2, q1: 1, q2: 2, q3: 3, q4: 4}),
-    ];
+    ]
 
     return (
         <TableContainer component={Paper} sx={{borderRadius: '1rem'}}>
@@ -163,5 +162,5 @@ export default function MemberTable(props) {
                 </TableBody>
             </Table>
         </TableContainer>
-    );
+    )
 }

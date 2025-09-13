@@ -1,33 +1,33 @@
-'use client';
+'use client'
 
-import {Alert, Button, TextField, Typography} from "@mui/material";
-import {useAuth} from "@/context/AuthContext";
-import {useState} from "react";
-import {useSpaRouter} from "@/context/SpaRouter";
-import SendIcon from '@mui/icons-material/Send';
-import {RequireAuth} from "@/components/utility/RequireAuth";
+import {Alert, Button, TextField, Typography} from "@mui/material"
+import {useAuth} from "@/context/AuthContext"
+import {useState} from "react"
+import {useSpaRouter} from "@/context/SpaRouter"
+import SendIcon from '@mui/icons-material/Send'
+import {RequireAuth} from "@/components/utility/RequireAuth"
 
 export default function AuthenticatePage() {
 
-    const {signIn} = useAuth();
-    const {navigate} = useSpaRouter();
-    const [amisId, setAmisId] = useState('');
-    const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
+    const {signIn} = useAuth()
+    const {navigate} = useSpaRouter()
+    const [amisId, setAmisId] = useState('')
+    const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e) => {
-        e?.preventDefault();
+        e?.preventDefault()
         setError('')
         setLoading(true)
 
         try {
-            await signIn(amisId);
-            navigate('/');
+            await signIn(amisId)
+            navigate('/')
         } catch (e) {
-            setError(e.message);
+            setError(e.message)
         }
         setLoading(false)
-    };
+    }
 
     return (
         <RequireAuth>
@@ -68,5 +68,5 @@ export default function AuthenticatePage() {
             {(amisId && !error && !loading) && <Alert variant="filled" severity="success">Ready to submit request!</Alert>}
 
         </RequireAuth>
-    );
+    )
 }

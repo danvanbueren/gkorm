@@ -1,35 +1,35 @@
-'use client';
+'use client'
 
-import React from 'react';
-import {AppBar, Toolbar, Typography, Box, Button, IconButton, Avatar, Container, MenuItem, Menu} from '@mui/material';
-import {Brightness4, Brightness7} from '@mui/icons-material';
-import {useTheme} from "@mui/material";
-import {useColorMode} from "@/context/ThemeContext";
-import {useSpaRouter} from "@/context/SpaRouter";
-import {useAuth} from "@/context/AuthContext";
+import React from 'react'
+import {AppBar, Toolbar, Typography, Box, Button, IconButton, Avatar, Container, MenuItem, Menu} from '@mui/material'
+import {Brightness4, Brightness7} from '@mui/icons-material'
+import {useTheme} from "@mui/material"
+import {useColorMode} from "@/context/ThemeContext"
+import {useSpaRouter} from "@/context/SpaRouter"
+import {useAuth} from "@/context/AuthContext"
 
 export default function NavHeader() {
 
-    const {navigate} = useSpaRouter();
-    const {session, signOut} = useAuth();
-    const theme = useTheme();
-    const colorMode = useColorMode();
+    const {navigate} = useSpaRouter()
+    const {session, signOut} = useAuth()
+    const theme = useTheme()
+    const colorMode = useColorMode()
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
+    const [anchorEl, setAnchorEl] = React.useState(null)
+    const open = Boolean(anchorEl)
 
     const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+        setAnchorEl(event.currentTarget)
+    }
 
     const handleClose = () => {
-        setAnchorEl(null);
-    };
+        setAnchorEl(null)
+    }
 
     const destroySession = () => {
-        handleClose();
-        signOut();
-        navigate('/authenticate');
+        handleClose()
+        signOut()
+        navigate('/authenticate')
     }
 
     return (
@@ -144,5 +144,5 @@ export default function NavHeader() {
                 </Container>
             </AppBar>
         </Box>
-    );
+    )
 }

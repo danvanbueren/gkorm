@@ -1,22 +1,22 @@
-'use client';
+'use client'
 
-import {Box, Button, Grid, Typography} from "@mui/material";
-import NavHeader from "@/components/navigation/NavHeader";
-import MissionPlanningRiskAssessment from "@/components/constructedWorksheets/MissionPlanningRiskAssessment";
-import MissionFlowNav from "@/components/navigation/MissionFlowNav";
-import DayOfMissionRiskAssessment from "@/components/constructedWorksheets/DayOfMissionRiskAssessment";
-import PersonalRiskAssessment from "@/components/constructedWorksheets/PersonalRiskAssessment";
-import PilotProficiencyRiskAssessment from "@/components/constructedWorksheets/PilotProficiencyRiskAssessment";
-import ProcessFlow from "@/components/constructedWorksheets/ProcessFlow";
-import CrewList from "@/components/constructedWorksheets/CrewList";
-import {RequireAuth} from "@/components/utility/RequireAuth";
-import {useEffect, useState} from "react";
-import {useSpaRouter} from "@/context/SpaRouter";
+import {Box, Button, Grid, Typography} from "@mui/material"
+import NavHeader from "@/components/navigation/NavHeader"
+import MissionPlanningRiskAssessment from "@/components/constructedWorksheets/MissionPlanningRiskAssessment"
+import MissionFlowNav from "@/components/navigation/MissionFlowNav"
+import DayOfMissionRiskAssessment from "@/components/constructedWorksheets/DayOfMissionRiskAssessment"
+import PersonalRiskAssessment from "@/components/constructedWorksheets/PersonalRiskAssessment"
+import PilotProficiencyRiskAssessment from "@/components/constructedWorksheets/PilotProficiencyRiskAssessment"
+import ProcessFlow from "@/components/constructedWorksheets/ProcessFlow"
+import CrewList from "@/components/constructedWorksheets/CrewList"
+import {RequireAuth} from "@/components/utility/RequireAuth"
+import {useEffect, useState} from "react"
+import {useSpaRouter} from "@/context/SpaRouter"
 
 export default function MissionPage({requestedView}) {
 
-    const {navigate, currentPath} = useSpaRouter();
-    const pathAsArray = currentPath.split("/");
+    const {navigate, currentPath} = useSpaRouter()
+    const pathAsArray = currentPath.split("/")
     const missionIdFromUrl = pathAsArray[2]
 
     const [missionData, setMissionData] = useState()
@@ -127,5 +127,5 @@ export default function MissionPage({requestedView}) {
                 }
             </Grid>
         </RequireAuth>
-    );
+    )
 }

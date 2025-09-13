@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
-import {useAuth} from "@/context/AuthContext";
-import {useSpaRouter} from "@/context/SpaRouter";
+import { useEffect } from 'react'
+import {useAuth} from "@/context/AuthContext"
+import {useSpaRouter} from "@/context/SpaRouter"
 
 export const RequireAuth = ({ children }) => {
-    const {session, ready} = useAuth();
-    const {navigate, currentPath} = useSpaRouter();
+    const {session, ready} = useAuth()
+    const {navigate, currentPath} = useSpaRouter()
 
     useEffect(() => {
         if (!ready) return
@@ -14,9 +14,9 @@ export const RequireAuth = ({ children }) => {
         }
 
         if (session && currentPath === '/authenticate')
-            navigate('/');
+            navigate('/')
 
-    }, [ready, session]);
+    }, [ready, session])
 
     if (currentPath === '/authenticate')
         return children

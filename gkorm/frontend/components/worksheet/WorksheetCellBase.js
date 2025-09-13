@@ -1,4 +1,4 @@
-import {Box, useTheme} from '@mui/material';
+import {Box, useTheme} from '@mui/material'
 
 export default function WorksheetCellBase({
                                               theme = useTheme(),
@@ -25,5 +25,5 @@ export default function WorksheetCellBase({
         }}
     >
         {children}
-    </Box>);
+    </Box>)
 }

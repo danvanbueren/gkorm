@@ -1,8 +1,7 @@
-'use client';
+'use client'
 
-import {Box, Typography, Button} from '@mui/material';
-import Link from 'next/link';
-import ClassificationBar from "@/components/utility/ClassificationBar";
+import {Box, Typography, Button} from '@mui/material'
+import Link from 'next/link'
 
 export default function NotFound() {
     return (
@@ -29,5 +28,5 @@ export default function NotFound() {
                 Go Back
             </Button>
         </Box>
-    );
+    )
 }

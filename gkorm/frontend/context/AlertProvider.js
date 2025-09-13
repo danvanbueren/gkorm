@@ -1,4 +1,4 @@
-import {Alert, AlertTitle, Box, Grid, Typography} from "@mui/material"
+import {Alert, AlertTitle, Box, Typography} from "@mui/material"
 import {createContext, useContext, useState} from "react"
 
 const AlertContext = createContext()
@@ -72,7 +72,7 @@ export default function AlertProvider({ children }) {
 
         toJsxComponent() {
             if (this._timeout != null) {
-                window.setTimeout(() => AlertData.remove(this._uid), this._timeout);
+                window.setTimeout(() => AlertData.remove(this._uid), this._timeout)
             }
             return (
                 <Alert
@@ -154,4 +154,4 @@ export const useAlert = () => {
     const context = useContext(AlertContext)
     if (!context) throw new Error('useAlert must be used inside AlertProvider')
     return context
-};
+}

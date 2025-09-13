@@ -1,16 +1,15 @@
-'use client';
+'use client'
 
-import {useMediaQuery, useTheme} from "@mui/material";
-import WorksheetRowInfo from "@/components/worksheet/WorksheetRowInfo";
-import WorksheetRowQuestion from "@/components/worksheet/WorksheetRowQuestion";
-import Worksheet from "@/components/worksheet/Worksheet";
-import WorksheetRowSignature from "@/components/worksheet/WorksheetRowSignature";
+import {useMediaQuery, useTheme} from "@mui/material"
+import WorksheetRowInfo from "@/components/worksheet/WorksheetRowInfo"
+import WorksheetRowQuestion from "@/components/worksheet/WorksheetRowQuestion"
+import Worksheet from "@/components/worksheet/Worksheet"
 
 export default function PilotProficiencyRiskAssessment({
                                                    theme = useTheme(),
                                                }) {
 
-    const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+    const isMdUp = useMediaQuery(theme.breakpoints.up('md'))
 
     return (<Worksheet title="Pilot Proficiency Risk Assessment Worksheet">
             {isMdUp ? <WorksheetRowInfo
@@ -49,5 +48,5 @@ export default function PilotProficiencyRiskAssessment({
                 bottomBorderThickness={0}
             />
 
-        </Worksheet>);
+        </Worksheet>)
 }

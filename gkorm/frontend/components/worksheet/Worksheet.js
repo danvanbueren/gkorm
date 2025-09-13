@@ -1,12 +1,12 @@
-'use client';
+'use client'
 
-import {Box, Typography, useMediaQuery, useTheme} from "@mui/material";
+import {Box, Typography, useMediaQuery, useTheme} from "@mui/material"
 
 export default function Worksheet({
                                       theme = useTheme(), title = 'SET TITLE PROP IN \<WORKSHEET\>', children,
                                   }) {
 
-    const isLgUp = useMediaQuery(theme.breakpoints.up('lg'));
+    const isLgUp = useMediaQuery(theme.breakpoints.up('lg'))
 
     return (
         <Box sx={{padding: 0, margin: 0}}>

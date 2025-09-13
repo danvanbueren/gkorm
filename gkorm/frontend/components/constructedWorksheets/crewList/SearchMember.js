@@ -1,17 +1,17 @@
-import * as React from "react";
-import {useEffect, useState} from "react";
-import {Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import * as React from "react"
+import {useEffect, useState} from "react"
+import {Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField} from "@mui/material"
+import AddIcon from "@mui/icons-material/Add"
 
 export default function SearchMember() {
 
-    const [rankFilter, setRankFilter] = useState('');
-    const [givenName, setGivenName] = useState('');
-    const [familyName, setFamilyName] = useState('');
-    const [amisId, setAmisId] = useState('');
+    const [rankFilter, setRankFilter] = useState('')
+    const [givenName, setGivenName] = useState('')
+    const [familyName, setFamilyName] = useState('')
+    const [amisId, setAmisId] = useState('')
 
-    const amisIdValid = amisId && /^[0-9]+$/.test(amisId);
-    const allFieldsFilled = rankFilter && givenName && familyName && amisIdValid;
+    const amisIdValid = amisId && /^[0-9]+$/.test(amisId)
+    const allFieldsFilled = rankFilter && givenName && familyName && amisIdValid
 
     // Reset rank filter on ignore
     useEffect(() => {
@@ -23,7 +23,7 @@ export default function SearchMember() {
                 activeElement.blur()
             }
         }
-    }, [rankFilter]);
+    }, [rankFilter])
 
     return (
         <Box

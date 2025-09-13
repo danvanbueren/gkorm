@@ -1,5 +1,5 @@
-import {Container} from "@mui/material";
-import ClassificationBar from "@/components/utility/ClassificationBar";
+import {Container} from "@mui/material"
+import ClassificationBar from "@/components/utility/ClassificationBar"
 
 export default function ClassificationContainer({
                                                     children,

@@ -1,9 +1,9 @@
-'use client';
+'use client'
 
-import {Box, Button, Grid, Typography} from "@mui/material";
-import NavHeader from "@/components/navigation/NavHeader";
-import {RequireAuth} from "@/components/utility/RequireAuth";
-import BaselineStatus from "@/api/BaselineStatus";
+import {Box, Button, Grid, Typography} from "@mui/material"
+import NavHeader from "@/components/navigation/NavHeader"
+import {RequireAuth} from "@/components/utility/RequireAuth"
+import BaselineStatus from "@/api/BaselineStatus"
 
 export default function LandingPage() {
 
@@ -34,5 +34,5 @@ export default function LandingPage() {
                 </Grid>
             </Grid>
         </RequireAuth>
-    );
+    )
 }

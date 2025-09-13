@@ -1,9 +1,9 @@
-'use client';
+'use client'
 
-import {Box, Button, Grid, Typography, useMediaQuery, useTheme} from "@mui/material";
-import Worksheet from "@/components/worksheet/Worksheet";
-import {Close, Done, MoreHoriz, QuestionMark, South, SubdirectoryArrowRight} from '@mui/icons-material';
-import {useSpaRouter} from "@/context/SpaRouter";
+import {Box, Button, Typography, useMediaQuery, useTheme} from "@mui/material"
+import Worksheet from "@/components/worksheet/Worksheet"
+import {Close, Done, MoreHoriz, QuestionMark, South, SubdirectoryArrowRight} from '@mui/icons-material'
+import {useSpaRouter} from "@/context/SpaRouter"
 
 export default function ProcessFlow({
                                         theme = useTheme(),
@@ -13,35 +13,35 @@ export default function ProcessFlow({
                                         statusPRA = '',
                                     }) {
 
-    const {navigate, currentPath} = useSpaRouter();
-    const pathAsArray = currentPath.split("/");
+    const {navigate, currentPath} = useSpaRouter()
+    const pathAsArray = currentPath.split("/")
     const missionIdFromUrl = pathAsArray[2]
 
-    const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+    const isMdUp = useMediaQuery(theme.breakpoints.up('md'))
 
     const getIcon = (status) => {
         switch (status) {
             case 'NOT_STARTED':
-                return <Close sx={{padding: 0}}/>;
+                return <Close sx={{padding: 0}}/>
             case 'IN_PROGRESS':
-                return <MoreHoriz sx={{padding: 0}}/>;
+                return <MoreHoriz sx={{padding: 0}}/>
             case 'COMPLETE':
-                return <Done sx={{padding: 0}}/>;
+                return <Done sx={{padding: 0}}/>
             default:
-                return <QuestionMark sx={{padding: 0}}/>;
+                return <QuestionMark sx={{padding: 0}}/>
         }
     }
 
     const getPrimaryColor = (status) => {
         switch (status) {
             case 'NOT_STARTED':
-                return 'secondary';
+                return 'secondary'
             case 'IN_PROGRESS':
-                return 'warning';
+                return 'warning'
             case 'COMPLETE':
-                return 'success';
+                return 'success'
             default:
-                return 'error';
+                return 'error'
         }
     }
 

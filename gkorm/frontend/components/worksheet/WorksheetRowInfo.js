@@ -1,5 +1,5 @@
-import {Grid, Typography, useMediaQuery, useTheme} from "@mui/material";
-import WorksheetCellBase from "@/components/worksheet/WorksheetCellBase";
+import {Grid, Typography, useMediaQuery, useTheme} from "@mui/material"
+import WorksheetCellBase from "@/components/worksheet/WorksheetCellBase"
 
 export default function WorksheetRowInfo({
                                              theme = useTheme(),
@@ -32,7 +32,7 @@ export default function WorksheetRowInfo({
         </>)
     }
 
-    const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+    const isMdUp = useMediaQuery(theme.breakpoints.up('md'))
 
     return (<Grid
         container

@@ -1,6 +1,6 @@
-'use client';
+'use client'
 
-import {Box, Typography, useTheme, useMediaQuery} from "@mui/material";
+import {Box, Typography, useTheme, useMediaQuery} from "@mui/material"
 
 export default function ClassificationBar({
                                         theme = useTheme(),
@@ -10,7 +10,7 @@ export default function ClassificationBar({
                                         height = '2.5dvh',
                                     }) {
 
-    const isLgUp = useMediaQuery(theme.breakpoints.up('lg'));
+    const isLgUp = useMediaQuery(theme.breakpoints.up('lg'))
 
     return (
         <Box

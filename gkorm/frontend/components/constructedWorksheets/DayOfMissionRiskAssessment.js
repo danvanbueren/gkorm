@@ -1,16 +1,16 @@
-'use client';
+'use client'
 
-import {useMediaQuery, useTheme} from "@mui/material";
-import WorksheetRowInfo from "@/components/worksheet/WorksheetRowInfo";
-import WorksheetRowQuestion from "@/components/worksheet/WorksheetRowQuestion";
-import Worksheet from "@/components/worksheet/Worksheet";
-import WorksheetRowSignature from "@/components/worksheet/WorksheetRowSignature";
+import {useMediaQuery, useTheme} from "@mui/material"
+import WorksheetRowInfo from "@/components/worksheet/WorksheetRowInfo"
+import WorksheetRowQuestion from "@/components/worksheet/WorksheetRowQuestion"
+import Worksheet from "@/components/worksheet/Worksheet"
+import WorksheetRowSignature from "@/components/worksheet/WorksheetRowSignature"
 
 export default function DayOfMissionRiskAssessment({
                                                        theme = useTheme(),
                                                    }) {
 
-    const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
+    const isMdUp = useMediaQuery(theme.breakpoints.up('md'))
 
     return (
         <Worksheet title="Day of Mission Risk Assessment Worksheet">
@@ -116,5 +116,5 @@ export default function DayOfMissionRiskAssessment({
                 bottomBorderThickness={0}
             />
         </Worksheet>
-    );
+    )
 }

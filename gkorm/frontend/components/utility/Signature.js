@@ -1,5 +1,5 @@
-import {Box, Grid, Typography, useTheme} from '@mui/material';
-import FingerprintIcon from '@mui/icons-material/Fingerprint';
+import {Box, Grid, Typography, useTheme} from '@mui/material'
+import FingerprintIcon from '@mui/icons-material/Fingerprint'
 
 export default function Signature({
                                       theme = useTheme(),
@@ -11,10 +11,10 @@ export default function Signature({
                                       children,
                                   }) {
 
-    const rows = 10;
-    const cols = 10;
+    const rows = 10
+    const cols = 10
 
-    const forceGreedyWrap = (text) => text.replace(/ /g, '\u00A0');
+    const forceGreedyWrap = (text) => text.replace(/ /g, '\u00A0')
 
     return (<Box
         sx={{
@@ -216,5 +216,5 @@ export default function Signature({
 
         </Box>
 
-    </Box>);
+    </Box>)
 }
