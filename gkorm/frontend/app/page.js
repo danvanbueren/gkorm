@@ -1,20 +1,20 @@
-'use client';
+'use client'
 
-import LandingPage from "@/components/pages/LandingPage";
-import {useSpaRouter} from "@/context/SpaRouter";
-import MissionPage from "@/components/pages/MissionPage";
-import AuthenticatePage from "@/components/pages/AuthenticatePage";
-import ProfilePage from "@/components/pages/ProfilePage";
-import NavPathDebugViewer from "@/components/devtools/NavPathDebugViewer";
-import {useEffect} from "react";
-import {useAlert} from "@/context/AlertProvider";
-import {useAuth} from "@/context/AuthContext";
-import MissionsPage from "@/components/pages/MissionsPage";
+import LandingPage from "@/components/pages/LandingPage"
+import {useSpaRouter} from "@/context/SpaRouter"
+import MissionPage from "@/components/pages/MissionPage"
+import AuthenticatePage from "@/components/pages/AuthenticatePage"
+import ProfilePage from "@/components/pages/ProfilePage"
+import NavPathDebugViewer from "@/components/devtools/NavPathDebugViewer"
+import {useEffect} from "react"
+import {useAlert} from "@/context/AlertProvider"
+import {useAuth} from "@/context/AuthContext"
+import MissionsPage from "@/components/pages/MissionsPage"
 
 export default function AppPage() {
 
-    const {navigate, currentPath} = useSpaRouter();
-    const pathAsArray = currentPath.split("/");
+    const {navigate, currentPath} = useSpaRouter()
+    const pathAsArray = currentPath.split("/")
 
     const {AlertData} = useAlert()
     const {session} = useAuth()
@@ -43,11 +43,11 @@ export default function AppPage() {
             .severity('info')
             .add()
 
-    }, [session]);
+    }, [session])
 
     // TODO: Replace with API call
     const checkIfMissionExists = (missionNumber) => {
-        return missionNumber !== 'x1';
+        return missionNumber !== 'x1'
     }
 
     const ResolvePath = () => {
@@ -143,5 +143,5 @@ export default function AppPage() {
 
             <ResolvePath/>
         </>
-    );
+    )
 }
