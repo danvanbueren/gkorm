@@ -18,8 +18,8 @@ export default function WorksheetCellBase({
         height="100%"
         width="100%"
         sx={{
-            backgroundColor: {backgroundColor},
-            color: {color},
+            backgroundColor: backgroundColor,
+            color: color,
             borderRight: borderRight !== 'none' ? `${borderRight} ${borderColor}` : 'none',
             borderBottom: borderBottom !== 'none' ? `${borderBottom} ${borderColor}` : 'none',
         }}
