@@ -22,15 +22,14 @@ export default function Worksheet({
 
             <Box
                 sx={{
+                    position: 'relative',
                     borderRadius: '1rem',
                     overflow: 'hidden',
                     border: `4px solid ${theme.palette.custom.borderColor}`,
                     userSelect: 'none',
                     background: `${theme.palette.custom.worksheetBackgroundColor}`,
                 }}>
-
                 {children}
-
             </Box>
 
 
