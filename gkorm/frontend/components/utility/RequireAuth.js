@@ -3,10 +3,12 @@ import {useAuth} from "@/context/AuthContext";
 import {useSpaRouter} from "@/context/SpaRouter";
 
 export const RequireAuth = ({ children }) => {
-    const {session} = useAuth();
+    const {session, ready} = useAuth();
     const {navigate, currentPath} = useSpaRouter();
 
     useEffect(() => {
+        if (!ready) return
+
         if (!session && currentPath !== '/authenticate') {
             navigate('/authenticate')
         }
@@ -14,7 +16,7 @@ export const RequireAuth = ({ children }) => {
         if (session && currentPath === '/authenticate')
             navigate('/');
 
-    }, [session]);
+    }, [ready, session]);
 
     if (currentPath === '/authenticate')
         return children
@@ -23,4 +25,4 @@ export const RequireAuth = ({ children }) => {
         return children
 
     return null
-};
+}
