@@ -1,4 +1,4 @@
-# API
+# api
 
 The FastAPI backend for GKORM lives in this directory.
 
