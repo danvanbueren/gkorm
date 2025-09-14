@@ -131,12 +131,22 @@ export default function AlertProvider({ children }) {
     return (
         <AlertContext.Provider value={{ AlertData }}>
             <Box position='relative'>
-                <Box position='absolute' left='0' top='0' width='100%' height='95vh' display='flex' flexDirection='column' alignItems={'center'} justifyContent={'flex-end'}>
+                <Box
+                    position='absolute'
+                    left='0'
+                    top='0'
+                    width='100%'
+                    height='95vh'
+                    display='flex'
+                    flexDirection='column'
+                    alignItems={'center'}
+                    justifyContent={'flex-end'}
+                >
                     <Box width='100%' minWidth='25rem' maxWidth='40rem' p={2} gap={2}>
 
                         <Box display="flex" flexDirection="column" gap={2} mt={2}>
                             {alerts.map(a => (
-                                <Box key={a._uid}>
+                                <Box key={a._uid} sx={{ zIndex: 1400 }}>
                                     {a.toJsxComponent()}
                                 </Box>
                             ))}
