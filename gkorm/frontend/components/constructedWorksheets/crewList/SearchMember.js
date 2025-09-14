@@ -37,7 +37,6 @@ export default function SearchMember() {
                 spacing={2}
                 sx={{
                     width: '100%',
-                    mt: 5,
                     display: 'flex',
                     justifySelf: 'center',
                     alignItems: 'center',
