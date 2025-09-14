@@ -113,12 +113,13 @@ def get_status_by_id(pkey_id: int, db: Session = Depends(get_db)):
                 "content": []
             }
 
+        # TODO: NEED ACTUAL STATUS!
         content = {
-            'OVERALL_MISSION_STATUS': '?',
-            'MISSION_PLANNING_WORKSHEET_STATUS': 'NOT_STARTED',
+            'OVERALL_MISSION_STATUS': 'UNKNOWN',
+            'MISSION_PLANNING_WORKSHEET_STATUS': 'COMPLETE',
             'PILOT_PROFICIENCY_WORKSHEET_STATUS': 'IN_PROGRESS',
-            'DAY_OF_MISSION_WORKSHEET_STATUS': 'COMPLETE',
-            'PERSONAL_WORKSHEET_STATUS': 'NOT_STARTED',
+            'DAY_OF_MISSION_WORKSHEET_STATUS': 'NOT_STARTED',
+            'PERSONAL_WORKSHEET_STATUS': 'UNKNOWN',
         }
 
         return {
