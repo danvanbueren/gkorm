@@ -1,6 +1,6 @@
 """Base definitions for database tables."""
 
-from sqlalchemy import Column, Integer, String, DateTime, Enum, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, Enum, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.sql import func
 
@@ -39,6 +39,13 @@ class MissionsTable(BaseModel):
 
 class MemberMissionAssignmentsTable(BaseModel):
     __tablename__ = "member_mission_assignments_table"
+    __table_args__ = (
+        UniqueConstraint(
+            "FKEY_missions_TABLE_parent_id",
+            "FKEY_users_TABLE_member_id",
+            name="uq_member_mission_assignment_mission_user",
+        ),
+    )
     FKEY_missions_TABLE_parent_id = Column(Integer, ForeignKey("missions_table.PKEY_id"), nullable=False)
     FKEY_users_TABLE_member_id = Column(Integer, ForeignKey("users_table.PKEY_id"), nullable=False)
     crew_position_override = Column(Enum(CrewPositions))

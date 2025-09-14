@@ -1,9 +1,12 @@
 """Mission routes"""
+from typing import Union
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.exc import IntegrityError
 from app.config_database import get_db
-from app.database_models import MissionsTable
-from app.response_schemas import MissionListResponseSchema, MissionSchema
+from app.database_models import MissionsTable, MemberMissionAssignmentsTable, UsersTable
+from app.database_enums import CrewPositions, CrewPositionModifiers
+from app.response_schemas import MissionListResponseSchema, MissionSchema, MemberAssignmentSchema
 from app.util.regex import validate_mission_number
 
 router = APIRouter()
@@ -27,17 +30,48 @@ def get_all(db: Session = Depends(get_db)):
                 "message": 'No missions found',
                 "content": []
             }
-        # TODO: Get actual status and date. Temporarily attach "unknown" for now
-        content = [
-            MissionSchema(
-                PKEY_id=m.PKEY_id,
-                mission_number=m.mission_number,
-                status="(api todo)",
-                execution_date=m.execution_date,
-                FKEY_users_TABLE_owner_id=m.FKEY_users_TABLE_owner_id,
-                owner=m.owner,
-            ) for m in response
-        ]
+
+        # Preload all member assignments + users for these missions
+        mission_ids = [m.PKEY_id for m in response]
+        assignments_by_mission: dict[int, list[MemberAssignmentSchema]] = {}
+        if mission_ids:
+            rows = (
+                db.query(MemberMissionAssignmentsTable, UsersTable)
+                .join(
+                    UsersTable,
+                    MemberMissionAssignmentsTable.FKEY_users_TABLE_member_id == UsersTable.PKEY_id,
+                )
+                .filter(MemberMissionAssignmentsTable.FKEY_missions_TABLE_parent_id.in_(mission_ids))
+                .all()
+            )
+
+            for assignment, user in rows:
+                mission_id = assignment.FKEY_missions_TABLE_parent_id
+                assignments_by_mission.setdefault(mission_id, []).append(
+                    MemberAssignmentSchema(
+                        PKEY_id=assignment.PKEY_id,
+                        FKEY_missions_TABLE_parent_id=assignment.FKEY_missions_TABLE_parent_id,
+                        FKEY_users_TABLE_member_id=assignment.FKEY_users_TABLE_member_id,
+                        crew_position_override=assignment.crew_position_override,
+                        crew_position_modifier_override=assignment.crew_position_modifier_override,
+                        user=user,
+                    )
+                )
+
+        # TODO: NEED ACTUAL STATUS!
+        content = []
+        for m in response:
+            content.append(
+                MissionSchema(
+                    PKEY_id=m.PKEY_id,
+                    mission_number=m.mission_number,
+                    status="(api todo)",
+                    execution_date=m.execution_date,
+                    FKEY_users_TABLE_owner_id=m.FKEY_users_TABLE_owner_id,
+                    owner=m.owner,
+                    members=assignments_by_mission.get(m.PKEY_id, []),
+                )
+            )
         return {
             "status": status.HTTP_200_OK,
             "message": 'Missions successfully retrieved',
@@ -61,7 +95,12 @@ def get_all(db: Session = Depends(get_db)):
     )
 def get_by_id(pkey_id: int, db: Session = Depends(get_db)):
     try:
-        response = db.query(MissionsTable).filter(MissionsTable.PKEY_id == pkey_id).first()
+        response = (
+            db.query(MissionsTable)
+            .options(joinedload(MissionsTable.owner))
+            .filter(MissionsTable.PKEY_id == pkey_id)
+            .first()
+        )
 
         if not response:
             return {
@@ -70,6 +109,29 @@ def get_by_id(pkey_id: int, db: Session = Depends(get_db)):
                 "content": []
             }
 
+        # Load member assignments with user info for this mission
+        rows = (
+            db.query(MemberMissionAssignmentsTable, UsersTable)
+            .join(
+                UsersTable,
+                MemberMissionAssignmentsTable.FKEY_users_TABLE_member_id == UsersTable.PKEY_id,
+            )
+            .filter(MemberMissionAssignmentsTable.FKEY_missions_TABLE_parent_id == pkey_id)
+            .all()
+        )
+
+        members = [
+            MemberAssignmentSchema(
+                PKEY_id=assignment.PKEY_id,
+                FKEY_missions_TABLE_parent_id=assignment.FKEY_missions_TABLE_parent_id,
+                FKEY_users_TABLE_member_id=assignment.FKEY_users_TABLE_member_id,
+                crew_position_override=assignment.crew_position_override,
+                crew_position_modifier_override=assignment.crew_position_modifier_override,
+                user=user,
+            )
+            for assignment, user in rows
+        ]
+
         content = MissionSchema(
             PKEY_id=response.PKEY_id,
             mission_number=response.mission_number,
@@ -77,6 +139,7 @@ def get_by_id(pkey_id: int, db: Session = Depends(get_db)):
             execution_date=response.execution_date,
             FKEY_users_TABLE_owner_id=response.FKEY_users_TABLE_owner_id,
             owner=response.owner,
+            members=members,
         )
 
 
@@ -181,6 +244,97 @@ def add(
             "content": []
         }
 
+@router.post(
+    "/add_member",
+    summary="Assign member to mission",
+    tags=["Missions"],
+    description="""
+    Adds a member to a mission by creating a record in `MemberMissionAssignmentsTable`.
+
+    Required:
+    - `mission_id`: PKEY of the mission in `MissionsTable`
+    - `member_id`: PKEY of the user in `UsersTable`
+
+    Optional:
+    - `crew_position_override`: Overrides the member's crew position for this mission
+    - `crew_position_modifier_override`: Overrides the member's crew position modifier for this mission
+    """,
+    response_description="Returns the created assignment if successful."
+)
+def add_member(
+    mission_id: int,
+    member_id: int,
+    crew_position_override: Union[CrewPositions, None] = None,
+    crew_position_modifier_override: Union[CrewPositionModifiers, None] = None,
+    db: Session = Depends(get_db),
+):
+    try:
+        # Verify mission exists
+        mission = db.query(MissionsTable).filter(MissionsTable.PKEY_id == mission_id).first()
+        if not mission:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'Mission not found',
+                "content": []
+            }
+
+        # Verify user exists
+        user = db.query(UsersTable).filter(UsersTable.PKEY_id == member_id).first()
+        if not user:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'User not found',
+                "content": []
+            }
+
+        # Prevent duplicate member assignment to the same mission
+        existing = (
+            db.query(MemberMissionAssignmentsTable)
+            .filter(
+                MemberMissionAssignmentsTable.FKEY_missions_TABLE_parent_id == mission_id,
+                MemberMissionAssignmentsTable.FKEY_users_TABLE_member_id == member_id,
+            )
+            .first()
+        )
+        if existing:
+            return {
+                "status": status.HTTP_409_CONFLICT,
+                "message": "Member already assigned to this mission",
+                "content": [],
+            }
+
+        # Create assignment
+        assignment = MemberMissionAssignmentsTable(
+            FKEY_missions_TABLE_parent_id=mission_id,
+            FKEY_users_TABLE_member_id=member_id,
+            crew_position_override=crew_position_override,
+            crew_position_modifier_override=crew_position_modifier_override,
+        )
+
+        db.add(assignment)
+        try:
+            db.commit()
+        except IntegrityError:
+            db.rollback()
+            return {
+                "status": status.HTTP_409_CONFLICT,
+                "message": "Member already assigned to this mission",
+                "content": [],
+            }
+        db.refresh(assignment)
+
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'Member successfully assigned to mission',
+            "content": [assignment],
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e),
+            "content": []
+        }
+
 @router.delete(
     "/delete/{pkey_id}",
     summary="Delete mission by id",
@@ -199,6 +353,13 @@ def delete_by_id(pkey_id: int, db: Session = Depends(get_db)):
                 "message": 'Mission with pkey_id: ' + str(pkey_id) + ' not found',
                 "content": []
             }
+
+        # Remove dependent member assignments to satisfy FK constraints
+        db.query(MemberMissionAssignmentsTable).\
+            filter(MemberMissionAssignmentsTable.FKEY_missions_TABLE_parent_id == pkey_id).\
+            delete(synchronize_session=False)
+
+        # Delete the mission
         db.delete(response)
         db.commit()
         return {
@@ -207,6 +368,7 @@ def delete_by_id(pkey_id: int, db: Session = Depends(get_db)):
             "content": []
         }
     except Exception as e:
+        db.rollback()
         return {
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
             "message": str(e),
