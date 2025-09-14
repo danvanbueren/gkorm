@@ -2,20 +2,20 @@
 
 import {Box, Button, Typography, useMediaQuery, useTheme} from "@mui/material"
 import Worksheet from "@/components/worksheet/Worksheet"
-import {Close, Done, MoreHoriz, QuestionMark, South, SubdirectoryArrowRight} from '@mui/icons-material'
+import {Close, Done, MoreHoriz, Pending, QuestionMark, South, SubdirectoryArrowRight} from '@mui/icons-material'
 import {useSpaRouter} from "@/context/SpaRouter"
+import {useEffect, useState} from "react";
+import {useAlert} from "@/context/AlertProvider";
 
 export default function ProcessFlow({
                                         theme = useTheme(),
-                                        statusMPRA = '',
-                                        statusPPRA = '',
-                                        statusDOMRA = '',
-                                        statusPRA = '',
                                     }) {
 
     const {navigate, currentPath} = useSpaRouter()
     const pathAsArray = currentPath.split("/")
     const missionIdFromUrl = pathAsArray[2]
+
+    const { AlertData } = useAlert()
 
     const isMdUp = useMediaQuery(theme.breakpoints.up('md'))
 
@@ -27,6 +27,8 @@ export default function ProcessFlow({
                 return <MoreHoriz sx={{padding: 0}}/>
             case 'COMPLETE':
                 return <Done sx={{padding: 0}}/>
+            case 'LOADING':
+                return <Pending sx={{padding: 0}}/>
             default:
                 return <QuestionMark sx={{padding: 0}}/>
         }
@@ -40,10 +42,37 @@ export default function ProcessFlow({
                 return 'warning'
             case 'COMPLETE':
                 return 'success'
+            case 'LOADING':
+                return 'white'
             default:
                 return 'error'
         }
     }
+
+    const [data, setData] = useState()
+
+    // API call
+    useEffect(() => {
+        fetch(`http://localhost:8000/missions/get/${missionIdFromUrl}/status`, {
+            method: 'GET',
+            headers: { 'accept': 'application/json' }
+        })
+            .then((response) => {
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+                return response.json()
+            })
+            .then((json) => {
+                setData(json.content)
+            })
+            .catch((err) => {
+                new AlertData()
+                    .title('API Error')
+                    .content(err.message)
+                    .variant('filled')
+                    .severity('error')
+                    .add()
+            })
+    }, [])
 
     return (<Worksheet title="Operational Risk Management Process Flow">
         <Box sx={{padding: '1rem', alignItems: 'center', display: 'flex', flexDirection: 'column'}}>
@@ -57,8 +86,8 @@ export default function ProcessFlow({
                 <Button
                     onClick={() => {navigate(`/mission/${missionIdFromUrl}/planning`)}}
                     fullWidth
-                    startIcon={getIcon(statusMPRA)}
-                    color={getPrimaryColor(statusMPRA)}
+                    startIcon={getIcon(data?.MISSION_PLANNING_WORKSHEET_STATUS || 'LOADING')}
+                    color={getPrimaryColor(data?.MISSION_PLANNING_WORKSHEET_STATUS || 'LOADING')}
                     variant='outlined'
                     size='large'
                     sx={{
@@ -75,8 +104,8 @@ export default function ProcessFlow({
                 <Button
                     onClick={() => {navigate(`/mission/${missionIdFromUrl}/pilot`)}}
                     fullWidth
-                    startIcon={getIcon(statusPPRA)}
-                    color={getPrimaryColor(statusPPRA)}
+                    startIcon={getIcon(data?.PILOT_PROFICIENCY_WORKSHEET_STATUS || 'LOADING')}
+                    color={getPrimaryColor(data?.PILOT_PROFICIENCY_WORKSHEET_STATUS || 'LOADING')}
                     variant='outlined'
                     size='large'
                     sx={{
@@ -96,8 +125,8 @@ export default function ProcessFlow({
                 <Button
                     onClick={() => {navigate(`/mission/${missionIdFromUrl}/execution`)}}
                     fullWidth
-                    startIcon={getIcon(statusDOMRA)}
-                    color={getPrimaryColor(statusDOMRA)}
+                    startIcon={getIcon(data?.DAY_OF_MISSION_WORKSHEET_STATUS || 'LOADING')}
+                    color={getPrimaryColor(data?.DAY_OF_MISSION_WORKSHEET_STATUS || 'LOADING')}
                     variant='outlined'
                     size='large'
                     sx={{
@@ -114,8 +143,8 @@ export default function ProcessFlow({
                 <Button
                     onClick={() => {navigate(`/mission/${missionIdFromUrl}/personal`)}}
                     fullWidth
-                    startIcon={getIcon(statusPRA)}
-                    color={getPrimaryColor(statusPRA)}
+                    startIcon={getIcon(data?.PERSONAL_WORKSHEET_STATUS || 'LOADING')}
+                    color={getPrimaryColor(data?.PERSONAL_WORKSHEET_STATUS || 'LOADING')}
                     variant='outlined'
                     size='large'
                     sx={{
