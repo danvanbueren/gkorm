@@ -43,7 +43,7 @@ export default function SearchMember() {
                 }}
             >
 
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
 
                     <FormControl variant="standard" sx={{minWidth: 120}}>
                         <InputLabel>Rank</InputLabel>
@@ -77,7 +77,7 @@ export default function SearchMember() {
 
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                     <TextField
                         label="Given Name"
                         variant="standard"
@@ -87,7 +87,7 @@ export default function SearchMember() {
                     />
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                     <TextField
                         label="Family Name"
                         variant="standard"
@@ -97,7 +97,7 @@ export default function SearchMember() {
                     />
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                     <TextField
                         label="AMIS ID"
                         variant="standard"
@@ -107,7 +107,7 @@ export default function SearchMember() {
                     />
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3}>
+                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
                     <Button
                         variant="contained"
                         startIcon={<AddIcon/>}
