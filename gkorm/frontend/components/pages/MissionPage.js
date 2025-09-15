@@ -22,6 +22,8 @@ export default function MissionPage({requestedView}) {
     const [missionData, setMissionData] = useState()
     const [dataLoadError, setDataLoadError] = useState()
 
+    const [refresh, setRefresh] = useState(false)
+
     // API
     const missionDataFromApi = async () => {
         const controller = new AbortController()
@@ -50,6 +52,15 @@ export default function MissionPage({requestedView}) {
         missionDataFromApi()
     }, [])
 
+    // TABLE - Refresh API fetch
+    useEffect(() => {
+        if (refresh) {
+            setRefresh(false)
+            missionDataFromApi()
+        }
+    }, [refresh])
+
+
     const currentView = () => {
         switch (requestedView) {
             case 'planning':
@@ -61,7 +72,7 @@ export default function MissionPage({requestedView}) {
             case 'personal':
                 return (<PersonalRiskAssessment missionData={missionData}/>)
             case 'crewlist':
-                return (<CrewList missionData={missionData} />)
+                return (<CrewList missionData={missionData} refresh={refresh} setRefresh={setRefresh} />)
             default:
                 return (<ProcessFlow/>)
         }
