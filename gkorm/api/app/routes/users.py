@@ -299,6 +299,34 @@ def get_user_by_id(pkey_id: int, db: Session = Depends(get_db)):
             "message": str(e)
         }
 
+@router.get(
+    "/get/amis/{amis_id}",
+    summary="Get user by amis id",
+    tags=["Users"],
+    description="""
+    Returns the user with the specified amis id.
+    """,
+    response_description="Returns the user with the specified amis id."
+    )
+def get_user_by_amis_id(amis_id: int, db: Session = Depends(get_db)):
+    try:
+        response = db.query(UsersTable).filter(UsersTable.amis_id == amis_id).first()
+        if not response:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'User not found'
+            }
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'User successfully retrieved',
+            "content": response
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e)
+        }
+
 @router.post(
     "/add",
     summary="Add new user",

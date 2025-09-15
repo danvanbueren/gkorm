@@ -335,6 +335,79 @@ def add_member(
             "content": []
         }
 
+
+@router.delete(
+    "/remove_member",
+    summary="Remove member from mission",
+    tags=["Missions"],
+    description="""
+    Removes assignment of a member to a mission by removing the record in `MemberMissionAssignmentsTable`.
+
+    Required:
+    - `mission_id`: PKEY of the mission in `MissionsTable`
+    - `member_id`: PKEY of the user in `UsersTable`
+    """,
+    response_description="Returns the status of the operation."
+)
+def add_member(
+    mission_id: int,
+    member_id: int,
+    db: Session = Depends(get_db),
+):
+    try:
+        # Verify mission exists
+        mission = db.query(MissionsTable).filter(MissionsTable.PKEY_id == mission_id).first()
+        if not mission:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'Mission not found',
+                "content": []
+            }
+
+        # Verify user exists
+        user = db.query(UsersTable).filter(UsersTable.PKEY_id == member_id).first()
+        if not user:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'User not found',
+                "content": []
+            }
+
+        # Find existing record
+        existing = (
+            db.query(MemberMissionAssignmentsTable)
+            .filter(
+                MemberMissionAssignmentsTable.FKEY_missions_TABLE_parent_id == mission_id,
+                MemberMissionAssignmentsTable.FKEY_users_TABLE_member_id == member_id,
+            )
+            .first()
+        )
+
+        # Delete the record
+        if not existing:
+            # TODO: remove existing record
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": "Could not find record of member in mission",
+                "content": [],
+            }
+
+        db.delete(existing)
+        db.commit()
+
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'Successfully removed member assignment to mission',
+            "content": [existing],
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e),
+            "content": []
+        }
+
+
 @router.delete(
     "/delete/{pkey_id}",
     summary="Delete mission by id",

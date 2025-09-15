@@ -2,15 +2,18 @@ from pydantic import BaseModel, ConfigDict
 from typing import Optional
 from datetime import datetime
 
-from app.database_enums import Ranks, CrewPositions, CrewPositionModifiers
+from app.database_enums import Ranks, CrewPositions, CrewPositionModifiers, Units
 
 
 class UserSchema(BaseModel):
     PKEY_id: int
+    amis_id: int
     rank: Optional[Ranks]
     given_name: Optional[str]
     family_name: Optional[str]
-    amis_id: int
+    crew_position: Optional[CrewPositions]
+    crew_position_modifier: Optional[CrewPositionModifiers]
+    assigned_unit: Optional[Units]
     model_config = ConfigDict(from_attributes=True)
 
 class MemberAssignmentSchema(BaseModel):
