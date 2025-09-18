@@ -63,7 +63,7 @@ export default function MissionsPage() {
     }
 
     // MODAL - element
-    const ModalContent = (
+    const ModalContent = (<>
             <Modal
                 open={createMissionModalOpen}
                 onClose={() => setCreateMissionModalOpen(false)}
@@ -122,7 +122,7 @@ export default function MissionsPage() {
 
                 </Box>
             </Modal>
-    )
+    </>)
 
     // TABLE - setup
     const columns = [
@@ -321,7 +321,7 @@ export default function MissionsPage() {
         )
     }
 
-    return (
+    return (<>
         <RequireAuth>
             <Box height={'10dvh'}>
                 <NavHeader/>
@@ -371,10 +371,7 @@ export default function MissionsPage() {
                     </Grid>
                 </Grid>
             </Box>
-
-
-
             {ModalContent}
         </RequireAuth>
-    )
+    </>)
 }
