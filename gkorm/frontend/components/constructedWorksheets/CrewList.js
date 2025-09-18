@@ -67,6 +67,8 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
     const [modalAssignedUnit, setModalAssignedUnit] = useState('')
     const [modalCrewPosition, setModalCrewPosition] = useState('')
     const [modalCrewPositionModifier, setModalCrewPositionModifier] = useState('')
+    const [modalCrewPositionOverride, setModalCrewPositionOverride] = useState('')
+    const [modalCrewPositionModifierOverride, setModalCrewPositionModifierOverride] = useState('')
     const resetModal = () => {
         setModalOpen(false)
         setModalLoading(false)
@@ -84,7 +86,7 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: 400,
+        width: 800,
         bgcolor: 'background.paper',
         border: '2px solid #000',
         boxShadow: 24,
@@ -107,17 +109,37 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
             if (modalCrewPositionModifier !== '') args += `crew_position_modifier=${modalCrewPositionModifier}&`
             if (modalAssignedUnit !== '') args += `assigned_unit=${modalAssignedUnit}&`
 
-            if (args !== '') url += args.slice(0, -1)
+            url += args.slice(0, -1)
 
-            const response = await fetch(url, {
-                signal: controller.signal,
-                method: "PATCH",
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-            if (!response.ok) throw new Error('Failed to fetch data - ' + response.statusText)
-            setRefresh(true)
+            if (args !== '?') {
+                const response = await fetch(url, {
+                    signal: controller.signal,
+                    method: "PATCH",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                if (!response.ok) throw new Error('Failed to fetch data - ' + response.statusText)
+            }
+            // TODO: Implement API endpoint - currently fails
+
+            url = `http://localhost:8000/missions/${mission_id}/member/${modalPkeyId}/patch`
+            args = '?'
+            if (modalCrewPositionOverride !== '') args += `crew_position_override=${modalCrewPositionOverride}&`
+            if (modalCrewPositionModifierOverride !== '') args += `crew_position_modifier_override=${modalCrewPositionModifierOverride}&`
+            url += args.slice(0, -1)
+
+            if (args !== '?') {
+                const r = await fetch(url, {
+                    signal: controller.signal,
+                    method: "PATCH",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                if (!r.ok) throw new Error('Failed to fetch data - ' + r.statusText)
+            }
+
             resetModal()
         } catch (error) {
             new AlertData()
@@ -128,6 +150,7 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
                 .add()
         } finally {
             clearTimeout(timeoutId)
+            setRefresh(true)
             setModalLoading(false)
         }
     }
@@ -148,133 +171,188 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
                     Update user details
                 </Typography>
 
-                <TextField
-                    id="modal-amis-id-textfield"
-                    label="AMIS ID"
-                    variant="outlined"
-                    sx={{mb: 2}}
-                    fullWidth
-                    value={modalAmisId}
-                    onChange={e => setModalAmisId(e.target.value)}
-                    disabled
-                />
+                <Grid container gap={2}>
+                    <Grid size={'grow'}>
 
-                <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel id="modal-rank-select-label">Rank</InputLabel>
-                    <Select
-                        labelId="modal-rank-select-label"
-                        id="modal-rank-select"
-                        label="Rank"
-                        variant="outlined"
-                        value={modalRank}
-                        onChange={e => setModalRank(e.target.value)}
-                    >
-                        <MenuItem value={'-1'} disabled>Select a Rank</MenuItem>
-                        <MenuItem value={'OR-1'}>OR-1</MenuItem>
-                        <MenuItem value={'OR-2'}>OR-2</MenuItem>
-                        <MenuItem value={'OR-3'}>OR-3</MenuItem>
-                        <MenuItem value={'OR-4'}>OR-4</MenuItem>
-                        <MenuItem value={'OR-5'}>OR-5</MenuItem>
-                        <MenuItem value={'OR-6'}>OR-6</MenuItem>
-                        <MenuItem value={'OR-7'}>OR-7</MenuItem>
-                        <MenuItem value={'OR-8'}>OR-8</MenuItem>
-                        <MenuItem value={'OR-9'}>OR-9</MenuItem>
-                        <MenuItem value={'-2'} disabled>-</MenuItem>
-                        <MenuItem value={'OF-1'}>OF-1</MenuItem>
-                        <MenuItem value={'OF-2'}>OF-2</MenuItem>
-                        <MenuItem value={'OF-3'}>OF-3</MenuItem>
-                        <MenuItem value={'OF-4'}>OF-4</MenuItem>
-                        <MenuItem value={'OF-5'}>OF-5</MenuItem>
-                        <MenuItem value={'OF-6'}>OF-6</MenuItem>
-                        <MenuItem value={'OF-7'}>OF-7</MenuItem>
-                        <MenuItem value={'OF-8'}>OF-8</MenuItem>
-                        <MenuItem value={'OF-9'}>OF-9</MenuItem>
-                    </Select>
-                </FormControl>
+                        <TextField
+                            id="modal-amis-id-textfield"
+                            label="AMIS ID"
+                            variant="outlined"
+                            sx={{mb: 2}}
+                            fullWidth
+                            value={modalAmisId}
+                            onChange={e => setModalAmisId(e.target.value)}
+                            disabled
+                        />
 
-                <TextField
-                    id="modal-given-name-textfield"
-                    label="Given Name"
-                    variant="outlined"
-                    sx={{mb: 2}}
-                    fullWidth
-                    value={modalGivenName}
-                    onChange={e => setModalGivenName(e.target.value)}
-                />
+                        <FormControl fullWidth sx={{mb: 2}}>
+                            <InputLabel id="modal-rank-select-label">Rank</InputLabel>
+                            <Select
+                                labelId="modal-rank-select-label"
+                                id="modal-rank-select"
+                                label="Rank"
+                                variant="outlined"
+                                value={modalRank}
+                                onChange={e => setModalRank(e.target.value)}
+                            >
+                                <MenuItem value={'-1'} disabled>Select a Rank</MenuItem>
+                                <MenuItem value={'OR-1'}>OR-1</MenuItem>
+                                <MenuItem value={'OR-2'}>OR-2</MenuItem>
+                                <MenuItem value={'OR-3'}>OR-3</MenuItem>
+                                <MenuItem value={'OR-4'}>OR-4</MenuItem>
+                                <MenuItem value={'OR-5'}>OR-5</MenuItem>
+                                <MenuItem value={'OR-6'}>OR-6</MenuItem>
+                                <MenuItem value={'OR-7'}>OR-7</MenuItem>
+                                <MenuItem value={'OR-8'}>OR-8</MenuItem>
+                                <MenuItem value={'OR-9'}>OR-9</MenuItem>
+                                <MenuItem value={'-2'} disabled>-</MenuItem>
+                                <MenuItem value={'OF-1'}>OF-1</MenuItem>
+                                <MenuItem value={'OF-2'}>OF-2</MenuItem>
+                                <MenuItem value={'OF-3'}>OF-3</MenuItem>
+                                <MenuItem value={'OF-4'}>OF-4</MenuItem>
+                                <MenuItem value={'OF-5'}>OF-5</MenuItem>
+                                <MenuItem value={'OF-6'}>OF-6</MenuItem>
+                                <MenuItem value={'OF-7'}>OF-7</MenuItem>
+                                <MenuItem value={'OF-8'}>OF-8</MenuItem>
+                                <MenuItem value={'OF-9'}>OF-9</MenuItem>
+                            </Select>
+                        </FormControl>
 
-                <TextField
-                    id="modal-family-name-textfield"
-                    label="Family Name"
-                    variant="outlined"
-                    sx={{mb: 2}}
-                    fullWidth
-                    value={modalFamilyName}
-                    onChange={e => setModalFamilyName(e.target.value)}
-                />
+                        <TextField
+                            id="modal-given-name-textfield"
+                            label="Given Name"
+                            variant="outlined"
+                            sx={{mb: 2}}
+                            fullWidth
+                            value={modalGivenName}
+                            onChange={e => setModalGivenName(e.target.value)}
+                        />
 
-                <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel id="modal-crew-position-select-label">Crew Position</InputLabel>
-                    <Select
-                        labelId="modal-crew-position-select-label"
-                        id="modal-crew-position-select"
-                        label="Crew Position"
-                        variant="outlined"
-                        value={modalCrewPosition}
-                        onChange={e => setModalCrewPosition(e.target.value)}
-                    >
-                        <MenuItem value={''} disabled>Select a Crew Position</MenuItem>
-                        <MenuItem value={'pilot'}>Pilot</MenuItem>
-                        <MenuItem value={'flight_engineer'}>Flight Engineer</MenuItem>
-                        <MenuItem value={'tactical_director'}>Tactical Director</MenuItem>
-                        <MenuItem value={'fighter_allocator'}>Fighter Allocator</MenuItem>
-                        <MenuItem value={'weapons_controller'}>Weapons Controller</MenuItem>
-                        <MenuItem value={'fighter_allocator_weapons_controller'}>Fighter Allocator / Weapons Controller</MenuItem>
-                        <MenuItem value={'surveillance_controller'}>Surveillance Controller</MenuItem>
-                        <MenuItem value={'passive_controller'}>Passive Controller</MenuItem>
-                        <MenuItem value={'surveillance_operator'}>Surveillance Operator</MenuItem>
-                        <MenuItem value={'system_technician'}>System Technician</MenuItem>
-                        <MenuItem value={'communications_technician'}>Communications Technician</MenuItem>
-                        <MenuItem value={'radar_technician'}>Radar Technician</MenuItem>
-                        <MenuItem value={'unqualified'}>Unqualified</MenuItem>
-                        <MenuItem value={'passenger'}>Passenger</MenuItem>
-                    </Select>
-                </FormControl>
+                        <TextField
+                            id="modal-family-name-textfield"
+                            label="Family Name"
+                            variant="outlined"
+                            sx={{mb: 2}}
+                            fullWidth
+                            value={modalFamilyName}
+                            onChange={e => setModalFamilyName(e.target.value)}
+                        />
 
-                <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel id="modal-crew-position-modifier-select-label">Crew Position Modifier</InputLabel>
-                    <Select
-                        labelId="modal-crew-position-modifier-select-label"
-                        id="modal-crew-position-modifier-select"
-                        label="Crew Position Modifier"
-                        variant="outlined"
-                        value={modalCrewPositionModifier}
-                        onChange={e => setModalCrewPositionModifier(e.target.value)}
-                    >
-                        <MenuItem value={''} disabled>Select a Crew Position Modifier</MenuItem>
-                        <MenuItem value={'basic'}>Basic</MenuItem>
-                        <MenuItem value={'link'}>Link</MenuItem>
-                        <MenuItem value={'instructor'}>Instructor</MenuItem>
-                        <MenuItem value={'evaluator'}>Evaluator</MenuItem>
-                    </Select>
-                </FormControl>
+                        <FormControl fullWidth sx={{mb: 2}}>
+                            <InputLabel id="modal-assigned-unit-select-label">Assigned Unit</InputLabel>
+                            <Select
+                                labelId="modal-assigned-unit-select-label"
+                                id="modal-assigned-unit-select"
+                                label="Assigned Unit"
+                                variant="outlined"
+                                value={modalAssignedUnit}
+                                onChange={e => setModalAssignedUnit(e.target.value)}
+                            >
+                                <MenuItem value={''}>None</MenuItem>
+                                <MenuItem value={'flying_squadron_1'}>Flying Squadron 1</MenuItem>
+                                <MenuItem value={'flying_squadron_2'}>Flying Squadron 2</MenuItem>
+                                <MenuItem value={'aircrew_training_squadron'}>Aircrew Training Squadron</MenuItem>
+                                <MenuItem value={'unassigned'}>Unassigned</MenuItem>
+                            </Select>
+                        </FormControl>
 
-                <FormControl fullWidth sx={{mb: 2}}>
-                    <InputLabel id="modal-assigned-unit-select-label">Assigned Unit</InputLabel>
-                    <Select
-                        labelId="modal-assigned-unit-select-label"
-                        id="modal-assigned-unit-select"
-                        label="Assigned Unit"
-                        variant="outlined"
-                        value={modalAssignedUnit}
-                        onChange={e => setModalAssignedUnit(e.target.value)}
-                    >
-                        <MenuItem value={''} disabled>Select an Assigned Unit</MenuItem>
-                        <MenuItem value={'flying_squadron_1'}>Flying Squadron 1</MenuItem>
-                        <MenuItem value={'flying_squadron_2'}>Flying Squadron 2</MenuItem>
-                        <MenuItem value={'aircrew_training_squadron'}>Aircrew Training Squadron</MenuItem>
-                        <MenuItem value={'unassigned'}>Unassigned</MenuItem>
-                    </Select>
-                </FormControl>
+                    </Grid>
+                    <Grid size={'grow'}>
+
+                        <FormControl fullWidth sx={{mb: 2}}>
+                            <InputLabel id="modal-crew-position-select-label">Crew Position (Default)</InputLabel>
+                            <Select
+                                labelId="modal-crew-position-select-label"
+                                id="modal-crew-position-select"
+                                label="Crew Position (Default)"
+                                variant="outlined"
+                                value={modalCrewPosition}
+                                onChange={e => setModalCrewPosition(e.target.value)}
+                            >
+                                <MenuItem value={''} disabled>Select a Crew Position</MenuItem>
+                                <MenuItem value={'pilot'}>Pilot</MenuItem>
+                                <MenuItem value={'flight_engineer'}>Flight Engineer</MenuItem>
+                                <MenuItem value={'tactical_director'}>Tactical Director</MenuItem>
+                                <MenuItem value={'fighter_allocator'}>Fighter Allocator</MenuItem>
+                                <MenuItem value={'weapons_controller'}>Weapons Controller</MenuItem>
+                                <MenuItem value={'fighter_allocator_weapons_controller'}>Fighter Allocator / Weapons Controller</MenuItem>
+                                <MenuItem value={'surveillance_controller'}>Surveillance Controller</MenuItem>
+                                <MenuItem value={'passive_controller'}>Passive Controller</MenuItem>
+                                <MenuItem value={'surveillance_operator'}>Surveillance Operator</MenuItem>
+                                <MenuItem value={'system_technician'}>System Technician</MenuItem>
+                                <MenuItem value={'communications_technician'}>Communications Technician</MenuItem>
+                                <MenuItem value={'radar_technician'}>Radar Technician</MenuItem>
+                                <MenuItem value={'unqualified'}>Unqualified</MenuItem>
+                                <MenuItem value={'passenger'}>Passenger</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                        <FormControl fullWidth sx={{mb: 2}}>
+                            <InputLabel id="modal-crew-position-modifier-select-label">Crew Position Modifier (Default)</InputLabel>
+                            <Select
+                                labelId="modal-crew-position-modifier-select-label"
+                                id="modal-crew-position-modifier-select"
+                                label="Crew Position Modifier (Default)"
+                                variant="outlined"
+                                value={modalCrewPositionModifier}
+                                onChange={e => setModalCrewPositionModifier(e.target.value)}
+                            >
+                                <MenuItem value={''} disabled>Select a Crew Position Modifier</MenuItem>
+                                <MenuItem value={'basic'}>Basic</MenuItem>
+                                <MenuItem value={'link'}>Link</MenuItem>
+                                <MenuItem value={'instructor'}>Instructor</MenuItem>
+                                <MenuItem value={'evaluator'}>Evaluator</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                        <FormControl fullWidth sx={{mb: 2}}>
+                            <InputLabel id="modal-crew-position-override-select-label">Crew Position (Mission Override)</InputLabel>
+                            <Select
+                                labelId="modal-crew-position-override-select-label"
+                                id="modal-crew-position-override-select"
+                                label="Crew Position (Mission Override)"
+                                variant="outlined"
+                                value={modalCrewPositionOverride}
+                                onChange={e => setModalCrewPositionOverride(e.target.value)}
+                            >
+                                <MenuItem value={''} disabled>Select a Crew Position</MenuItem>
+                                <MenuItem value={'pilot'}>Pilot</MenuItem>
+                                <MenuItem value={'flight_engineer'}>Flight Engineer</MenuItem>
+                                <MenuItem value={'tactical_director'}>Tactical Director</MenuItem>
+                                <MenuItem value={'fighter_allocator'}>Fighter Allocator</MenuItem>
+                                <MenuItem value={'weapons_controller'}>Weapons Controller</MenuItem>
+                                <MenuItem value={'fighter_allocator_weapons_controller'}>Fighter Allocator / Weapons Controller</MenuItem>
+                                <MenuItem value={'surveillance_controller'}>Surveillance Controller</MenuItem>
+                                <MenuItem value={'passive_controller'}>Passive Controller</MenuItem>
+                                <MenuItem value={'surveillance_operator'}>Surveillance Operator</MenuItem>
+                                <MenuItem value={'system_technician'}>System Technician</MenuItem>
+                                <MenuItem value={'communications_technician'}>Communications Technician</MenuItem>
+                                <MenuItem value={'radar_technician'}>Radar Technician</MenuItem>
+                                <MenuItem value={'unqualified'}>Unqualified</MenuItem>
+                                <MenuItem value={'passenger'}>Passenger</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                        <FormControl fullWidth sx={{mb: 2}}>
+                            <InputLabel id="modal-crew-position-modifier-override-select-label">Crew Position Modifier (Mission Override)</InputLabel>
+                            <Select
+                                labelId="modal-crew-position-modifier-override-select-label"
+                                id="modal-crew-position-modifier-override-select"
+                                label="Crew Position Modifier (Mission Override)"
+                                variant="outlined"
+                                value={modalCrewPositionModifierOverride}
+                                onChange={e => setModalCrewPositionModifierOverride(e.target.value)}
+                            >
+                                <MenuItem value={''}>None</MenuItem>
+                                <MenuItem value={'basic'}>Basic</MenuItem>
+                                <MenuItem value={'link'}>Link</MenuItem>
+                                <MenuItem value={'instructor'}>Instructor</MenuItem>
+                                <MenuItem value={'evaluator'}>Evaluator</MenuItem>
+                            </Select>
+                        </FormControl>
+
+                    </Grid>
+                </Grid>
 
                 <Grid container gap={2}>
 
