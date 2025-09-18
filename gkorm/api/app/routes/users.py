@@ -271,6 +271,57 @@ def update_assigned_unit(
             "message": str(e)
         }
 
+@router.patch(
+    "/patch/{pkey_id}",
+    summary="Modularly update user details",
+    tags=["Users"],
+    description="""
+    Updates a user's properties.
+    """,
+    response_description="Returns the updated user.",
+)
+def update_assigned_unit(
+    pkey_id: int,
+    rank: Union[Ranks, None] = None,
+    given_name: Union[str, None] = None,
+    family_name: Union[str, None] = None,
+    crew_position: Union[CrewPositions, None] = None,
+    crew_position_modifier: Union[CrewPositionModifiers, None] = None,
+    assigned_unit: Union[Units, None] = None,
+    db: Session = Depends(get_db),
+):
+    try:
+        user = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
+        if not user:
+            return {
+                "status": status.HTTP_404_NOT_FOUND,
+                "message": 'User not found'
+            }
+        if rank:
+            user.rank = rank
+        if given_name:
+            user.given_name = given_name
+        if family_name:
+            user.family_name = family_name
+        if crew_position:
+            user.crew_position = crew_position
+        if crew_position_modifier:
+            user.crew_position_modifier = crew_position_modifier
+        if assigned_unit:
+            user.assigned_unit = assigned_unit
+        db.commit()
+        db.refresh(user)
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'User properties successfully updated',
+            "content": user
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e)
+        }
+
 @router.get(
     "/get/{pkey_id}",
     summary="Get user by id",
