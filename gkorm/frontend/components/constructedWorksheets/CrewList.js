@@ -123,7 +123,7 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
             }
             // TODO: Implement API endpoint - currently fails
 
-            url = `http://localhost:8000/missions/${mission_id}/member/${modalPkeyId}/patch`
+            url = `http://localhost:8000/missions/patch/${mission_id}/member/${modalPkeyId}`
             args = '?'
             if (modalCrewPositionOverride !== '') args += `crew_position_override=${modalCrewPositionOverride}&`
             if (modalCrewPositionModifierOverride !== '') args += `crew_position_modifier_override=${modalCrewPositionModifierOverride}&`
@@ -396,13 +396,13 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
             const timeoutId = setTimeout(() => controller.abort(), 10000)
 
             try {
-                const url = `http://localhost:8000/users/get/${member_id}`
-                const response = await fetch(url, {
+                let url = `http://localhost:8000/users/get/${member_id}`
+                let response = await fetch(url, {
                     signal: controller.signal,
                 })
                 if (!response.ok) throw new Error('Failed to fetch data - ' + response.statusText)
-                const data = await response.json()
-                const user = data.content
+                let data = await response.json()
+                let user = data.content
                 if (user?.PKEY_id) setModalPkeyId(user?.PKEY_id)
                 if (user?.rank) setModalRank(user?.rank)
                 if (user?.given_name) setModalGivenName(user?.given_name)
@@ -411,6 +411,8 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
                 if (user?.assigned_unit) setModalAssignedUnit(user?.assigned_unit)
                 if (user?.crew_position) setModalCrewPosition(user?.crew_position)
                 if (user?.crew_position_modifier) setModalCrewPositionModifier(user?.crew_position_modifier)
+
+                url = `http://localhost:8000/users/get/${member_id}`
             } catch (error) {
                 resetModal()
                 new AlertData()

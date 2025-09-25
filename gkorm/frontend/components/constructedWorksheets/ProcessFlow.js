@@ -53,7 +53,7 @@ export default function ProcessFlow({
 
     // API call
     useEffect(() => {
-        fetch(`http://localhost:8000/missions/get/${missionIdFromUrl}/status`, {
+        fetch(`http://localhost:8000/status/mission/${missionIdFromUrl}`, {
             method: 'GET',
             headers: { 'accept': 'application/json' }
         })
