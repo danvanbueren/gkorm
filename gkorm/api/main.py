@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config_database import engine, get_db
 from app.database_models import Base
-from app.routes import status, users, missions, authentication
+from app.routes import status, users, missions, authentication, member_mission_assignments
 
 app = FastAPI()
 Base.metadata.create_all(bind=engine)
@@ -28,6 +28,7 @@ app.add_middleware(
 
 app.include_router(status.router, prefix="/status")
 app.include_router(missions.router, prefix="/missions")
+app.include_router(member_mission_assignments.router, prefix="/missions")
 app.include_router(users.router, prefix="/users")
 app.include_router(authentication.router, prefix="/auth")
 

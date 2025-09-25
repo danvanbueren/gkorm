@@ -11,6 +11,52 @@ from app.util.regex import validate_mission_number
 
 router = APIRouter()
 
+@router.post(
+    "/add",
+    summary="Add new mission",
+    tags=["Missions"],
+    description="""
+    Add a new mission to the `MissionsTable` in the database.
+
+    The mission number must follow the format: LLNNNNX
+    - L: Required letter (A-Z)
+    - N: Required number (0-9)
+    - X: Optional letter (A-Z)
+
+    Examples:
+    - AJ1234
+    - AJ5678M
+
+    All letters will be automatically converted to uppercase.
+    """,
+    response_description="Returns the created mission number if successful."
+    )
+def add_mission(
+        owner_id: int,
+        mission_number: str = Depends(validate_mission_number),
+        db: Session = Depends(get_db)
+):
+    try:
+        formatted_mission_number = validate_mission_number(mission_number)
+        new_mission = MissionsTable(
+            mission_number=formatted_mission_number,
+            FKEY_users_TABLE_owner_id=owner_id
+        )
+        db.add(new_mission)
+        db.commit()
+        db.refresh(new_mission)
+        return {
+            "status": status.HTTP_200_OK,
+            "message": 'Mission successfully added',
+            "content": new_mission
+        }
+    except Exception as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": str(e),
+            "content": []
+        }
+
 @router.get(
     "/get",
     response_model=MissionListResponseSchema,
@@ -21,7 +67,7 @@ router = APIRouter()
     """,
     response_description="Returns all missions as an array."
     )
-def get_all(db: Session = Depends(get_db)):
+def get_all_missions(db: Session = Depends(get_db)):
     try:
         response = db.query(MissionsTable).options(joinedload(MissionsTable.owner)).all()
         if not response:
@@ -93,7 +139,7 @@ def get_all(db: Session = Depends(get_db)):
     """,
     response_description="Returns the mission with the specified id."
     )
-def get_by_id(pkey_id: int, db: Session = Depends(get_db)):
+def get_mission_by_id(pkey_id: int, db: Session = Depends(get_db)):
     try:
         response = (
             db.query(MissionsTable)
@@ -155,258 +201,6 @@ def get_by_id(pkey_id: int, db: Session = Depends(get_db)):
             "message": str(e),
             "content": []
         }
-
-@router.get(
-    '/get/{pkey_id}/status',
-    summary="Get mission status by id",
-    tags=["Missions"],
-    description="""
-    Returns each category of mission status by the specified id.
-    """,
-    response_description="Returns each category of mission status by the specified id."
-)
-def get_status_by_id(pkey_id: int, db: Session = Depends(get_db)):
-    try:
-        response = db.query(MissionsTable).filter(MissionsTable.PKEY_id == pkey_id).first()
-
-        if not response:
-            return {
-                "status": status.HTTP_404_NOT_FOUND,
-                "message": 'Mission not found',
-                "content": []
-            }
-
-        # TODO: NEED ACTUAL STATUS!
-        content = {
-            'OVERALL_MISSION_STATUS': 'UNKNOWN',
-            'MISSION_PLANNING_WORKSHEET_STATUS': 'COMPLETE',
-            'PILOT_PROFICIENCY_WORKSHEET_STATUS': 'IN_PROGRESS',
-            'DAY_OF_MISSION_WORKSHEET_STATUS': 'NOT_STARTED',
-            'PERSONAL_WORKSHEET_STATUS': 'UNKNOWN',
-        }
-
-        return {
-            "status": status.HTTP_200_OK,
-            "message": 'Mission successfully retrieved',
-            "content": content
-        }
-
-    except Exception as e:
-        return {
-            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
-            "message": str(e),
-            "content": []
-        }
-
-@router.post(
-    "/add",
-    summary="Add new mission",
-    tags=["Missions"],
-    description="""
-    Add a new mission to the `MissionsTable` in the database.
-
-    The mission number must follow the format: LLNNNNX
-    - L: Required letter (A-Z)
-    - N: Required number (0-9)
-    - X: Optional letter (A-Z)
-
-    Examples:
-    - AJ1234
-    - AJ5678M
-
-    All letters will be automatically converted to uppercase.
-    """,
-    response_description="Returns the created mission number if successful."
-    )
-def add(
-        owner_id: int,
-        mission_number: str = Depends(validate_mission_number),
-        db: Session = Depends(get_db)
-):
-    try:
-        formatted_mission_number = validate_mission_number(mission_number)
-        new_mission = MissionsTable(
-            mission_number=formatted_mission_number,
-            FKEY_users_TABLE_owner_id=owner_id
-        )
-        db.add(new_mission)
-        db.commit()
-        db.refresh(new_mission)
-        return {
-            "status": status.HTTP_200_OK,
-            "message": 'Mission successfully added',
-            "content": new_mission
-        }
-    except Exception as e:
-        return {
-            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
-            "message": str(e),
-            "content": []
-        }
-
-@router.post(
-    "/add_member",
-    summary="Assign member to mission",
-    tags=["Missions"],
-    description="""
-    Adds a member to a mission by creating a record in `MemberMissionAssignmentsTable`.
-
-    Required:
-    - `mission_id`: PKEY of the mission in `MissionsTable`
-    - `member_id`: PKEY of the user in `UsersTable`
-
-    Optional:
-    - `crew_position_override`: Overrides the member's crew position for this mission
-    - `crew_position_modifier_override`: Overrides the member's crew position modifier for this mission
-    """,
-    response_description="Returns the created assignment if successful."
-)
-def add_member(
-    mission_id: int,
-    member_id: int,
-    crew_position_override: Union[CrewPositions, None] = None,
-    crew_position_modifier_override: Union[CrewPositionModifiers, None] = None,
-    db: Session = Depends(get_db),
-):
-    try:
-        # Verify mission exists
-        mission = db.query(MissionsTable).filter(MissionsTable.PKEY_id == mission_id).first()
-        if not mission:
-            return {
-                "status": status.HTTP_404_NOT_FOUND,
-                "message": 'Mission not found',
-                "content": []
-            }
-
-        # Verify user exists
-        user = db.query(UsersTable).filter(UsersTable.PKEY_id == member_id).first()
-        if not user:
-            return {
-                "status": status.HTTP_404_NOT_FOUND,
-                "message": 'User not found',
-                "content": []
-            }
-
-        # Prevent duplicate member assignment to the same mission
-        existing = (
-            db.query(MemberMissionAssignmentsTable)
-            .filter(
-                MemberMissionAssignmentsTable.FKEY_missions_TABLE_parent_id == mission_id,
-                MemberMissionAssignmentsTable.FKEY_users_TABLE_member_id == member_id,
-            )
-            .first()
-        )
-        if existing:
-            return {
-                "status": status.HTTP_409_CONFLICT,
-                "message": "Member already assigned to this mission",
-                "content": [],
-            }
-
-        # Create assignment
-        assignment = MemberMissionAssignmentsTable(
-            FKEY_missions_TABLE_parent_id=mission_id,
-            FKEY_users_TABLE_member_id=member_id,
-            crew_position_override=crew_position_override,
-            crew_position_modifier_override=crew_position_modifier_override,
-        )
-
-        db.add(assignment)
-        try:
-            db.commit()
-        except IntegrityError:
-            db.rollback()
-            return {
-                "status": status.HTTP_409_CONFLICT,
-                "message": "Member already assigned to this mission",
-                "content": [],
-            }
-        db.refresh(assignment)
-
-        return {
-            "status": status.HTTP_200_OK,
-            "message": 'Member successfully assigned to mission',
-            "content": [assignment],
-        }
-    except Exception as e:
-        return {
-            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
-            "message": str(e),
-            "content": []
-        }
-
-
-@router.delete(
-    "/remove_member",
-    summary="Remove member from mission",
-    tags=["Missions"],
-    description="""
-    Removes assignment of a member to a mission by removing the record in `MemberMissionAssignmentsTable`.
-
-    Required:
-    - `mission_id`: PKEY of the mission in `MissionsTable`
-    - `member_id`: PKEY of the user in `UsersTable`
-    """,
-    response_description="Returns the status of the operation."
-)
-def add_member(
-    mission_id: int,
-    member_id: int,
-    db: Session = Depends(get_db),
-):
-    try:
-        # Verify mission exists
-        mission = db.query(MissionsTable).filter(MissionsTable.PKEY_id == mission_id).first()
-        if not mission:
-            return {
-                "status": status.HTTP_404_NOT_FOUND,
-                "message": 'Mission not found',
-                "content": []
-            }
-
-        # Verify user exists
-        user = db.query(UsersTable).filter(UsersTable.PKEY_id == member_id).first()
-        if not user:
-            return {
-                "status": status.HTTP_404_NOT_FOUND,
-                "message": 'User not found',
-                "content": []
-            }
-
-        # Find existing record
-        existing = (
-            db.query(MemberMissionAssignmentsTable)
-            .filter(
-                MemberMissionAssignmentsTable.FKEY_missions_TABLE_parent_id == mission_id,
-                MemberMissionAssignmentsTable.FKEY_users_TABLE_member_id == member_id,
-            )
-            .first()
-        )
-
-        # Delete the record
-        if not existing:
-            # TODO: remove existing record
-            return {
-                "status": status.HTTP_404_NOT_FOUND,
-                "message": "Could not find record of member in mission",
-                "content": [],
-            }
-
-        db.delete(existing)
-        db.commit()
-
-        return {
-            "status": status.HTTP_200_OK,
-            "message": 'Successfully removed member assignment to mission',
-            "content": [existing],
-        }
-    except Exception as e:
-        return {
-            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
-            "message": str(e),
-            "content": []
-        }
-
 
 @router.delete(
     "/delete/{pkey_id}",
