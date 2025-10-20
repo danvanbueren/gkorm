@@ -1,15 +1,22 @@
-"""Mission routes"""
-from typing import Union
+# ##############################################################################
+#  COPYRIGHT © 2025 DANIEL VAN BUEREN. ALL RIGHTS RESERVED.                    #
+#                                                                              #
+#  THIS MATERIAL IS PROTECTED BY COPYRIGHT LAW. NO PART OF THIS WORK MAY BE    #
+#  COPIED, REPRODUCED, DISTRIBUTED, TRANSMITTED, DISPLAYED, OR PERFORMED IN    #
+#  ANY FORM OR BY ANY MEANS, ELECTRONIC, MECHANICAL, PHOTOCOPYING, RECORDING,  #
+#  OR OTHERWISE, WITHOUT PRIOR WRITTEN PERMISSION FROM THE COPYRIGHT OWNER.    #
+# ##############################################################################
+
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session, joinedload
-from sqlalchemy.exc import IntegrityError
+
 from app.config_database import get_db
 from app.database_models import MissionsTable, MemberMissionAssignmentsTable, UsersTable
-from app.database_enums import CrewPositions, CrewPositionModifiers
 from app.response_schemas import MissionListResponseSchema, MissionSchema, MemberAssignmentSchema
 from app.util.regex import validate_mission_number
 
 router = APIRouter()
+
 
 @router.post(
     "/add",
@@ -30,7 +37,7 @@ router = APIRouter()
     All letters will be automatically converted to uppercase.
     """,
     response_description="Returns the created mission number if successful."
-    )
+)
 def add_mission(
         owner_id: int,
         mission_number: str = Depends(validate_mission_number),
@@ -57,6 +64,7 @@ def add_mission(
             "content": []
         }
 
+
 @router.get(
     "/get",
     response_model=MissionListResponseSchema,
@@ -66,7 +74,7 @@ def add_mission(
     Returns all missions as an array.
     """,
     response_description="Returns all missions as an array."
-    )
+)
 def get_all_missions(db: Session = Depends(get_db)):
     try:
         response = db.query(MissionsTable).options(joinedload(MissionsTable.owner)).all()
@@ -130,6 +138,7 @@ def get_all_missions(db: Session = Depends(get_db)):
             "content": []
         }
 
+
 @router.get(
     "/get/{pkey_id}",
     summary="Get mission by id",
@@ -138,7 +147,7 @@ def get_all_missions(db: Session = Depends(get_db)):
     Returns the mission with the specified id.
     """,
     response_description="Returns the mission with the specified id."
-    )
+)
 def get_mission_by_id(pkey_id: int, db: Session = Depends(get_db)):
     try:
         response = (
@@ -188,7 +197,6 @@ def get_mission_by_id(pkey_id: int, db: Session = Depends(get_db)):
             members=members,
         )
 
-
         return {
             "status": status.HTTP_200_OK,
             "message": 'Mission successfully retrieved',
@@ -201,6 +209,7 @@ def get_mission_by_id(pkey_id: int, db: Session = Depends(get_db)):
             "message": str(e),
             "content": []
         }
+
 
 @router.delete(
     "/delete/{pkey_id}",
@@ -222,8 +231,8 @@ def delete_by_id(pkey_id: int, db: Session = Depends(get_db)):
             }
 
         # Remove dependent member assignments to satisfy FK constraints
-        db.query(MemberMissionAssignmentsTable).\
-            filter(MemberMissionAssignmentsTable.FKEY_missions_TABLE_parent_id == pkey_id).\
+        db.query(MemberMissionAssignmentsTable). \
+            filter(MemberMissionAssignmentsTable.FKEY_missions_TABLE_parent_id == pkey_id). \
             delete(synchronize_session=False)
 
         # Delete the mission

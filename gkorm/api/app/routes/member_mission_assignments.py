@@ -1,15 +1,24 @@
-"""Routes for Member Mission Assignment Table"""
+# ##############################################################################
+#  COPYRIGHT © 2025 DANIEL VAN BUEREN. ALL RIGHTS RESERVED.                    #
+#                                                                              #
+#  THIS MATERIAL IS PROTECTED BY COPYRIGHT LAW. NO PART OF THIS WORK MAY BE    #
+#  COPIED, REPRODUCED, DISTRIBUTED, TRANSMITTED, DISPLAYED, OR PERFORMED IN    #
+#  ANY FORM OR BY ANY MEANS, ELECTRONIC, MECHANICAL, PHOTOCOPYING, RECORDING,  #
+#  OR OTHERWISE, WITHOUT PRIOR WRITTEN PERMISSION FROM THE COPYRIGHT OWNER.    #
+# ##############################################################################
+
 from typing import Union
+
 from fastapi import APIRouter, Depends, status
-from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
+
 from app.config_database import get_db
-from app.database_models import MissionsTable, MemberMissionAssignmentsTable, UsersTable
 from app.database_enums import CrewPositions, CrewPositionModifiers
-from app.response_schemas import MissionListResponseSchema, MissionSchema, MemberAssignmentSchema
-from app.util.regex import validate_mission_number
+from app.database_models import MissionsTable, MemberMissionAssignmentsTable, UsersTable
 
 router = APIRouter()
+
 
 @router.post(
     "/add_member",
@@ -29,11 +38,11 @@ router = APIRouter()
     response_description="Returns the created assignment if successful."
 )
 def add_member(
-    mission_id: int,
-    member_id: int,
-    crew_position_override: Union[CrewPositions, None] = None,
-    crew_position_modifier_override: Union[CrewPositionModifiers, None] = None,
-    db: Session = Depends(get_db),
+        mission_id: int,
+        member_id: int,
+        crew_position_override: Union[CrewPositions, None] = None,
+        crew_position_modifier_override: Union[CrewPositionModifiers, None] = None,
+        db: Session = Depends(get_db),
 ):
     try:
         # Verify mission exists
@@ -102,6 +111,7 @@ def add_member(
             "content": []
         }
 
+
 @router.patch(
     "/patch/{mission_id}/member/{member_id}",
     summary="Modularly update user details for specific mission",
@@ -112,19 +122,19 @@ def add_member(
     response_description="Returns the updated user.",
 )
 def patch_mission_specific_user_properties(
-    mission_id: int,
-    member_id: int,
-    crew_position_override: Union[CrewPositions, None] = None,
-    crew_position_modifier_override: Union[CrewPositionModifiers, None] = None,
-    db: Session = Depends(get_db),
+        mission_id: int,
+        member_id: int,
+        crew_position_override: Union[CrewPositions, None] = None,
+        crew_position_modifier_override: Union[CrewPositionModifiers, None] = None,
+        db: Session = Depends(get_db),
 ):
     try:
         assignment = (db
-            .query(MemberMissionAssignmentsTable)
-            .filter(
-                MemberMissionAssignmentsTable.FKEY_missions_TABLE_parent_id == mission_id,
-                MemberMissionAssignmentsTable.FKEY_users_TABLE_member_id == member_id,)
-            .first())
+                      .query(MemberMissionAssignmentsTable)
+                      .filter(
+            MemberMissionAssignmentsTable.FKEY_missions_TABLE_parent_id == mission_id,
+            MemberMissionAssignmentsTable.FKEY_users_TABLE_member_id == member_id, )
+                      .first())
         if not assignment:
             return {
                 "status": status.HTTP_404_NOT_FOUND,
@@ -149,6 +159,7 @@ def patch_mission_specific_user_properties(
             "content": []
         }
 
+
 @router.delete(
     "/remove_member",
     summary="Remove member from mission",
@@ -163,9 +174,9 @@ def patch_mission_specific_user_properties(
     response_description="Returns the status of the operation."
 )
 def add_member(
-    mission_id: int,
-    member_id: int,
-    db: Session = Depends(get_db),
+        mission_id: int,
+        member_id: int,
+        db: Session = Depends(get_db),
 ):
     try:
         # Verify mission exists

@@ -1,4 +1,11 @@
-"""Base definitions for database tables."""
+# ##############################################################################
+#  COPYRIGHT © 2025 DANIEL VAN BUEREN. ALL RIGHTS RESERVED.                    #
+#                                                                              #
+#  THIS MATERIAL IS PROTECTED BY COPYRIGHT LAW. NO PART OF THIS WORK MAY BE    #
+#  COPIED, REPRODUCED, DISTRIBUTED, TRANSMITTED, DISPLAYED, OR PERFORMED IN    #
+#  ANY FORM OR BY ANY MEANS, ELECTRONIC, MECHANICAL, PHOTOCOPYING, RECORDING,  #
+#  OR OTHERWISE, WITHOUT PRIOR WRITTEN PERMISSION FROM THE COPYRIGHT OWNER.    #
+# ##############################################################################
 
 from sqlalchemy import Column, Integer, String, DateTime, Enum, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import declarative_base, relationship
@@ -8,11 +15,13 @@ from app.database_enums import *
 
 Base = declarative_base()
 
+
 class BaseModel(Base):
     __abstract__ = True
     PKEY_id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     created_at = Column(DateTime, default=func.now(), nullable=False)
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)
+
 
 class UsersTable(BaseModel):
     __tablename__ = "users_table"
@@ -25,10 +34,12 @@ class UsersTable(BaseModel):
     assigned_unit = Column(Enum(Units), nullable=True)
     missions = relationship("MissionsTable", back_populates="owner")
 
+
 class UserPermissionsTable(BaseModel):
     __tablename__ = "user_permissions_table"
     FKEY_users_TABLE_parent_id = Column(Integer, ForeignKey("users_table.PKEY_id"), unique=True, nullable=False)
     global_permission_level = Column(Enum(GlobalPermissions), default=GlobalPermissions.BASIC, nullable=False)
+
 
 class MissionsTable(BaseModel):
     __tablename__ = "missions_table"
@@ -36,6 +47,7 @@ class MissionsTable(BaseModel):
     FKEY_users_TABLE_owner_id = Column(Integer, ForeignKey("users_table.PKEY_id"), nullable=False)
     execution_date = Column(DateTime, nullable=True)
     owner = relationship("UsersTable", back_populates="missions")
+
 
 class MemberMissionAssignmentsTable(BaseModel):
     __tablename__ = "member_mission_assignments_table"
@@ -51,17 +63,21 @@ class MemberMissionAssignmentsTable(BaseModel):
     crew_position_override = Column(Enum(CrewPositions))
     crew_position_modifier_override = Column(Enum(CrewPositionModifiers))
 
+
 class WorksheetsTable(BaseModel):
     __tablename__ = "worksheets_table"
     worksheet_type = Column(Enum(WorksheetTypes), nullable=False)
     FKEY_missions_TABLE_parent_id = Column(Integer, ForeignKey("missions_table.PKEY_id"), nullable=False)
-    FKEY_member_mission_assignments_TABLE_parent_id = Column(Integer, ForeignKey("member_mission_assignments_table.PKEY_id"))
+    FKEY_member_mission_assignments_TABLE_parent_id = Column(Integer,
+                                                             ForeignKey("member_mission_assignments_table.PKEY_id"))
+
 
 class WorksheetQuestionResponsesTable(BaseModel):
     __tablename__ = "worksheet_question_responses_table"
     FKEY_worksheets_TABLE_parent_id = Column(Integer, ForeignKey("worksheets_table.PKEY_id"), nullable=False)
     question_number = Column(Integer, nullable=False)
     response = Column(Enum(RiskLevels))
+
 
 class WorksheetRiskAcceptanceAuthoritySignaturesTable(BaseModel):
     __tablename__ = "worksheet_risk_acceptance_authority_signatures_table"

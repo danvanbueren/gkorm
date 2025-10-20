@@ -1,3 +1,12 @@
+# ##############################################################################
+#  COPYRIGHT © 2025 DANIEL VAN BUEREN. ALL RIGHTS RESERVED.                    #
+#                                                                              #
+#  THIS MATERIAL IS PROTECTED BY COPYRIGHT LAW. NO PART OF THIS WORK MAY BE    #
+#  COPIED, REPRODUCED, DISTRIBUTED, TRANSMITTED, DISPLAYED, OR PERFORMED IN    #
+#  ANY FORM OR BY ANY MEANS, ELECTRONIC, MECHANICAL, PHOTOCOPYING, RECORDING,  #
+#  OR OTHERWISE, WITHOUT PRIOR WRITTEN PERMISSION FROM THE COPYRIGHT OWNER.    #
+# ##############################################################################
+
 from fastapi import APIRouter, Depends, status
 from sqlalchemy import literal
 from sqlalchemy.orm import Session
@@ -5,6 +14,8 @@ from sqlalchemy.orm import Session
 from app.config_database import get_db
 
 router = APIRouter()
+
+
 @router.get(
     "/baseline",
     summary="Get baseline health check",
@@ -13,12 +24,13 @@ router = APIRouter()
     Returns current status of FastAPI.
     """,
     response_description="Returns current status of FastAPI."
-    )
+)
 def get_baseline_status():
     return {
         "status": status.HTTP_200_OK,
         "message": 'FastAPI is ready for use'
     }
+
 
 @router.get(
     "/database",
@@ -28,7 +40,7 @@ def get_baseline_status():
     Returns current status of database.
     """,
     response_description="Returns current status of database."
-    )
+)
 def get_database_status(db: Session = Depends(get_db)):
     try:
         if not db.is_active:
@@ -46,6 +58,7 @@ def get_database_status(db: Session = Depends(get_db)):
             "status": status.HTTP_503_SERVICE_UNAVAILABLE,
             "message": str(e)
         }
+
 
 @router.get(
     '/mission/{mission_id}',

@@ -1,17 +1,22 @@
-"""Authentication routes"""
+# ##############################################################################
+#  COPYRIGHT © 2025 DANIEL VAN BUEREN. ALL RIGHTS RESERVED.                    #
+#                                                                              #
+#  THIS MATERIAL IS PROTECTED BY COPYRIGHT LAW. NO PART OF THIS WORK MAY BE    #
+#  COPIED, REPRODUCED, DISTRIBUTED, TRANSMITTED, DISPLAYED, OR PERFORMED IN    #
+#  ANY FORM OR BY ANY MEANS, ELECTRONIC, MECHANICAL, PHOTOCOPYING, RECORDING,  #
+#  OR OTHERWISE, WITHOUT PRIOR WRITTEN PERMISSION FROM THE COPYRIGHT OWNER.    #
+# ##############################################################################
 
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from app.config_database import get_db
 from app.database_models import (
-    UsersTable,
-    Units,
-    CrewPositions,
-    CrewPositionModifiers
+    UsersTable
 )
 
 router = APIRouter()
+
 
 @router.get(
     "/no_crypto/{amis_id}",

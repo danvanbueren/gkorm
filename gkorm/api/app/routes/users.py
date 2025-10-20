@@ -1,13 +1,23 @@
-"""Users routes"""
+# ##############################################################################
+#  COPYRIGHT © 2025 DANIEL VAN BUEREN. ALL RIGHTS RESERVED.                    #
+#                                                                              #
+#  THIS MATERIAL IS PROTECTED BY COPYRIGHT LAW. NO PART OF THIS WORK MAY BE    #
+#  COPIED, REPRODUCED, DISTRIBUTED, TRANSMITTED, DISPLAYED, OR PERFORMED IN    #
+#  ANY FORM OR BY ANY MEANS, ELECTRONIC, MECHANICAL, PHOTOCOPYING, RECORDING,  #
+#  OR OTHERWISE, WITHOUT PRIOR WRITTEN PERMISSION FROM THE COPYRIGHT OWNER.    #
+# ##############################################################################
+
 from typing import Union
 
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
+
 from app.config_database import get_db
 from app.database_enums import Ranks, CrewPositions, CrewPositionModifiers, Units
 from app.database_models import UsersTable
 
 router = APIRouter()
+
 
 @router.post(
     "/add",
@@ -17,7 +27,7 @@ router = APIRouter()
     Returns the new user, if successful.
     """,
     response_description="Returns the new user, if successful."
-    )
+)
 def add_user(
         amis_id: int,
         rank: Union[Ranks, None] = None,
@@ -52,6 +62,7 @@ def add_user(
             "message": str(e)
         }
 
+
 @router.patch(
     "/update/rank/{pkey_id}",
     summary="Update user's rank",
@@ -62,9 +73,9 @@ def add_user(
     response_description="Returns the updated user.",
 )
 def update_given_name(
-    pkey_id: int,
-    rank: Union[Ranks, None] = None,
-    db: Session = Depends(get_db),
+        pkey_id: int,
+        rank: Union[Ranks, None] = None,
+        db: Session = Depends(get_db),
 ):
     try:
         user = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
@@ -97,6 +108,7 @@ def update_given_name(
             "content": []
         }
 
+
 @router.patch(
     "/update/given_name/{pkey_id}",
     summary="Update user's given name",
@@ -107,9 +119,9 @@ def update_given_name(
     response_description="Returns the updated user.",
 )
 def update_given_name(
-    pkey_id: int,
-    given_name: Union[str, None] = None,
-    db: Session = Depends(get_db),
+        pkey_id: int,
+        given_name: Union[str, None] = None,
+        db: Session = Depends(get_db),
 ):
     try:
         user = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
@@ -153,9 +165,9 @@ def update_given_name(
     response_description="Returns the updated user.",
 )
 def update_family_name(
-    pkey_id: int,
-    family_name: Union[str, None] = None,
-    db: Session = Depends(get_db),
+        pkey_id: int,
+        family_name: Union[str, None] = None,
+        db: Session = Depends(get_db),
 ):
     try:
         user = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
@@ -189,9 +201,9 @@ def update_family_name(
     response_description="Returns the updated user.",
 )
 def update_crew_position(
-    pkey_id: int,
-    crew_position: Union[CrewPositions, None] = None,
-    db: Session = Depends(get_db),
+        pkey_id: int,
+        crew_position: Union[CrewPositions, None] = None,
+        db: Session = Depends(get_db),
 ):
     try:
         user = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
@@ -225,9 +237,9 @@ def update_crew_position(
     response_description="Returns the updated user.",
 )
 def update_crew_position_modifier(
-    pkey_id: int,
-    crew_position_modifier: Union[CrewPositionModifiers, None] = None,
-    db: Session = Depends(get_db),
+        pkey_id: int,
+        crew_position_modifier: Union[CrewPositionModifiers, None] = None,
+        db: Session = Depends(get_db),
 ):
     try:
         user = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
@@ -261,9 +273,9 @@ def update_crew_position_modifier(
     response_description="Returns the updated user.",
 )
 def update_assigned_unit(
-    pkey_id: int,
-    assigned_unit: Union[Units, None] = None,
-    db: Session = Depends(get_db),
+        pkey_id: int,
+        assigned_unit: Union[Units, None] = None,
+        db: Session = Depends(get_db),
 ):
     try:
         user = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
@@ -286,6 +298,7 @@ def update_assigned_unit(
             "message": str(e)
         }
 
+
 @router.patch(
     "/patch/{pkey_id}",
     summary="Modularly update user details",
@@ -296,14 +309,14 @@ def update_assigned_unit(
     response_description="Returns the updated user.",
 )
 def patch_user_properties(
-    pkey_id: int,
-    rank: Union[Ranks, None] = None,
-    given_name: Union[str, None] = None,
-    family_name: Union[str, None] = None,
-    crew_position: Union[CrewPositions, None] = None,
-    crew_position_modifier: Union[CrewPositionModifiers, None] = None,
-    assigned_unit: Union[Units, None] = None,
-    db: Session = Depends(get_db),
+        pkey_id: int,
+        rank: Union[Ranks, None] = None,
+        given_name: Union[str, None] = None,
+        family_name: Union[str, None] = None,
+        crew_position: Union[CrewPositions, None] = None,
+        crew_position_modifier: Union[CrewPositionModifiers, None] = None,
+        assigned_unit: Union[Units, None] = None,
+        db: Session = Depends(get_db),
 ):
     try:
         user = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
@@ -337,6 +350,7 @@ def patch_user_properties(
             "message": str(e)
         }
 
+
 @router.get(
     "/get",
     summary="Get all users",
@@ -345,7 +359,7 @@ def patch_user_properties(
     Returns all users as an array.
     """,
     response_description="Returns all users as an array."
-    )
+)
 def users(db: Session = Depends(get_db)):
     try:
         response = db.query(UsersTable)
@@ -365,6 +379,7 @@ def users(db: Session = Depends(get_db)):
             "message": str(e)
         }
 
+
 @router.get(
     "/get/{pkey_id}",
     summary="Get user by id",
@@ -373,7 +388,7 @@ def users(db: Session = Depends(get_db)):
     Returns the user with the specified id.
     """,
     response_description="Returns the user with the specified id."
-    )
+)
 def get_user_by_id(pkey_id: int, db: Session = Depends(get_db)):
     try:
         response = db.query(UsersTable).filter(UsersTable.PKEY_id == pkey_id).first()
@@ -393,6 +408,7 @@ def get_user_by_id(pkey_id: int, db: Session = Depends(get_db)):
             "message": str(e)
         }
 
+
 @router.get(
     "/get/amis/{amis_id}",
     summary="Get user by amis id",
@@ -401,7 +417,7 @@ def get_user_by_id(pkey_id: int, db: Session = Depends(get_db)):
     Returns the user with the specified amis id.
     """,
     response_description="Returns the user with the specified amis id."
-    )
+)
 def get_user_by_amis_id(amis_id: int, db: Session = Depends(get_db)):
     try:
         response = db.query(UsersTable).filter(UsersTable.amis_id == amis_id).first()
@@ -420,6 +436,7 @@ def get_user_by_amis_id(amis_id: int, db: Session = Depends(get_db)):
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
             "message": str(e)
         }
+
 
 @router.delete(
     "/delete/{pkey_id}",

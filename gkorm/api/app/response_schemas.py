@@ -1,6 +1,16 @@
-from pydantic import BaseModel, ConfigDict
-from typing import Optional
+# ##############################################################################
+#  COPYRIGHT © 2025 DANIEL VAN BUEREN. ALL RIGHTS RESERVED.                    #
+#                                                                              #
+#  THIS MATERIAL IS PROTECTED BY COPYRIGHT LAW. NO PART OF THIS WORK MAY BE    #
+#  COPIED, REPRODUCED, DISTRIBUTED, TRANSMITTED, DISPLAYED, OR PERFORMED IN    #
+#  ANY FORM OR BY ANY MEANS, ELECTRONIC, MECHANICAL, PHOTOCOPYING, RECORDING,  #
+#  OR OTHERWISE, WITHOUT PRIOR WRITTEN PERMISSION FROM THE COPYRIGHT OWNER.    #
+# ##############################################################################
+
 from datetime import datetime
+from typing import Optional
+
+from pydantic import BaseModel, ConfigDict
 
 from app.database_enums import Ranks, CrewPositions, CrewPositionModifiers, Units
 
@@ -16,6 +26,7 @@ class UserSchema(BaseModel):
     assigned_unit: Optional[Units]
     model_config = ConfigDict(from_attributes=True)
 
+
 class MemberAssignmentSchema(BaseModel):
     PKEY_id: int
     FKEY_missions_TABLE_parent_id: int
@@ -24,6 +35,7 @@ class MemberAssignmentSchema(BaseModel):
     crew_position_modifier_override: Optional[CrewPositionModifiers] = None
     user: Optional[UserSchema] = None
     model_config = ConfigDict(from_attributes=True, use_enum_values=True)
+
 
 class MissionSchema(BaseModel):
     PKEY_id: int
@@ -34,6 +46,7 @@ class MissionSchema(BaseModel):
     owner: Optional[UserSchema] = None
     members: list[MemberAssignmentSchema] = []
     model_config = ConfigDict(from_attributes=True, use_enum_values=True)
+
 
 class MissionListResponseSchema(BaseModel):
     status: int

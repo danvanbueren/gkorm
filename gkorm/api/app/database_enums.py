@@ -1,4 +1,14 @@
+# ##############################################################################
+#  COPYRIGHT © 2025 DANIEL VAN BUEREN. ALL RIGHTS RESERVED.                    #
+#                                                                              #
+#  THIS MATERIAL IS PROTECTED BY COPYRIGHT LAW. NO PART OF THIS WORK MAY BE    #
+#  COPIED, REPRODUCED, DISTRIBUTED, TRANSMITTED, DISPLAYED, OR PERFORMED IN    #
+#  ANY FORM OR BY ANY MEANS, ELECTRONIC, MECHANICAL, PHOTOCOPYING, RECORDING,  #
+#  OR OTHERWISE, WITHOUT PRIOR WRITTEN PERMISSION FROM THE COPYRIGHT OWNER.    #
+# ##############################################################################
+
 import enum
+
 
 class Ranks(enum.Enum):
     OR1 = "OR-1"
@@ -20,6 +30,7 @@ class Ranks(enum.Enum):
     OF8 = "OF-8"
     OF9 = "OF-9"
 
+
 class CrewPositions(enum.Enum):
     PILOT = "pilot"
     FLIGHT_ENGINEER = "flight_engineer"
@@ -36,17 +47,20 @@ class CrewPositions(enum.Enum):
     UNQUALIFIED = "unqualified"
     PASSENGER = "passenger"
 
+
 class CrewPositionModifiers(enum.Enum):
     EVALUATOR = "evaluator"
     INSTRUCTOR = "instructor"
     LINK = "link"
     BASIC = "basic"
 
+
 class Units(enum.Enum):
     FLYING_SQUADRON_1 = "flying_squadron_1"
     FLYING_SQUADRON_2 = "flying_squadron_2"
     AIRCREW_TRAINING_SQUADRON = "aircrew_training_squadron"
     UNASSIGNED = "unassigned"
+
 
 class GlobalPermissions(enum.Enum):
     BASIC = "basic"
@@ -55,10 +69,12 @@ class GlobalPermissions(enum.Enum):
     OPERATIONS_WING_COMMANDER = "operations_wing_commander"
     SYSTEM_ADMINISTRATOR = "system_administrator"
 
+
 class RiskLevels(enum.Enum):
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
+
 
 class WorksheetTypes(enum.Enum):
     MISSION_PLANNING_RISK_ASSESSMENT = "mission_planning_risk_assessment"
