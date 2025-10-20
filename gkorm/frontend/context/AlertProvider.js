@@ -1,3 +1,12 @@
+/******************************************************************************
+ * COPYRIGHT © 2025 DANIEL VAN BUEREN. ALL RIGHTS RESERVED.                   *
+ *                                                                            *
+ * THIS MATERIAL IS PROTECTED BY COPYRIGHT LAW. NO PART OF THIS WORK MAY BE   *
+ * COPIED, REPRODUCED, DISTRIBUTED, TRANSMITTED, DISPLAYED, OR PERFORMED IN   *
+ * ANY FORM OR BY ANY MEANS, ELECTRONIC, MECHANICAL, PHOTOCOPYING, RECORDING, *
+ * OR OTHERWISE, WITHOUT PRIOR WRITTEN PERMISSION FROM THE COPYRIGHT OWNER.   *
+ ******************************************************************************/
+
 import {Alert, AlertTitle, Box, Typography} from "@mui/material"
 import {createContext, useContext, useState} from "react"
 
@@ -20,6 +29,10 @@ export default function AlertProvider({children}) {
             }
             this._action = null
             this._timeout = null
+        }
+
+        static remove(uid) {
+            setAlerts(prev => prev.filter(a => a._uid !== uid))
         }
 
         title(value) {
@@ -78,10 +91,6 @@ export default function AlertProvider({children}) {
 
         getRemovalFunction() {
             return () => AlertData.remove(this._uid)
-        }
-
-        static remove(uid) {
-            setAlerts(prev => prev.filter(a => a._uid !== uid))
         }
 
         toJsxComponent() {
