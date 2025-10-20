@@ -91,16 +91,16 @@ export default function WorksheetRowQuestion({
                                                 color: `${selected && responseIndex === 0 ? theme.palette.success.contrastText
                                                     : (selected && responseIndex === 1 ? theme.palette.warning.contrastText
                                                         : selected && responseIndex === 2 ? theme.palette.error.contrastText
-                                                            : theme.palette.text.primary )}`,
+                                                            : theme.palette.text.primary)}`,
                                                 backgroundColor: `${selected && responseIndex === 0 ? theme.palette.success.main
                                                     : (selected && responseIndex === 1 ? theme.palette.warning.main
                                                         : selected && responseIndex === 2 ? theme.palette.error.main
-                                                            : theme.palette.background.default )}`,
+                                                            : theme.palette.background.default)}`,
                                                 '&:hover': {
                                                     backgroundColor: `${selected && responseIndex === 0 ? theme.palette.success.main
                                                         : (selected && responseIndex === 1 ? theme.palette.warning.main
                                                             : selected && responseIndex === 2 ? theme.palette.error.main
-                                                                : theme.palette.background.default )}`,
+                                                                : theme.palette.background.default)}`,
 
                                                 },
                                             },

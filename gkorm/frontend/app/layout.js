@@ -12,7 +12,7 @@ import {SpaRouterProvider} from "@/context/SpaRouter"
 import {AuthProvider} from "@/context/AuthContext"
 import AlertProvider from "@/context/AlertProvider"
 
-function SafeHydrate({ children }) {
+function SafeHydrate({children}) {
     return (
         <div suppressHydrationWarning>
             {children}
@@ -33,7 +33,8 @@ export default function RootLayout({children}) {
             <SpaRouterProvider>
                 <ThemeContextProvider>
                     <main>
-                        <ClassificationContainer classificationText='UNCLASSIFIED' textColor="#fff" backgroundColor='#007a33'>
+                        <ClassificationContainer classificationText='UNCLASSIFIED' textColor="#fff"
+                                                 backgroundColor='#007a33'>
                             <AuthProvider>
                                 <AlertProvider>
                                     {children}

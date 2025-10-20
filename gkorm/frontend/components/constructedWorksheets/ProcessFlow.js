@@ -15,7 +15,7 @@ export default function ProcessFlow({
     const pathAsArray = currentPath.split("/")
     const missionIdFromUrl = pathAsArray[2]
 
-    const { AlertData } = useAlert()
+    const {AlertData} = useAlert()
 
     const isMdUp = useMediaQuery(theme.breakpoints.up('md'))
 
@@ -55,7 +55,7 @@ export default function ProcessFlow({
     useEffect(() => {
         fetch(`http://localhost:8000/status/mission/${missionIdFromUrl}`, {
             method: 'GET',
-            headers: { 'accept': 'application/json' }
+            headers: {'accept': 'application/json'}
         })
             .then((response) => {
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
@@ -84,7 +84,9 @@ export default function ProcessFlow({
 
             <Box display={'inline-flex'} width={'16rem'} marginBottom={2}>
                 <Button
-                    onClick={() => {navigate(`/mission/${missionIdFromUrl}/planning`)}}
+                    onClick={() => {
+                        navigate(`/mission/${missionIdFromUrl}/planning`)
+                    }}
                     fullWidth
                     startIcon={getIcon(data?.MISSION_PLANNING_WORKSHEET_STATUS || 'LOADING')}
                     color={getPrimaryColor(data?.MISSION_PLANNING_WORKSHEET_STATUS || 'LOADING')}
@@ -100,9 +102,12 @@ export default function ProcessFlow({
             </Box>
 
             <Box display={'inline-flex'} width={'16rem'} marginBottom={2}>
-                <SubdirectoryArrowRight sx={{alignSelf: 'center', marginBottom: '0.4rem', color: `${theme.palette.grey.A400}`}}/>
+                <SubdirectoryArrowRight
+                    sx={{alignSelf: 'center', marginBottom: '0.4rem', color: `${theme.palette.grey.A400}`}}/>
                 <Button
-                    onClick={() => {navigate(`/mission/${missionIdFromUrl}/pilot`)}}
+                    onClick={() => {
+                        navigate(`/mission/${missionIdFromUrl}/pilot`)
+                    }}
                     fullWidth
                     startIcon={getIcon(data?.PILOT_PROFICIENCY_WORKSHEET_STATUS || 'LOADING')}
                     color={getPrimaryColor(data?.PILOT_PROFICIENCY_WORKSHEET_STATUS || 'LOADING')}
@@ -117,13 +122,15 @@ export default function ProcessFlow({
                 </Button>
             </Box>
 
-            <South sx={{marginTop: '0.5rem', color: `${theme.palette.grey.A400}`}} />
+            <South sx={{marginTop: '0.5rem', color: `${theme.palette.grey.A400}`}}/>
 
             <Typography variant='h6' sx={{marginY: '1rem'}}>Execution</Typography>
 
             <Box display={'inline-flex'} width={'16rem'} marginBottom={2}>
                 <Button
-                    onClick={() => {navigate(`/mission/${missionIdFromUrl}/execution`)}}
+                    onClick={() => {
+                        navigate(`/mission/${missionIdFromUrl}/execution`)
+                    }}
                     fullWidth
                     startIcon={getIcon(data?.DAY_OF_MISSION_WORKSHEET_STATUS || 'LOADING')}
                     color={getPrimaryColor(data?.DAY_OF_MISSION_WORKSHEET_STATUS || 'LOADING')}
@@ -139,9 +146,12 @@ export default function ProcessFlow({
             </Box>
 
             <Box display={'inline-flex'} width={'16rem'} marginBottom={2}>
-                <SubdirectoryArrowRight sx={{alignSelf: 'center', marginBottom: '0.4rem', color: `${theme.palette.grey.A400}`}}/>
+                <SubdirectoryArrowRight
+                    sx={{alignSelf: 'center', marginBottom: '0.4rem', color: `${theme.palette.grey.A400}`}}/>
                 <Button
-                    onClick={() => {navigate(`/mission/${missionIdFromUrl}/personal`)}}
+                    onClick={() => {
+                        navigate(`/mission/${missionIdFromUrl}/personal`)
+                    }}
                     fullWidth
                     startIcon={getIcon(data?.PERSONAL_WORKSHEET_STATUS || 'LOADING')}
                     color={getPrimaryColor(data?.PERSONAL_WORKSHEET_STATUS || 'LOADING')}

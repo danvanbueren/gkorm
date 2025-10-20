@@ -3,7 +3,7 @@ import {createContext, useContext, useState} from "react"
 
 const AlertContext = createContext()
 
-export default function AlertProvider({ children }) {
+export default function AlertProvider({children}) {
     const [alerts, setAlerts] = useState([])
 
     class AlertData {
@@ -15,7 +15,9 @@ export default function AlertProvider({ children }) {
             this._variant = null
             this._severity = null
             this._color = null
-            this._onClose = () => { AlertData.remove(this._uid) }
+            this._onClose = () => {
+                AlertData.remove(this._uid)
+            }
             this._action = null
             this._timeout = null
         }
@@ -24,48 +26,60 @@ export default function AlertProvider({ children }) {
             this._title = value
             return this
         }
+
         content(value) {
             this._content = value
             return this
         }
+
         icon(value) {
             this._icon = value
             return this
         }
+
         variant(value) {
             this._variant = value
             return this
         }
+
         severity(value) {
             this._severity = value
             return this
         }
+
         color(value) {
             this._color = value
             return this
         }
+
         onClose(value) {
             this._onClose = value
             return this
         }
+
         action(value) {
             this._action = value
             return this
         }
+
         timeout(value) {
             this._timeout = value
             return this
         }
+
         add() {
             setAlerts(prev => [...prev, this])
             return this
         }
+
         getUid() {
             return this._uid
         }
+
         getRemovalFunction() {
             return () => AlertData.remove(this._uid)
         }
+
         static remove(uid) {
             setAlerts(prev => prev.filter(a => a._uid !== uid))
         }
@@ -129,7 +143,7 @@ export default function AlertProvider({ children }) {
     }
 
     return (
-        <AlertContext.Provider value={{ AlertData }}>
+        <AlertContext.Provider value={{AlertData}}>
             <Box position='relative'>
                 <Box
                     position='absolute'
@@ -146,7 +160,7 @@ export default function AlertProvider({ children }) {
 
                         <Box display="flex" flexDirection="column" gap={2} mt={2}>
                             {alerts.map(a => (
-                                <Box key={a._uid} sx={{ zIndex: 1400 }}>
+                                <Box key={a._uid} sx={{zIndex: 1400}}>
                                     {a.toJsxComponent()}
                                 </Box>
                             ))}

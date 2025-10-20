@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
+import {useEffect} from 'react'
 import {useAuth} from "@/context/AuthContext"
 import {useSpaRouter} from "@/context/SpaRouter"
 
-export const RequireAuth = ({ children }) => {
+export const RequireAuth = ({children}) => {
     const {session, ready} = useAuth()
     const {navigate, currentPath} = useSpaRouter()
 

@@ -38,7 +38,7 @@ export default function ProfilePage() {
 
     // Send API requests to update user data on input change
     useEffect(() => {
-        if(firstLoad) {
+        if (firstLoad) {
             setFirstLoad(false)
             return
         }
@@ -369,7 +369,8 @@ export default function ProfilePage() {
                             <MenuItem value={'tactical_director'}>Tactical Director</MenuItem>
                             <MenuItem value={'fighter_allocator'}>Fighter Allocator</MenuItem>
                             <MenuItem value={'weapons_controller'}>Weapons Controller</MenuItem>
-                            <MenuItem value={'fighter_allocator_weapons_controller'}>Fighter Allocator / Weapons Controller</MenuItem>
+                            <MenuItem value={'fighter_allocator_weapons_controller'}>Fighter Allocator / Weapons
+                                Controller</MenuItem>
                             <MenuItem value={'surveillance_controller'}>Surveillance Controller</MenuItem>
                             <MenuItem value={'passive_controller'}>Passive Controller</MenuItem>
                             <MenuItem value={'surveillance_operator'}>Surveillance Operator</MenuItem>

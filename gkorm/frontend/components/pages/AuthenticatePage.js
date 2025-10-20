@@ -44,16 +44,16 @@ export default function AuthenticatePage() {
                     id="amis-id-login-token"
                     label="AMIS ID"
                     variant="outlined"
-                    sx={{ my: '2rem' }}
+                    sx={{my: '2rem'}}
                     value={amisId}
                     onChange={(e) => setAmisId(e.target.value)}
                 />
 
                 <Button
                     variant="outlined"
-                    sx={{ m: '2rem', height: '3.5rem' }}
+                    sx={{m: '2rem', height: '3.5rem'}}
                     type="submit"
-                    endIcon={<SendIcon />}
+                    endIcon={<SendIcon/>}
                     loading={loading}
                     loadingPosition="end"
                     disabled={!amisId}
@@ -64,8 +64,11 @@ export default function AuthenticatePage() {
 
             {!amisId && <Alert variant="filled" severity="info">Please enter an AMIS ID.</Alert>}
             {loading && <Alert variant="filled" severity="warning">Loading...</Alert>}
-            {error && <Alert variant="filled" severity="error" onClose={() => {setError('')}}>{error}</Alert>}
-            {(amisId && !error && !loading) && <Alert variant="filled" severity="success">Ready to submit request!</Alert>}
+            {error && <Alert variant="filled" severity="error" onClose={() => {
+                setError('')
+            }}>{error}</Alert>}
+            {(amisId && !error && !loading) &&
+                <Alert variant="filled" severity="success">Ready to submit request!</Alert>}
 
         </RequireAuth>
     )

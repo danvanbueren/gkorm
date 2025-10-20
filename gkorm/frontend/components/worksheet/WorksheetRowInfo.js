@@ -48,12 +48,12 @@ export default function WorksheetRowInfo({
             {infoMessageArray.map((value, index) => {
                 return (<Grid
                     key={`info-message-${index}`}
-                    size={forceEquidistant ? 12/infoMessageArray.length : index === 0 && infoMessageArray.length === 1 ? 12 : (index === 0 ? 4.5 : ((index === infoMessageArray.length - 1) && (infoMessageArray.length < 4) ? (5 - infoMessageArray.length) * 2.5 : infoMessageArray.length >= 4 ? 7.5 / (infoMessageArray.length - 1) : 7.5 / (infoMessageArray.length)))}>
+                    size={forceEquidistant ? 12 / infoMessageArray.length : index === 0 && infoMessageArray.length === 1 ? 12 : (index === 0 ? 4.5 : ((index === infoMessageArray.length - 1) && (infoMessageArray.length < 4) ? (5 - infoMessageArray.length) * 2.5 : infoMessageArray.length >= 4 ? 7.5 / (infoMessageArray.length - 1) : 7.5 / (infoMessageArray.length)))}>
                     <WorksheetCellBase
                         backgroundColor={infoMessageBackgroundColors.length > 0 ? infoMessageBackgroundColors[index] : backgroundColor === theme.palette.custom.infoBackground ? theme.palette.custom.salmonBackground : backgroundColor}
                         color={infoMessageBackgroundColors.length > 0 ? theme.palette.getContrastText(infoMessageBackgroundColors[index]) : color}
 
-                        justifyContent={forceCentered ? 'center' : infoMessageArray.length === 1 ? 'center' : (index !== 0 ) ? 'center' : 'start'}
+                        justifyContent={forceCentered ? 'center' : infoMessageArray.length === 1 ? 'center' : (index !== 0) ? 'center' : 'start'}
                         borderRight={index < infoMessageArray.length - 1 ? `2px solid` : 'none'}
                     >
                         <Typography
@@ -62,7 +62,7 @@ export default function WorksheetRowInfo({
                             fontWeight={fontWeight}
                             padding={1}
                             paddingX={2}
-                            textAlign={(index !== 0 ) ? 'center' : 'start'}
+                            textAlign={(index !== 0) ? 'center' : 'start'}
                         >
                             {value}
                         </Typography>

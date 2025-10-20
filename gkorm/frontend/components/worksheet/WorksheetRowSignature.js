@@ -56,7 +56,7 @@ export default function WorksheetRowSignature({
                     justifyContent={'center'}
                     backgroundColor={theme.palette.background.default}
                 >
-                    { signatureData.length > 0 &&
+                    {signatureData.length > 0 &&
                         <Signature
                             signatureDisplayName={signatureData[0]}
                             signatureFullName={signatureData[1]}

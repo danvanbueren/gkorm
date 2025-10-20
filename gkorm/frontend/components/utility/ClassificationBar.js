@@ -1,14 +1,14 @@
 'use client'
 
-import {Box, Typography, useTheme, useMediaQuery} from "@mui/material"
+import {Box, Typography, useMediaQuery, useTheme} from "@mui/material"
 
 export default function ClassificationBar({
-                                        theme = useTheme(),
-                                        classificationText = 'CLASSIFICATION MARKING',
-                                        textColor = '#000',
-                                        backgroundColor = '#fff',
-                                        height = '2.5dvh',
-                                    }) {
+                                              theme = useTheme(),
+                                              classificationText = 'CLASSIFICATION MARKING',
+                                              textColor = '#000',
+                                              backgroundColor = '#fff',
+                                              height = '2.5dvh',
+                                          }) {
 
     const isLgUp = useMediaQuery(theme.breakpoints.up('lg'))
 
@@ -22,9 +22,10 @@ export default function ClassificationBar({
                 color: textColor,
                 minHeight: height,
                 maxHeight: height,
-        }}
+            }}
         >
-            <Typography fontFamily={'monospace'} fontSize={isLgUp ? '1.0rem' : '0.7rem'}>{classificationText}</Typography>
+            <Typography fontFamily={'monospace'}
+                        fontSize={isLgUp ? '1.0rem' : '0.7rem'}>{classificationText}</Typography>
         </Box>
     )
 }

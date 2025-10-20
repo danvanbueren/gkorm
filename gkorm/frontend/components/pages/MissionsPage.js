@@ -7,14 +7,21 @@ import {
     QuickFilter,
     QuickFilterClear,
     QuickFilterControl,
-    ToolbarButton,
-    Toolbar
+    Toolbar,
+    ToolbarButton
 } from '@mui/x-data-grid'
 import {
     Box,
+    Button,
     Grid,
+    IconButton,
+    InputAdornment,
+    Modal,
+    Paper,
+    styled,
+    TextField,
+    Tooltip,
     Typography,
-    Paper, styled, TextField, InputAdornment, Tooltip, IconButton, Button, Modal,
 } from "@mui/material"
 import CancelIcon from '@mui/icons-material/Cancel'
 import SearchIcon from '@mui/icons-material/Search'
@@ -64,64 +71,65 @@ export default function MissionsPage() {
 
     // MODAL - element
     const ModalContent = (<>
-            <Modal
-                open={createMissionModalOpen}
-                onClose={() => setCreateMissionModalOpen(false)}
-            >
-                <Box sx={modalStyle}>
-                    <Typography
-                        id="modal-mission-number-title"
-                        variant="h6"
-                        sx={{mb: 1}}
-                    >
-                        Create a new mission
-                    </Typography>
+        <Modal
+            open={createMissionModalOpen}
+            onClose={() => setCreateMissionModalOpen(false)}
+        >
+            <Box sx={modalStyle}>
+                <Typography
+                    id="modal-mission-number-title"
+                    variant="h6"
+                    sx={{mb: 1}}
+                >
+                    Create a new mission
+                </Typography>
 
-                    <Typography
-                        id="modal-mission-number-description"
-                        sx={{mb: 3}}
-                        variant="subtitle2"
-                        color="text.secondary"
-                    >
-                        Enter a unique mission number, following the format "LLNNNNX", where L: Required letter (A-Z), N: Required number (0-9), X: Optional letter (A-Z).
-                    </Typography>
+                <Typography
+                    id="modal-mission-number-description"
+                    sx={{mb: 3}}
+                    variant="subtitle2"
+                    color="text.secondary"
+                >
+                    Enter a unique mission number, following the format "LLNNNNX", where L: Required letter (A-Z), N:
+                    Required number (0-9), X: Optional letter (A-Z).
+                </Typography>
 
-                    <TextField
-                        id="modal-mission-number-textfield"
-                        label="Mission Number"
-                        variant="outlined"
-                        sx={{mb: 2}}
-                        fullWidth
-                        value={createMissionModalInputTextField}
-                        onChange={e => setCreateMissionModalInputTextField(e.target.value.replace(/[^a-z0-9]/gi, '').toUpperCase())}
-                    />
+                <TextField
+                    id="modal-mission-number-textfield"
+                    label="Mission Number"
+                    variant="outlined"
+                    sx={{mb: 2}}
+                    fullWidth
+                    value={createMissionModalInputTextField}
+                    onChange={e => setCreateMissionModalInputTextField(e.target.value.replace(/[^a-z0-9]/gi, '').toUpperCase())}
+                />
 
-                    <Grid container gap={2}>
-                        <Grid size='grow'>
-                            <Button
-                                disabled={createMissionModalLoading || !missionNumberRegex.test(createMissionModalInputTextField)}
-                                variant="contained"
-                                fullWidth
-                                onClick={() => createMission()}
-                            >
-                                Create
-                            </Button>
-                        </Grid>
-                        <Grid size='auto'>
-                            <Button
-                                disabled={createMissionModalLoading}
-                                variant="outlined"
-                                fullWidth
-                                color='error'
-                                onClick={() => setCreateMissionModalOpen(false)}
-                            >
-                                Cancel
-                            </Button>
-                        </Grid>
+                <Grid container gap={2}>
+                    <Grid size='grow'>
+                        <Button
+                            disabled={createMissionModalLoading || !missionNumberRegex.test(createMissionModalInputTextField)}
+                            variant="contained"
+                            fullWidth
+                            onClick={() => createMission()}
+                        >
+                            Create
+                        </Button>
                     </Grid>
+                    <Grid size='auto'>
+                        <Button
+                            disabled={createMissionModalLoading}
+                            variant="outlined"
+                            fullWidth
+                            color='error'
+                            onClick={() => setCreateMissionModalOpen(false)}
+                        >
+                            Cancel
+                        </Button>
+                    </Grid>
+                </Grid>
 
-                </Box>
-            </Modal>
+            </Box>
+        </Modal>
     </>)
 
     // TABLE - setup
@@ -170,7 +178,7 @@ export default function MissionsPage() {
                 <Button
                     size="small"
                     variant="outlined"
-                    endIcon={<OpenInNewIcon />}
+                    endIcon={<OpenInNewIcon/>}
                     onClick={(e) => {
                         e.stopPropagation()
                         navigate(`/mission/${params.row.PKEY_id}`)
@@ -211,14 +219,12 @@ export default function MissionsPage() {
                 throw new Error('Failed to fetch data - ' + response.statusText + ' -- ' + Date.now())
 
             const data = await response.json()
-            setRowData( prev => [...prev, data.content])
+            setRowData(prev => [...prev, data.content])
             setCreateMissionModalOpen(false)
             setCreateMissionModalInputTextField('')
-        }
-        catch (error) {
+        } catch (error) {
             errorAlert(error.message)
-        }
-        finally {
+        } finally {
             clearTimeout(timeoutId)
             setCreateMissionModalLoading(false)
         }
@@ -257,7 +263,7 @@ export default function MissionsPage() {
     }, [])
 
     // TABLE - Pagination state and style, quick filter styling
-    const paginationModel = { page: 0, pageSize: 10 }
+    const paginationModel = {page: 0, pageSize: 10}
     const StyledQuickFilter = styled(QuickFilter)({
         marginLeft: 'auto',
     })
@@ -267,25 +273,27 @@ export default function MissionsPage() {
         return (
             <Toolbar>
                 <Tooltip title="Refresh">
-                    <IconButton onClick={() => {refreshRowData()}}>
-                        { apiError ?
-                            <SyncProblemIcon fontSize="small" color="error" /> :
-                            <RefreshIcon fontSize="small" />
+                    <IconButton onClick={() => {
+                        refreshRowData()
+                    }}>
+                        {apiError ?
+                            <SyncProblemIcon fontSize="small" color="error"/> :
+                            <RefreshIcon fontSize="small"/>
                         }
                     </IconButton>
                 </Tooltip>
                 <Typography variant="caption" color="error">{apiError}</Typography>
                 <StyledQuickFilter expanded>
                     <Tooltip title="Filters" sx={{mr: 1}}>
-                        <FilterPanelTrigger render={<ToolbarButton />}>
-                            <FilterListIcon fontSize="small" />
+                        <FilterPanelTrigger render={<ToolbarButton/>}>
+                            <FilterListIcon fontSize="small"/>
                         </FilterPanelTrigger>
                     </Tooltip>
                     <QuickFilterControl
-                        render={({ ref, ...other }) => (
+                        render={({ref, ...other}) => (
                             <TextField
                                 {...other}
-                                sx={{ width: 260 }}
+                                sx={{width: 260}}
                                 inputRef={ref}
                                 aria-label="Search"
                                 placeholder="Search..."
@@ -294,7 +302,7 @@ export default function MissionsPage() {
                                     input: {
                                         startAdornment: (
                                             <InputAdornment position="start">
-                                                <SearchIcon fontSize="small" />
+                                                <SearchIcon fontSize="small"/>
                                             </InputAdornment>
                                         ),
                                         endAdornment: other.value ? (
@@ -303,9 +311,9 @@ export default function MissionsPage() {
                                                     edge="end"
                                                     size="small"
                                                     aria-label="Clear search"
-                                                    material={{ sx: { marginRight: -0.75 } }}
+                                                    material={{sx: {marginRight: -0.75}}}
                                                 >
-                                                    <CancelIcon fontSize="small" />
+                                                    <CancelIcon fontSize="small"/>
                                                 </QuickFilterClear>
                                             </InputAdornment>
                                         ) : null,
@@ -346,15 +354,15 @@ export default function MissionsPage() {
                         <Typography variant='h2' sx={{p: '1rem'}}>Missions</Typography>
                     </Grid>
                     <Grid size={{xs: 12, xl: 9}}>
-                        <Paper variant="outlined" sx={{ maxHeight: '65dvh', width: '100%', p: '1rem' }}>
+                        <Paper variant="outlined" sx={{maxHeight: '65dvh', width: '100%', p: '1rem'}}>
                             <DataGrid
                                 rows={rowData}
                                 getRowId={(row) => row.PKEY_id}
                                 columns={columns}
-                                initialState={{ pagination: {paginationModel} }}
+                                initialState={{pagination: {paginationModel}}}
                                 pageSizeOptions={[10, 20, 50, 100]}
                                 loading={loadingMissions}
-                                slots={{ toolbar: CustomToolbar }}
+                                slots={{toolbar: CustomToolbar}}
                                 checkboxSelection={false}
                                 disableSelectionOnClick
                                 showToolbar
@@ -362,10 +370,11 @@ export default function MissionsPage() {
                         </Paper>
                     </Grid>
                     <Grid size={{xs: 12, xl: 3}}>
-                        <Paper variant="outlined" sx={{ width: '100%', p: '1rem' }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                        <Paper variant="outlined" sx={{width: '100%', p: '1rem'}}>
+                            <Box sx={{display: 'flex', alignItems: 'center', gap: 2}}>
                                 <Typography variant='h6'>Actions</Typography>
-                                <Button variant='contained' onClick={() => setCreateMissionModalOpen(true)}>Create mission</Button>
+                                <Button variant='contained' onClick={() => setCreateMissionModalOpen(true)}>Create
+                                    mission</Button>
                             </Box>
                         </Paper>
                     </Grid>

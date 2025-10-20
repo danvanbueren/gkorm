@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect } from 'react'
+import {createContext, useContext, useEffect, useState} from 'react'
 
 const SpaRouterContext = createContext()
 
@@ -12,8 +12,8 @@ export const useSpaRouter = () => {
     return context
 }
 
-export const SpaRouterProvider = ({ children }) => {
-    const [currentPath, setCurrentPath] = useState( () => {
+export const SpaRouterProvider = ({children}) => {
+    const [currentPath, setCurrentPath] = useState(() => {
         if (typeof window === 'undefined') return '/'
         return window.location.hash.slice(1) || '/'
     })
@@ -49,8 +49,8 @@ export const SpaRouterProvider = ({ children }) => {
 }
 
 // Route component to conditionally render children based on path
-export const Route = ({ path, children }) => {
-    const { currentPath } = useSpaRouter()
+export const Route = ({path, children}) => {
+    const {currentPath} = useSpaRouter()
 
     // Check if current path matches this route's path
     const isMatch = path === '*' || currentPath === path ||

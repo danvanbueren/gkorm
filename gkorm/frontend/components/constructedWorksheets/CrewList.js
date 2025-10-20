@@ -1,37 +1,28 @@
 'use client'
 
 import * as React from 'react'
-import {useEffect, useState} from "react"
+import {useEffect, useState} from 'react'
 import {
     Box,
     Button,
-    Grid,
-    TextField,
-    Modal,
-    Typography,
     FormControl,
+    Grid,
+    IconButton,
+    InputAdornment,
     InputLabel,
     MenuItem,
+    Modal,
     Select,
-    Collapse,
-    IconButton,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
-    Tooltip, styled, InputAdornment
+    styled,
+    TextField,
+    Tooltip,
+    Typography
 } from "@mui/material"
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied'
 import NoteAltIcon from '@mui/icons-material/NoteAlt'
 import FlightTakeoffIcon from '@mui/icons-material/FlightTakeoff'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SchoolIcon from '@mui/icons-material/School'
-import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule'
 import AddIcon from "@mui/icons-material/Add"
 import EditIcon from '@mui/icons-material/Edit'
 import RefreshIcon from '@mui/icons-material/Refresh'
@@ -44,13 +35,12 @@ import {
     QuickFilter,
     QuickFilterClear,
     QuickFilterControl,
-    ToolbarButton,
-    Toolbar
+    Toolbar,
+    ToolbarButton
 } from '@mui/x-data-grid'
 import FilterListIcon from "@mui/icons-material/FilterList";
 import SearchIcon from "@mui/icons-material/Search";
 import CancelIcon from "@mui/icons-material/Cancel";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 export default function CrewList({missionData, refresh, setRefresh, ...props}) {
     const {AlertData} = useAlert()
@@ -275,7 +265,8 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
                                 <MenuItem value={'tactical_director'}>Tactical Director</MenuItem>
                                 <MenuItem value={'fighter_allocator'}>Fighter Allocator</MenuItem>
                                 <MenuItem value={'weapons_controller'}>Weapons Controller</MenuItem>
-                                <MenuItem value={'fighter_allocator_weapons_controller'}>Fighter Allocator / Weapons Controller</MenuItem>
+                                <MenuItem value={'fighter_allocator_weapons_controller'}>Fighter Allocator / Weapons
+                                    Controller</MenuItem>
                                 <MenuItem value={'surveillance_controller'}>Surveillance Controller</MenuItem>
                                 <MenuItem value={'passive_controller'}>Passive Controller</MenuItem>
                                 <MenuItem value={'surveillance_operator'}>Surveillance Operator</MenuItem>
@@ -288,7 +279,8 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
                         </FormControl>
 
                         <FormControl fullWidth sx={{mb: 2}}>
-                            <InputLabel id="modal-crew-position-modifier-select-label">Crew Position Modifier (Default)</InputLabel>
+                            <InputLabel id="modal-crew-position-modifier-select-label">Crew Position Modifier
+                                (Default)</InputLabel>
                             <Select
                                 labelId="modal-crew-position-modifier-select-label"
                                 id="modal-crew-position-modifier-select"
@@ -306,7 +298,8 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
                         </FormControl>
 
                         <FormControl fullWidth sx={{mb: 2}}>
-                            <InputLabel id="modal-crew-position-override-select-label">Crew Position (Mission Override)</InputLabel>
+                            <InputLabel id="modal-crew-position-override-select-label">Crew Position (Mission
+                                Override)</InputLabel>
                             <Select
                                 labelId="modal-crew-position-override-select-label"
                                 id="modal-crew-position-override-select"
@@ -321,7 +314,8 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
                                 <MenuItem value={'tactical_director'}>Tactical Director</MenuItem>
                                 <MenuItem value={'fighter_allocator'}>Fighter Allocator</MenuItem>
                                 <MenuItem value={'weapons_controller'}>Weapons Controller</MenuItem>
-                                <MenuItem value={'fighter_allocator_weapons_controller'}>Fighter Allocator / Weapons Controller</MenuItem>
+                                <MenuItem value={'fighter_allocator_weapons_controller'}>Fighter Allocator / Weapons
+                                    Controller</MenuItem>
                                 <MenuItem value={'surveillance_controller'}>Surveillance Controller</MenuItem>
                                 <MenuItem value={'passive_controller'}>Passive Controller</MenuItem>
                                 <MenuItem value={'surveillance_operator'}>Surveillance Operator</MenuItem>
@@ -334,7 +328,8 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
                         </FormControl>
 
                         <FormControl fullWidth sx={{mb: 2}}>
-                            <InputLabel id="modal-crew-position-modifier-override-select-label">Crew Position Modifier (Mission Override)</InputLabel>
+                            <InputLabel id="modal-crew-position-modifier-override-select-label">Crew Position Modifier
+                                (Mission Override)</InputLabel>
                             <Select
                                 labelId="modal-crew-position-modifier-override-select-label"
                                 id="modal-crew-position-modifier-override-select"
@@ -500,33 +495,33 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
                 headerAlign: 'right',
                 renderCell: (params) => (
                     <>
-                        { params.row.user?.crew_position === 'pilot' &&
+                        {params.row.user?.crew_position === 'pilot' &&
                             <Tooltip title="Mission Planning - Overall">
                                 <IconButton onClick={() => navigate(`/mission/${mission_id}/planning`)}>
-                                    <NoteAltIcon sx={{ color: 'success.main' }}/>
+                                    <NoteAltIcon sx={{color: 'success.main'}}/>
                                 </IconButton>
                             </Tooltip>
                         }
 
-                        { params.row.user?.crew_position === 'pilot' &&
+                        {params.row.user?.crew_position === 'pilot' &&
                             <Tooltip title="Mission Planning - Pilot Proficiency">
                                 <IconButton onClick={() => navigate(`/mission/${mission_id}/pilot`)}>
-                                    <SchoolIcon sx={{ color: 'success.main' }}/>
+                                    <SchoolIcon sx={{color: 'success.main'}}/>
                                 </IconButton>
                             </Tooltip>
                         }
 
-                        { params.row.user?.crew_position === 'pilot' &&
+                        {params.row.user?.crew_position === 'pilot' &&
                             <Tooltip title="Execution - Overall">
                                 <IconButton onClick={() => navigate(`/mission/${mission_id}/execution`)}>
-                                    <FlightTakeoffIcon sx={{ color: 'warning.main' }}/>
+                                    <FlightTakeoffIcon sx={{color: 'warning.main'}}/>
                                 </IconButton>
                             </Tooltip>
                         }
 
                         <Tooltip title="Execution - Personal">
                             <IconButton onClick={() => navigate(`/mission/${mission_id}/personal`)}>
-                                <SensorOccupiedIcon sx={{ color: 'error.main' }}/>
+                                <SensorOccupiedIcon sx={{color: 'error.main'}}/>
                             </IconButton>
                         </Tooltip>
 
@@ -591,7 +586,7 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
         }, [])
 
         // TABLE - Pagination state and style, quick filter styling
-        const paginationModel = { page: 0, pageSize: 10 }
+        const paginationModel = {page: 0, pageSize: 10}
         const StyledQuickFilter = styled(QuickFilter)({
             marginLeft: 'auto',
         })
@@ -601,25 +596,27 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
             return (
                 <Toolbar>
                     <Tooltip title="Refresh">
-                        <IconButton onClick={() => {refreshRowData()}}>
-                            { apiError ?
-                                <SyncProblemIcon fontSize="small" color="error" /> :
-                                <RefreshIcon fontSize="small" />
+                        <IconButton onClick={() => {
+                            refreshRowData()
+                        }}>
+                            {apiError ?
+                                <SyncProblemIcon fontSize="small" color="error"/> :
+                                <RefreshIcon fontSize="small"/>
                             }
                         </IconButton>
                     </Tooltip>
                     <Typography variant="caption" color="error">{apiError}</Typography>
                     <StyledQuickFilter expanded>
                         <Tooltip title="Filters" sx={{mr: 1}}>
-                            <FilterPanelTrigger render={<ToolbarButton />}>
-                                <FilterListIcon fontSize="small" />
+                            <FilterPanelTrigger render={<ToolbarButton/>}>
+                                <FilterListIcon fontSize="small"/>
                             </FilterPanelTrigger>
                         </Tooltip>
                         <QuickFilterControl
-                            render={({ ref, ...other }) => (
+                            render={({ref, ...other}) => (
                                 <TextField
                                     {...other}
-                                    sx={{ width: 260 }}
+                                    sx={{width: 260}}
                                     inputRef={ref}
                                     aria-label="Search"
                                     placeholder="Search..."
@@ -628,7 +625,7 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
                                         input: {
                                             startAdornment: (
                                                 <InputAdornment position="start">
-                                                    <SearchIcon fontSize="small" />
+                                                    <SearchIcon fontSize="small"/>
                                                 </InputAdornment>
                                             ),
                                             endAdornment: other.value ? (
@@ -637,9 +634,9 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
                                                         edge="end"
                                                         size="small"
                                                         aria-label="Clear search"
-                                                        material={{ sx: { marginRight: -0.75 } }}
+                                                        material={{sx: {marginRight: -0.75}}}
                                                     >
-                                                        <CancelIcon fontSize="small" />
+                                                        <CancelIcon fontSize="small"/>
                                                     </QuickFilterClear>
                                                 </InputAdornment>
                                             ) : null,
@@ -660,10 +657,10 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
                 rows={rows}
                 getRowId={(row) => row?.PKEY_id}
                 columns={columns}
-                initialState={{ pagination: {paginationModel} }}
+                initialState={{pagination: {paginationModel}}}
                 pageSizeOptions={[10, 20, 50, 100]}
                 loading={loadingTable}
-                slots={{ toolbar: CustomToolbar }}
+                slots={{toolbar: CustomToolbar}}
                 checkboxSelection={false}
                 disableSelectionOnClick
                 showToolbar
@@ -672,7 +669,7 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
     }
 
     function SearchMember({setRefresh}) {
-        const { AlertData } = useAlert()
+        const {AlertData} = useAlert()
 
         const {currentPath} = useSpaRouter()
         const mission_id = currentPath.split("/")[2]
@@ -785,7 +782,7 @@ export default function CrewList({missionData, refresh, setRefresh, ...props}) {
             <Box sx={{m: 2}}>
                 <NewMemberTable/>
                 <Box sx={{py: 2}}>
-                    <SearchMember setRefresh={setRefresh} />
+                    <SearchMember setRefresh={setRefresh}/>
                 </Box>
             </Box>
             {modalElement}

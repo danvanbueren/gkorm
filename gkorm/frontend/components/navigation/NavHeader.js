@@ -1,9 +1,20 @@
 'use client'
 
 import React from 'react'
-import {AppBar, Toolbar, Typography, Box, Button, IconButton, Avatar, Container, MenuItem, Menu} from '@mui/material'
+import {
+    AppBar,
+    Avatar,
+    Box,
+    Button,
+    Container,
+    IconButton,
+    Menu,
+    MenuItem,
+    Toolbar,
+    Typography,
+    useTheme
+} from '@mui/material'
 import {Brightness4, Brightness7} from '@mui/icons-material'
-import {useTheme} from "@mui/material"
 import {useColorMode} from "@/context/ThemeContext"
 import {useSpaRouter} from "@/context/SpaRouter"
 import {useAuth} from "@/context/AuthContext"
@@ -136,7 +147,9 @@ export default function NavHeader() {
                                     },
                                 }}
                             >
-                                <MenuItem onClick={() => {navigate('/profile')}}>Profile</MenuItem>
+                                <MenuItem onClick={() => {
+                                    navigate('/profile')
+                                }}>Profile</MenuItem>
                                 <MenuItem onClick={destroySession}>Destroy Session</MenuItem>
                             </Menu>
                         </Box>

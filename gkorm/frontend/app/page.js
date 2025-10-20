@@ -61,7 +61,7 @@ export default function AppPage() {
         // Check which base view is requested
         switch (pathAsArray[1]) {
             case '':
-                return <LandingPage />
+                return <LandingPage/>
 
             case 'authenticate':
 
@@ -70,7 +70,7 @@ export default function AppPage() {
                     return false
                 }
 
-                return <AuthenticatePage />
+                return <AuthenticatePage/>
 
             case 'profile':
 
@@ -79,7 +79,7 @@ export default function AppPage() {
                     return false
                 }
 
-                return <ProfilePage />
+                return <ProfilePage/>
 
             case 'missions':
 
@@ -88,7 +88,7 @@ export default function AppPage() {
                     return false
                 }
 
-                return <MissionsPage />
+                return <MissionsPage/>
 
             case 'mission':
 
@@ -121,7 +121,7 @@ export default function AppPage() {
 
                     }
 
-                    return <MissionPage />
+                    return <MissionPage/>
 
                 } else {
                     navigate('')

@@ -72,7 +72,7 @@ export default function MissionPage({requestedView}) {
             case 'personal':
                 return (<PersonalRiskAssessment missionData={missionData}/>)
             case 'crewlist':
-                return (<CrewList missionData={missionData} refresh={refresh} setRefresh={setRefresh} />)
+                return (<CrewList missionData={missionData} refresh={refresh} setRefresh={setRefresh}/>)
             default:
                 return (<ProcessFlow/>)
         }
@@ -86,17 +86,23 @@ export default function MissionPage({requestedView}) {
             <Grid container spacing={2} width={'100%'} height={'85dvh'}>
                 {
                     (!missionData && dataLoadError) ?
-                        <Grid size={{xs: 12}} sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%'}}>
+                        <Grid size={{xs: 12}} sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            height: '100%'
+                        }}>
                             <Typography
                                 variant='h3'
-                                sx={{ mb: 2 }}
+                                sx={{mb: 2}}
                             >
                                 Failed to load mission!
                             </Typography>
 
                             <Typography
                                 variant='body2'
-                                sx={{ mb: 3 }}
+                                sx={{mb: 3}}
                             >
                                 {dataLoadError}
                             </Typography>
@@ -104,7 +110,7 @@ export default function MissionPage({requestedView}) {
                             <Button
                                 variant="contained"
                                 size='large'
-                                sx={{ px: 3, py: 2, mb: '20dvh' }}
+                                sx={{px: 3, py: 2, mb: '20dvh'}}
                                 onClick={() => navigate('/')}
                             >
                                 Return to homepage

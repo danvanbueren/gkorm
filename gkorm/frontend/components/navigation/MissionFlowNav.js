@@ -1,8 +1,6 @@
 'use client'
 
-import {
-    Box, Button, Card, Divider, Grid, TextField, Typography, useMediaQuery, useTheme
-} from "@mui/material"
+import {Box, Button, Card, Divider, Grid, TextField, Typography, useMediaQuery, useTheme} from "@mui/material"
 import {AssignmentInd, Checklist, Flight, Groups} from '@mui/icons-material'
 import {useSpaRouter} from "@/context/SpaRouter"
 
@@ -11,13 +9,10 @@ export default function MissionFlowNav({
                                        }) {
 
     const {navigate} = useSpaRouter()
-
     const isLgUp = useMediaQuery(theme.breakpoints.up('lg'))
-
     const owner = missionData?.owner
     const ownerDisplayName = `${owner?.rank} ${owner?.given_name} ${owner?.family_name}, ${owner?.amis_id}`
     const missionNumber = `${missionData?.mission_number}`
-
     const definedViews = ['crewlist', 'planning', 'pilot', 'execution', 'personal']
 
     return (<Box sx={{padding: 0, margin: 0, position: 'relative'}}>
@@ -32,7 +27,7 @@ export default function MissionFlowNav({
                 display: 'flex', color: 'inherit', textDecoration: 'none', userSelect: 'none', cursor: 'pointer',
             }}
         >
-            {missionData?.mission_number}
+            {missionData?.mission_number || "Loading..."}
         </Typography>
 
         <Card sx={{
@@ -43,14 +38,10 @@ export default function MissionFlowNav({
             padding: '1rem',
             marginBottom: '1rem',
         }}>
-
             <Typography variant='h6' marginBottom={1}>Mission Info</Typography>
-
             <Divider/>
-
             <Grid container spacing={2} paddingTop={2}>
                 <Grid size={{xs: 12, sm: 6, lg: 12}}>
-
                     <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <Flight sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
                         <TextField
@@ -65,7 +56,6 @@ export default function MissionFlowNav({
 
                 </Grid>
                 <Grid size={{xs: 12, sm: 6, lg: 12}}>
-
                     <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <AssignmentInd sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
                         <TextField
@@ -77,11 +67,9 @@ export default function MissionFlowNav({
                             disabled
                         />
                     </Box>
-
                 </Grid>
 
                 <Grid size={{xs: 12, sm: 6, lg: 12}}>
-
                     <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <Checklist sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
                         <Button
@@ -92,11 +80,9 @@ export default function MissionFlowNav({
                             Process Flow
                         </Button>
                     </Box>
-
                 </Grid>
 
                 <Grid size={{xs: 12, sm: 6, lg: 12}}>
-
                     <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <Groups sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
                         <Button
@@ -107,20 +93,15 @@ export default function MissionFlowNav({
                             Crew List
                         </Button>
                     </Box>
-
                 </Grid>
             </Grid>
-
         </Card>
 
         <Card sx={{
             minWidth: '100%', borderRadius: '1rem', overflow: 'hidden', userSelect: 'none', padding: '1rem',
         }}>
-
             <Typography variant='h6' marginBottom={1}>Risk Assessment Worksheets</Typography>
-
             <Divider/>
-
             <Grid container>
                 <Grid size={{xs: 12, sm: 6, lg: 12}}>
                     <Typography variant='subtitle1' fontWeight={700} marginY={2}>
@@ -154,9 +135,6 @@ export default function MissionFlowNav({
                     >Personal</Button>
                 </Grid>
             </Grid>
-
         </Card>
-
-
     </Box>)
 }
