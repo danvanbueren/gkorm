@@ -10,8 +10,9 @@
 'use client'
 
 import {Box, Button, Card, Divider, Grid, TextField, Typography, useMediaQuery, useTheme} from "@mui/material"
-import {AssignmentInd, Checklist, Flight, Groups} from '@mui/icons-material'
+import {AssignmentInd, Checklist, Event, Flight, Groups, Settings} from '@mui/icons-material'
 import {useSpaRouter} from "@/context/SpaRouter"
+import {useEffect} from "react";
 
 export default function MissionFlowNav({
                                            theme = useTheme(), missionData, currentView,
@@ -22,7 +23,11 @@ export default function MissionFlowNav({
     const owner = missionData?.owner
     const ownerDisplayName = `${owner?.rank} ${owner?.given_name} ${owner?.family_name}, ${owner?.amis_id}`
     const missionNumber = `${missionData?.mission_number}`
-    const definedViews = ['crewlist', 'planning', 'pilot', 'execution', 'personal']
+    const definedViews = ['crewlist', 'planning', 'pilot', 'execution', 'personal', 'settings']
+
+    useEffect(() => {
+        console.log(missionData)
+    }, [missionData]);
 
     return (<Box sx={{padding: 0, margin: 0, position: 'relative'}}>
         <Typography
@@ -62,8 +67,22 @@ export default function MissionFlowNav({
                             disabled
                         />
                     </Box>
-
                 </Grid>
+
+                <Grid size={{xs: 12, sm: 6, lg: 12}}>
+                    <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                        <Event sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
+                        <TextField
+                            id="text-field-mission-execution-date"
+                            label='Mission Execution Date'
+                            value={missionData?.execution_date || ""}
+                            variant="standard"
+                            fullWidth
+                            disabled
+                        />
+                    </Box>
+                </Grid>
+
                 <Grid size={{xs: 12, sm: 6, lg: 12}}>
                     <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <AssignmentInd sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
@@ -102,6 +121,20 @@ export default function MissionFlowNav({
                             disabled={!missionData?.mission_number}
                         >
                             Crew List
+                        </Button>
+                    </Box>
+                </Grid>
+
+                <Grid size={{xs: 12, sm: 6, lg: 12}}>
+                    <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                        <Settings sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
+                        <Button
+                            variant={currentView === 'settings' ? 'contained' : 'outlined'}
+                            fullWidth
+                            onClick={() => navigate(`/mission/${missionData?.PKEY_id}/settings`)}
+                            disabled={!missionData?.mission_number}
+                        >
+                            Settings
                         </Button>
                     </Box>
                 </Grid>

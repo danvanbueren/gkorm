@@ -17,6 +17,7 @@ import DayOfMissionRiskAssessment from "@/components/constructedWorksheets/DayOf
 import PersonalRiskAssessment from "@/components/constructedWorksheets/PersonalRiskAssessment"
 import PilotProficiencyRiskAssessment from "@/components/constructedWorksheets/PilotProficiencyRiskAssessment"
 import ProcessFlow from "@/components/constructedWorksheets/ProcessFlow"
+import Settings from "@/components/constructedWorksheets/Settings"
 import CrewList from "@/components/constructedWorksheets/CrewList"
 import {RequireAuth} from "@/components/utility/RequireAuth"
 import {useEffect, useState} from "react"
@@ -82,8 +83,10 @@ export default function MissionPage({requestedView}) {
                 return (<PersonalRiskAssessment missionData={missionData}/>)
             case 'crewlist':
                 return (<CrewList missionData={missionData} refresh={refresh} setRefresh={setRefresh}/>)
+            case 'settings':
+                return (<Settings missionData={missionData}/>)
             default:
-                return (<ProcessFlow/>)
+                return (<ProcessFlow missionData={missionData}/>)
         }
     }
 

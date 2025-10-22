@@ -124,6 +124,8 @@ export default function AppPage() {
                                 return <MissionPage requestedView={'personal'}/>
                             case 'crewlist':
                                 return <MissionPage requestedView={'crewlist'}/>
+                            case 'settings':
+                                return <MissionPage requestedView={'settings'}/>
                             default:
                                 navigate('/mission/' + pathAsArray[2])
                         }
