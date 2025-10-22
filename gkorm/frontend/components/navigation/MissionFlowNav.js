@@ -85,6 +85,7 @@ export default function MissionFlowNav({
                             variant={!currentView || !definedViews.includes(currentView) ? 'contained' : 'outlined'}
                             fullWidth
                             onClick={() => navigate(`/mission/${missionData?.PKEY_id}`)}
+                            disabled={!missionData?.mission_number}
                         >
                             Process Flow
                         </Button>
@@ -98,6 +99,7 @@ export default function MissionFlowNav({
                             variant={currentView === 'crewlist' ? 'contained' : 'outlined'}
                             fullWidth
                             onClick={() => navigate(`/mission/${missionData?.PKEY_id}/crewlist`)}
+                            disabled={!missionData?.mission_number}
                         >
                             Crew List
                         </Button>
@@ -120,6 +122,7 @@ export default function MissionFlowNav({
                     <Button variant={currentView === 'planning' ? 'contained' : 'outlined'}
                             sx={{marginRight: 2, marginBottom: 2}}
                             onClick={() => navigate(`/mission/${missionData?.PKEY_id}/planning`)}
+                            disabled={!missionData?.mission_number}
                     >
                         Overall
                     </Button>
@@ -127,6 +130,7 @@ export default function MissionFlowNav({
                     <Button variant={currentView === 'pilot' ? 'contained' : 'outlined'}
                             sx={{marginRight: 2, marginBottom: 2}}
                             onClick={() => navigate(`/mission/${missionData?.PKEY_id}/pilot`)}
+                            disabled={!missionData?.mission_number}
                     >
                         Pilot Proficiency
                     </Button>
@@ -137,10 +141,12 @@ export default function MissionFlowNav({
                     <Button variant={currentView === 'execution' ? 'contained' : 'outlined'}
                             sx={{marginRight: 2, marginBottom: 2}}
                             onClick={() => navigate(`/mission/${missionData?.PKEY_id}/execution`)}
+                            disabled={!missionData?.mission_number}
                     >Overall</Button>
                     <Button variant={currentView === 'personal' ? 'contained' : 'outlined'}
                             sx={{marginRight: 2, marginBottom: 2}}
                             onClick={() => navigate(`/mission/${missionData?.PKEY_id}/personal`)}
+                            disabled={!missionData?.mission_number}
                     >Personal</Button>
                 </Grid>
             </Grid>
