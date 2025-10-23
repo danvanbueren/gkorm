@@ -12,7 +12,6 @@
 import {Box, Button, Card, Divider, Grid, TextField, Typography, useMediaQuery, useTheme} from "@mui/material"
 import {AssignmentInd, Checklist, Event, Flight, Groups, Settings} from '@mui/icons-material'
 import {useSpaRouter} from "@/context/SpaRouter"
-import {useEffect} from "react";
 
 export default function MissionFlowNav({
                                            theme = useTheme(), missionData, currentView,
@@ -24,10 +23,6 @@ export default function MissionFlowNav({
     const ownerDisplayName = `${owner?.rank} ${owner?.given_name} ${owner?.family_name}, ${owner?.amis_id}`
     const missionNumber = `${missionData?.mission_number}`
     const definedViews = ['crewlist', 'planning', 'pilot', 'execution', 'personal', 'settings']
-
-    useEffect(() => {
-        console.log(missionData)
-    }, [missionData]);
 
     return (<Box sx={{padding: 0, margin: 0, position: 'relative'}}>
         <Typography
