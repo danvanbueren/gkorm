@@ -21,10 +21,12 @@ export default function Worksheet({
         <Box sx={{padding: 0, margin: 0}}>
             <Typography
                 variant={'h5'}
-                textAlign={isLgUp ? 'start' : 'center'}
-                padding={2}
-                fontWeight='500'
-                sx={{userSelect: 'none'}}
+                sx={{
+                    userSelect: 'none',
+                    textAlign: isLgUp ? 'start' : 'center',
+                    padding: 2,
+                    fontWeight: '500',
+                }}
             >
                 {title}
             </Typography>

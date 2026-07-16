@@ -28,7 +28,7 @@ export default function WorksheetRowInfo({
 
     const topLineTextComponent = (title, content) => {
         return (<>
-            <Typography variant="body1" fontWeight={fontWeight} padding={2}>
+            <Typography variant="body1" sx={{ fontWeight: fontWeight, padding: 2 }}>
                 {title}
             </Typography>
             <Typography
@@ -57,7 +57,9 @@ export default function WorksheetRowInfo({
             {infoMessageArray.map((value, index) => {
                 return (<Grid
                     key={`info-message-${index}`}
-                    size={forceEquidistant ? 12 / infoMessageArray.length : index === 0 && infoMessageArray.length === 1 ? 12 : (index === 0 ? 4.5 : ((index === infoMessageArray.length - 1) && (infoMessageArray.length < 4) ? (5 - infoMessageArray.length) * 2.5 : infoMessageArray.length >= 4 ? 7.5 / (infoMessageArray.length - 1) : 7.5 / (infoMessageArray.length)))}>
+                    size={forceEquidistant ? 12 / infoMessageArray.length : index === 0 && infoMessageArray.length === 1 ? 12 : (index === 0 ? 4.5 : ((index === infoMessageArray.length - 1) && (infoMessageArray.length < 4) ? (5 - infoMessageArray.length) * 2.5 : infoMessageArray.length >= 4 ? 7.5 / (infoMessageArray.length - 1) : 7.5 / (infoMessageArray.length)))}
+                    sx={{ display: 'flex', flexDirection: 'column' }}
+                >
                     <WorksheetCellBase
                         backgroundColor={infoMessageBackgroundColors.length > 0 ? infoMessageBackgroundColors[index] : backgroundColor === theme.palette.custom.infoBackground ? theme.palette.custom.salmonBackground : backgroundColor}
                         color={infoMessageBackgroundColors.length > 0 ? theme.palette.getContrastText(infoMessageBackgroundColors[index]) : color}
@@ -66,12 +68,14 @@ export default function WorksheetRowInfo({
                         borderRight={index < infoMessageArray.length - 1 ? `2px solid` : 'none'}
                     >
                         <Typography
-                            fontSize={infoMessageArray.length > 1 && '1.2rem'}
                             variant={'h6'}
-                            fontWeight={fontWeight}
-                            padding={1}
-                            paddingX={2}
-                            textAlign={(index !== 0) ? 'center' : 'start'}
+                            sx={{
+                                fontSize: infoMessageArray.length > 1 ? '1.2rem' : undefined,
+                                fontWeight: fontWeight,
+                                padding: 1,
+                                paddingX: 2,
+                                textAlign: (index !== 0) ? 'center' : 'start',
+                            }}
                         >
                             {value}
                         </Typography>

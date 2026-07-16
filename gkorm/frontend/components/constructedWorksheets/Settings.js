@@ -85,7 +85,7 @@ export default function Settings({
         <Box sx={{padding: '1rem', alignItems: 'center', display: 'flex', flexDirection: 'column'}}>
 
 
-            <Grid container spacing={2} width={'100%'} sx={{p: '1rem'}}>
+            <Grid container spacing={2} sx={{ width: '100%', p: '1rem' }}>
                 <Grid size={12}>
                     <Typography variant='h5' fontWeight={'700'} sx={{marginY: '1rem'}}>Mission Settings</Typography>
                 </Grid>

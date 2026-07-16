@@ -46,10 +46,10 @@ export default function Signature({
 
             <Grid
                 size={6}
-                height='100%'
-                display='flex'
-                alignItems='center'
                 sx={{
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
                     paddingRight: 1,
                     overflow: 'hidden',
                 }}
@@ -66,11 +66,11 @@ export default function Signature({
 
             <Grid
                 size={6}
-                height='100%'
-                display='flex'
-                alignItems='center'
-                justifyContent='center'
                 sx={{
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     overflow: 'hidden',
                 }}
             >

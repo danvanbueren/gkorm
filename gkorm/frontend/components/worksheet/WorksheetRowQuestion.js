@@ -38,7 +38,7 @@ export default function WorksheetRowQuestion({
             minHeight: '6rem',
         }}
     >
-        <Grid size={{xs: 12, md: 4.5}}>
+        <Grid size={{xs: 12, md: 4.5}} sx={{ display: 'flex', flexDirection: 'column' }}>
             <WorksheetCellBase
                 backgroundColor={theme.palette.custom.headingBackground}
                 borderRight={isMdUp && '2px solid'}
@@ -46,16 +46,18 @@ export default function WorksheetRowQuestion({
             >
                 <Typography
                     variant={'h6'}
-                    padding={2}
-                    fontWeight='500'
-                    sx={{userSelect: 'none'}}
+                    sx={{
+                        userSelect: 'none',
+                        padding: 2,
+                        fontWeight: '500',
+                    }}
                 >
                     {questionName}
                 </Typography>
             </WorksheetCellBase>
         </Grid>
-        <Grid size={{xs: 12, md: 7.5}}>
-            <Box position="relative" height="100%" width="100%">
+        <Grid size={{xs: 12, md: 7.5}} sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ position: "relative", display: "flex", flexDirection: "column", flexGrow: 1, width: "100%" }}>
                 {/* Animated background layer */}
                 {responseSelection === null && editable && (
                     <Skeleton
@@ -70,75 +72,70 @@ export default function WorksheetRowQuestion({
                             opacity: 0.2,
                         }}
                     />
-                )}
-                <ToggleButtonGroup
+                )}                <ToggleButtonGroup
                     value={responseSelection}
                     exclusive
                     onChange={handleResponseSelection}
                     aria-label="text alignment"
                     fullWidth
-                    sx={{height: '100%', position: 'relative', zIndex: 1}}
+                    sx={{display: 'flex', flexGrow: 1, position: 'relative', zIndex: 1}}
                 >
                     {responses.length > 0 && responses.map((response, responseIndex) => {
                         const selected = responseSelection === responseIndex
 
-                        return (
-                            <Grid size={3.5} height={'100%'} width={'100%'} key={responseIndex}>
-                                {response.length > 0 ?
-                                    <ToggleButton
-                                        disabled={!editable}
-                                        value={responseIndex}
-                                        sx={{
-                                            height: '100%',
-                                            width: '100%',
-                                            borderRadius: 0,
-                                            '&:hover': {
-                                                boxShadow: `inset 0px 0px 10px 1px rgba(1, 1, 1, 0.5)`,
-                                                borderColor: `rgba(1, 1, 1, 0.5)`,
-                                            },
-                                            '&.Mui-selected': {
-                                                color: `${selected && responseIndex === 0 ? theme.palette.success.contrastText
-                                                    : (selected && responseIndex === 1 ? theme.palette.warning.contrastText
-                                                        : selected && responseIndex === 2 ? theme.palette.error.contrastText
-                                                            : theme.palette.text.primary)}`,
-                                                backgroundColor: `${selected && responseIndex === 0 ? theme.palette.success.main
-                                                    : (selected && responseIndex === 1 ? theme.palette.warning.main
-                                                        : selected && responseIndex === 2 ? theme.palette.error.main
-                                                            : theme.palette.background.default)}`,
-                                                '&:hover': {
-                                                    backgroundColor: `${selected && responseIndex === 0 ? theme.palette.success.main
-                                                        : (selected && responseIndex === 1 ? theme.palette.warning.main
-                                                            : selected && responseIndex === 2 ? theme.palette.error.main
-                                                                : theme.palette.background.default)}`,
-
-                                                },
-                                            },
-                                        }}
-                                    >
-                                        {response.length > 0 && <>
-                                            <Box>
-                                                {response.map((line, lineIndex) => {
-                                                    return (<Typography
-                                                        key={`line-${responseIndex}-${lineIndex}`}
-                                                        textAlign='center'
-                                                    >
-                                                        {line}
-                                                        {selected.valueOf()}
-                                                    </Typography>)
-                                                })}
-                                            </Box>
-                                        </>}
-                                    </ToggleButton> : <ToggleButton
-                                        value={`disabled-${responseIndex}`}
-                                        disabled
-                                        sx={{
-                                            height: '100%', width: '100%',
-                                            backgroundColor: theme.palette.background.default,
-                                        }}
-                                    />}
-                            </Grid>)
+                        return (response.length > 0 ?
+                            <ToggleButton
+                                key={responseIndex}
+                                disabled={!editable}
+                                value={responseIndex}
+                                sx={{
+                                    flexGrow: 1,
+                                    borderRadius: 0,
+                                    '&:hover': {
+                                        boxShadow: `inset 0px 0px 10px 1px rgba(1, 1, 1, 0.5)`,
+                                        borderColor: `rgba(1, 1, 1, 0.5)`,
+                                    },
+                                    '&.Mui-selected': {
+                                        color: `${selected && responseIndex === 0 ? theme.palette.success.contrastText
+                                            : (selected && responseIndex === 1 ? theme.palette.warning.contrastText
+                                                : selected && responseIndex === 2 ? theme.palette.error.contrastText
+                                                    : theme.palette.text.primary)}`,
+                                        backgroundColor: `${selected && responseIndex === 0 ? theme.palette.success.main
+                                            : (selected && responseIndex === 1 ? theme.palette.warning.main
+                                                : selected && responseIndex === 2 ? theme.palette.error.main
+                                                    : theme.palette.background.default)}`,
+                                        '&:hover': {
+                                            backgroundColor: `${selected && responseIndex === 0 ? theme.palette.success.main
+                                                : (selected && responseIndex === 1 ? theme.palette.warning.main
+                                                    : selected && responseIndex === 2 ? theme.palette.error.main
+                                                        : theme.palette.background.default)}`,
+                                        },
+                                    },
+                                }}
+                            >
+                                {response.length > 0 && <>
+                                    <Box>
+                                        {response.map((line, lineIndex) => {
+                                            return (<Typography
+                                                key={`line-${responseIndex}-${lineIndex}`}
+                                                sx={{ textAlign: 'center' }}
+                                            >
+                                                {line}
+                                                {selected.valueOf()}
+                                            </Typography>)
+                                        })}
+                                    </Box>
+                                </>}
+                            </ToggleButton> : <ToggleButton
+                                key={responseIndex}
+                                value={`disabled-${responseIndex}`}
+                                disabled
+                                sx={{
+                                    flexGrow: 1,
+                                    backgroundColor: theme.palette.background.default,
+                                }}
+                            />)
                     })}
-
                 </ToggleButtonGroup>
             </Box>
         </Grid>

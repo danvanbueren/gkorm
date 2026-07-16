@@ -21,12 +21,13 @@ export default function WorksheetCellBase({
                                           }) {
 
     return (<Box
-        display="flex"
-        alignItems="center"
-        justifyContent={justifyContent}
-        height="100%"
-        width="100%"
         sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: justifyContent,
+            height: "100%",
+            width: "100%",
+            flexGrow: 1,
             backgroundColor: backgroundColor,
             color: color,
             borderRight: borderRight !== 'none' ? `${borderRight} ${borderColor}` : 'none',

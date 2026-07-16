@@ -150,9 +150,11 @@ export default function NavHeader() {
                                 anchorEl={anchorEl}
                                 open={open}
                                 onClose={handleClose}
-                                PaperProps={{
-                                    sx: {
-                                        minWidth: anchorEl ? anchorEl.clientWidth : undefined,
+                                slotProps={{
+                                    paper: {
+                                        sx: {
+                                            minWidth: anchorEl ? anchorEl.clientWidth : undefined,
+                                        },
                                     },
                                 }}
                             >

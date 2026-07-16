@@ -107,7 +107,7 @@ export default function AlertProvider({children}) {
                     action={this._action ?? undefined}
                 >
                     {this._title && <AlertTitle>{this._title}</AlertTitle>}
-                    <Box display='block'>
+                    <Box sx={{ display: 'block' }}>
                         <Typography>{this._content}</Typography>
 
                         <Typography
@@ -153,21 +153,23 @@ export default function AlertProvider({children}) {
 
     return (
         <AlertContext.Provider value={{AlertData}}>
-            <Box position='relative'>
+            <Box sx={{ position: 'relative' }}>
                 <Box
-                    position='absolute'
-                    left='0'
-                    top='0'
-                    width='100%'
-                    height='95vh'
-                    display='flex'
-                    flexDirection='column'
-                    alignItems={'center'}
-                    justifyContent={'flex-end'}
+                    sx={{
+                        position: 'absolute',
+                        left: '0',
+                        top: '0',
+                        width: '100%',
+                        height: '95vh',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                    }}
                 >
-                    <Box width='100%' minWidth='25rem' maxWidth='40rem' p={2} gap={2}>
+                    <Box sx={{ width: '100%', minWidth: '25rem', maxWidth: '40rem', p: 2, gap: 2 }}>
 
-                        <Box display="flex" flexDirection="column" gap={2} mt={2}>
+                        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 2 }}>
                             {alerts.map(a => (
                                 <Box key={a._uid} sx={{zIndex: 1400}}>
                                     {a.toJsxComponent()}

@@ -95,7 +95,7 @@ export default function MissionPage({requestedView}) {
             <Box height={'10dvh'}>
                 <NavHeader/>
             </Box>
-            <Grid container spacing={2} width={'100%'} height={'85dvh'}>
+            <Grid container spacing={2} sx={{ width: '100%', height: '85dvh' }}>
                 {
                     (!missionData && dataLoadError) ?
                         <Grid size={{xs: 12}} sx={{

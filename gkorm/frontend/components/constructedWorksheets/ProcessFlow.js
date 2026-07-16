@@ -91,7 +91,7 @@ export default function ProcessFlow({
 
             <Typography variant='h6' sx={{marginBottom: '1rem'}}>Mission Planning</Typography>
 
-            <Box display={'inline-flex'} width={'16rem'} marginBottom={2}>
+            <Box sx={{ display: 'inline-flex', width: '16rem', marginBottom: 2 }}>
                 <Button
                     onClick={() => {
                         navigate(`/mission/${missionIdFromUrl}/planning`)
@@ -110,7 +110,7 @@ export default function ProcessFlow({
                 </Button>
             </Box>
 
-            <Box display={'inline-flex'} width={'16rem'} marginBottom={2}>
+            <Box sx={{ display: 'inline-flex', width: '16rem', marginBottom: 2 }}>
                 <SubdirectoryArrowRight
                     sx={{alignSelf: 'center', marginBottom: '0.4rem', color: `${theme.palette.grey.A400}`}}/>
                 <Button
@@ -135,7 +135,7 @@ export default function ProcessFlow({
 
             <Typography variant='h6' sx={{marginY: '1rem'}}>Execution</Typography>
 
-            <Box display={'inline-flex'} width={'16rem'} marginBottom={2}>
+            <Box sx={{ display: 'inline-flex', width: '16rem', marginBottom: 2 }}>
                 <Button
                     onClick={() => {
                         navigate(`/mission/${missionIdFromUrl}/execution`)
@@ -154,7 +154,7 @@ export default function ProcessFlow({
                 </Button>
             </Box>
 
-            <Box display={'inline-flex'} width={'16rem'} marginBottom={2}>
+            <Box sx={{ display: 'inline-flex', width: '16rem', marginBottom: 2 }}>
                 <SubdirectoryArrowRight
                     sx={{alignSelf: 'center', marginBottom: '0.4rem', color: `${theme.palette.grey.A400}`}}/>
                 <Button

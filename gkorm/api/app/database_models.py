@@ -8,12 +8,14 @@
 # ##############################################################################
 
 from sqlalchemy import Column, Integer, String, DateTime, Enum, ForeignKey, UniqueConstraint
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import DeclarativeBase, relationship
 from sqlalchemy.sql import func
 
 from app.database_enums import *
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    pass
 
 
 class BaseModel(Base):

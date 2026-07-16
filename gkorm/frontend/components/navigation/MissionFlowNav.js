@@ -27,13 +27,17 @@ export default function MissionFlowNav({
     return (<Box sx={{padding: 0, margin: 0, position: 'relative'}}>
         <Typography
             variant={'h5'}
-            textAlign={isLgUp ? 'start' : 'center'}
-            padding={2}
-            fontWeight='500'
             component="a"
             onClick={() => navigate('/mission/' + missionData?.PKEY_id)}
             sx={{
-                display: 'flex', color: 'inherit', textDecoration: 'none', userSelect: 'none', cursor: 'pointer',
+                display: 'flex',
+                color: 'inherit',
+                textDecoration: 'none',
+                userSelect: 'none',
+                cursor: 'pointer',
+                textAlign: isLgUp ? 'start' : 'center',
+                padding: 2,
+                fontWeight: '500',
             }}
         >
             {missionData?.mission_number || "Loading..."}
@@ -47,9 +51,9 @@ export default function MissionFlowNav({
             padding: '1rem',
             marginBottom: '1rem',
         }}>
-            <Typography variant='h6' marginBottom={1}>Mission Info</Typography>
+            <Typography variant='h6' sx={{ marginBottom: 1 }}>Mission Info</Typography>
             <Divider/>
-            <Grid container spacing={2} paddingTop={2}>
+            <Grid container spacing={2} sx={{ paddingTop: 2 }}>
                 <Grid size={{xs: 12, sm: 6, lg: 12}}>
                     <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
                         <Flight sx={{color: 'action.active', mr: 1.5, my: 0.5}}/>
@@ -139,11 +143,11 @@ export default function MissionFlowNav({
         <Card sx={{
             minWidth: '100%', borderRadius: '1rem', overflow: 'hidden', userSelect: 'none', padding: '1rem',
         }}>
-            <Typography variant='h6' marginBottom={1}>Risk Assessment Worksheets</Typography>
+            <Typography variant='h6' sx={{ marginBottom: 1 }}>Risk Assessment Worksheets</Typography>
             <Divider/>
             <Grid container>
                 <Grid size={{xs: 12, sm: 6, lg: 12}}>
-                    <Typography variant='subtitle1' fontWeight={700} marginY={2}>
+                    <Typography variant='subtitle1' sx={{ fontWeight: 700, marginY: 2 }}>
                         Mission Planning
                     </Typography>
 
@@ -164,7 +168,7 @@ export default function MissionFlowNav({
                     </Button>
                 </Grid>
                 <Grid size={{xs: 12, sm: 6, lg: 12}}>
-                    <Typography variant='subtitle1' fontWeight={700} marginY={2}>Execution</Typography>
+                    <Typography variant='subtitle1' sx={{ fontWeight: 700, marginY: 2 }}>Execution</Typography>
 
                     <Button variant={currentView === 'execution' ? 'contained' : 'outlined'}
                             sx={{marginRight: 2, marginBottom: 2}}

@@ -30,24 +30,26 @@ export default function WorksheetRowSignature({
             }}
         >
 
-            <Grid size={4.5}>
+            <Grid size={4.5} sx={{ display: 'flex', flexDirection: 'column' }}>
                 <WorksheetCellBase
                     backgroundColor={theme.palette.custom.headingBackground}
                     borderRight='2px solid'
                 >
                     <Typography
                         variant={'h6'}
-                        padding={2}
-                        fontSize={17}
-                        fontWeight='500'
-                        sx={{userSelect: 'none'}}
+                        sx={{
+                            userSelect: 'none',
+                            padding: 2,
+                            fontSize: 17,
+                            fontWeight: '500',
+                        }}
                     >
                         {description}
                     </Typography>
                 </WorksheetCellBase>
             </Grid>
 
-            <Grid size={2.5}>
+            <Grid size={2.5} sx={{ display: 'flex', flexDirection: 'column' }}>
                 <WorksheetCellBase
                     borderRight='2px solid'
                     justifyContent={'center'}
@@ -55,12 +57,12 @@ export default function WorksheetRowSignature({
                     color={color}
                 >
                     <Box>
-                        <Typography textAlign='center'>{authority}</Typography>
+                        <Typography sx={{ textAlign: 'center' }}>{authority}</Typography>
                     </Box>
                 </WorksheetCellBase>
             </Grid>
 
-            <Grid size={5}>
+            <Grid size={5} sx={{ display: 'flex', flexDirection: 'column' }}>
                 <WorksheetCellBase
                     justifyContent={'center'}
                     backgroundColor={theme.palette.background.default}
