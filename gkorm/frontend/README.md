@@ -14,6 +14,6 @@ If needed, build and run the server outside of the Docker stack. This is not ide
 Install dependencies and start the development server:
 
 ```bash
-npm install
-npm run dev
+bun install
+bun dev
 ```

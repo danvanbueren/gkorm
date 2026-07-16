@@ -1,12 +1,12 @@
-FROM node:22-alpine
+FROM oven/bun:1-alpine
 
 LABEL authors="danvanbueren"
 
 WORKDIR /app
 
-COPY package.json ./
+COPY package.json bun.lock ./
 
-RUN npm install
+RUN bun install
 
 ARG REACT_APP_API_URL
 
@@ -14,4 +14,4 @@ ENV REACT_APP_API_URL=$REACT_APP_API_URL
 
 COPY . .
 
-CMD ["npm", "run", "dev"]
+CMD ["bun", "run", "dev"]

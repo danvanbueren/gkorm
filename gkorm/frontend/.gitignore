@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Bun
+.bun
+bun-debug.log*
+bun-error.log*
