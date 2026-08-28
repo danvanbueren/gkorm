@@ -1,7 +1,7 @@
 fastapi==0.141.1
 uvicorn==0.52.1
-pydantic==2.13.4
-pydantic[email]==2.13.4
+pydantic==2.13.5
+pydantic[email]==2.13.5
 
 sqlalchemy==2.0.52
 databases==0.9.0
